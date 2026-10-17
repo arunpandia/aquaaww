@@ -137,6 +137,10 @@
         }
       ],
       "destination": "/m/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/home/index.html"
     }
   ]
 }

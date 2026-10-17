@@ -401,7 +401,8 @@ else:
     nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
            '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
-    open("index.html","w").write(fb)
+    os.makedirs("home", exist_ok=True); open("home/index.html","w").write(fb)      # served at "/" by a rewrite, so phones can get /m/ instead
+    if os.path.exists("index.html"): os.remove("index.html")
 import mobile
 os.makedirs("m", exist_ok=True); open("m/index.html","w").write(mobile.build(D, hub_ld, GH))
 print("built", len(index), "app bytes,", len(hub), "hub bytes")
