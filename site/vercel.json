@@ -7,8 +7,13 @@
       "permanent": true
     },
     {
-      "source": "/twototango/:path*",
-      "destination": "/aquaaww/:path*",
+      "source": "/twototango/",
+      "destination": "/aquaaww/",
+      "permanent": true
+    },
+    {
+      "source": "/twototango/(.+)",
+      "destination": "/aquaaww/$1",
       "permanent": true
     },
     {
