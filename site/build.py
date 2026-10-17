@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates the static pages. Edit CONFIG, run `python3 build.py`, deploy the folder."""
-import os, json, html
+import os, json, html, datetime
 CONFIG = dict(
     domain="https://dusktillus.store",         # your real domain, no trailing slash
     gh="https://github.com/arunpandia/twototango",
@@ -147,7 +147,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
   {"".join(f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>" for q,a in FAQ)}</section>
 <footer class="end"><p>Made with love, one glass at a time. A <a href="/">Dusktillus</a> app.</p>
   <p><a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>
-  <p><a href="{GH}">Source on GitHub</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>
+  <p><a href="/guides/">Water guides</a> · <a href="{GH}">Source on GitHub</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>
 </div>
 <script>
 (function(){{
@@ -193,7 +193,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
 
 
 def nav_footer():
-    return ('<footer class="end"><p><a href="/">Dusktillus</a> · <a href="/twototango/">TwoToTango</a> · <a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>'
+    return ('<footer class="end"><p><a href="/">Dusktillus</a> · <a href="/twototango/">TwoToTango</a> · <a href="/guides/">Guides</a> · <a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>'
             '<p><a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>')
 
 def crumbs(items):
@@ -312,6 +312,32 @@ urls = ([("/",1.0)] if CONFIG["hub_live"] else []) + [("/twototango/",1.0),("/tw
 INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
     d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
+
+# ---------------- Guides (content that people search for) ----------------
+from guides import ARTICLES
+_today = datetime.date.today().isoformat()
+def article_page(a):
+    others = [x for x in ARTICLES if x["slug"] != a["slug"]]
+    rel = "".join(f'<li><a href="/guides/{x["slug"]}/">{html.escape(x["h1"])}</a></li>' for x in others[:3])
+    faq = a.get("faq", [])
+    body = f"""<p class="meta">Updated {U} · {a['read']} read</p><h1>{html.escape(a['h1'])}</h1>{a['body']}
+<div class="pcta"><h2>Never forget again</h2><p>TwoToTango pops up a short video of someone you love to remind you to drink water. Free for Android, Windows and Mac.</p><p><a class="cta" href="/twototango/#download">Download free</a></p></div>
+<h2>More guides</h2><ul>{rel}</ul>"""
+    ld = {"@context":"https://schema.org","@graph":[
+      {"@type":"Article","headline":a["title"],"description":a["desc"],"datePublished":_today,"dateModified":_today,
+       "mainEntityOfPage":D+"/guides/"+a["slug"]+"/","image":D+"/assets/og.png",
+       "author":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"publisher":{"@type":"Organization","name":"Dusktillus","logo":{"@type":"ImageObject","url":D+"/assets/logo-512.png"}}}]}
+    if faq: ld["@graph"].append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":t}} for q,t in faq]})
+    extra = '<script type="application/ld+json">'+json.dumps(ld,separators=(",",":"))+'</script>'+crumbs([("Dusktillus","/"),("Guides","/guides/"),(a["h1"],"/guides/"+a["slug"]+"/")])
+    return simple(a["title"], a["desc"], "/guides/"+a["slug"]+"/", body, extra=extra)
+os.makedirs("guides", exist_ok=True)
+for a in ARTICLES:
+    os.makedirs("guides/"+a["slug"], exist_ok=True); open("guides/"+a["slug"]+"/index.html","w").write(article_page(a))
+gl = "".join(f'<li><a href="/guides/{a["slug"]}/"><b>{html.escape(a["h1"])}</b><span>{html.escape(a["desc"])}</span></a></li>' for a in ARTICLES)
+open("guides/index.html","w").write(simple("Water & Hydration Guides – Dusktillus","Simple, practical guides on how much water to drink, how to remember to drink it, and how to help someone you love stay hydrated.","/guides/",
+  f'<h1>Water and hydration guides</h1><p class="lead">Plain answers on drinking enough water, and how to make it a habit.</p><ul class="glist">{gl}</ul>',
+  extra=crumbs([("Dusktillus","/"),("Guides","/guides/")])))
+urls += [("/guides/",.7)] + [("/guides/"+a["slug"]+"/",.7) for a in ARTICLES]
 open("robots.txt","w").write(f"User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: {D}/sitemap.xml\n")
 import datetime; today = datetime.date.today().isoformat()
 open("sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{D}{u}</loc><lastmod>{today}</lastmod><priority>{pr}</priority></url>\n" for u,pr in urls) + '</urlset>\n')
