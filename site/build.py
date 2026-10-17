@@ -308,7 +308,7 @@ os.makedirs("twototango", exist_ok=True); open("twototango/index.html","w").writ
 open("unsubscribe/index.html","w").write(unsub)
 nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
-urls = ([("/",1.0)] if CONFIG["hub_live"] else []) + [("/twototango/",1.0),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+urls = [("/",1.0),("/twototango/",1.0),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
 INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
     d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
@@ -385,6 +385,20 @@ hub = head("Dusktillus – little apps that look after you",
 </body></html>'''
 if CONFIG["hub_live"]:
     open("index.html","w").write(hub)
-elif os.path.exists("index.html"):
-    os.remove("index.html")
+else:
+    # the home page is the flipbook (source in flipbook/index.html); give it real SEO tags
+    fb = open("flipbook/index.html").read()
+    fb = fb.replace('<meta name="robots" content="noindex">','<meta name="robots" content="index,follow,max-image-preview:large">')
+    fb = fb.replace('<link rel="canonical" href="https://dusktillus.store/flipbook/">','<link rel="canonical" href="'+D+'/">')
+    og = (f'<meta property="og:type" content="website"><meta property="og:site_name" content="Dusktillus"><meta property="og:title" content="Dusktillus: our digital garage">'
+          f'<meta property="og:description" content="Little apps that look after you. Start with AquaAww, a water reminder that comes as someone you love.">'
+          f'<meta property="og:url" content="{D}/"><meta property="og:image" content="{D}/assets/og-dusktillus.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+          f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og-dusktillus.png">'
+          '<script type="application/ld+json">'+json.dumps(hub_ld,separators=(",",":"))+'</script>'
+          '<script defer src="/_vercel/insights/script.js"></script>')
+    fb = fb.replace('</head>', og+'</head>',1)
+    nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, TwoToTango, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
+           '<nav aria-label="Site"><a href="/twototango/">TwoToTango water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+    fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
+    open("index.html","w").write(fb)
 print("built", len(index), "app bytes,", len(hub), "hub bytes")

@@ -37,6 +37,16 @@
       "source": "/water-reminder-app-for-mac",
       "destination": "/twototango/water-reminder-app-for-mac/",
       "permanent": true
+    },
+    {
+      "source": "/flipbook",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/flipbook/",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "headers": [
@@ -90,12 +100,6 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/twototango/"
     }
   ]
 }

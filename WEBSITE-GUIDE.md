@@ -4,8 +4,8 @@ Live: https://dusktillus.store (hub for all products) and https://dusktillus.sto
 Code: https://github.com/arunpandia/twototango (website is the `site/` folder, deployed by Vercel on every push)
 Downloads: GitHub Releases. Leads: Upstash Redis through Vercel.
 
-## Right now the domain root shows TwoToTango
-`dusktillus.store/` is served from `/twototango/` (a rewrite in `site/vercel.json`), so visitors land straight on the app. The Dusktillus hub page is built and ready but switched off. To turn it on later: in `site/build.py` set `hub_live=True`, delete the `rewrites` block in `site/vercel.json`, run `python3 build.py`, push. No URLs change.
+## The home page is the Dusktillus flipbook
+`dusktillus.store/` is the flipbook built from your Figma frame (source: `site/flipbook/index.html`, built into `site/index.html` by `build.py`). TwoToTango lives at `/twototango/`. `/flipbook/` redirects to `/`. The simpler text hub page is still available by setting `hub_live=True` in `build.py`.
 
 ## Site map (add future products the same way)
 ```
