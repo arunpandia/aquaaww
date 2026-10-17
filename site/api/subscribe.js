@@ -2,6 +2,7 @@
 // Works with fetch (JSON reply) and with a plain HTML form post (303 redirect to the file).
 const crypto = require('crypto');
 const { redis, DL, EMAIL_RE, clean, sameOrigin } = require('./_lib');
+const { isDisposable } = require('./_disposable');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).end(); }
@@ -27,6 +28,7 @@ module.exports = async (req, res) => {
   const email = clean(b.email, 254).toLowerCase();
   if (name.length < 1) return fail(400, 'Please tell us your name.');
   if (!EMAIL_RE.test(email)) return fail(400, 'That email address does not look right.');
+  if (isDisposable(email)) return fail(400, 'Please use a permanent email address, not a temporary one.');
 
   try {
     const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
