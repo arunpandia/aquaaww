@@ -60,7 +60,7 @@ def head(title, desc, path, extra="", noindex=False):
 </head>'''
 
 def btn(os_, label, aria):
-    return f'<button class="dl" type="submit" name="os" value="{os_}" aria-label="{aria}"><span>{label}</span></button>'
+    return f'<button class="dl" type="button" data-os="{os_}" aria-label="{aria}"><span>{label}</span></button>'
 
 jsonld = {
  "@context":"https://schema.org","@graph":[
@@ -99,22 +99,12 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
         <a class="note" href="#how"><img src="/assets/note-timing.webp" width="280" height="330" alt="Settings for change timing"></a>
         <a class="card" href="#faq"><img src="/assets/card-floating.webp" width="260" height="361" alt="Floating buddy"></a>
       </div>
-      <form class="signup" id="signup" method="post" action="/api/subscribe" novalidate>
-        <div class="fields">
-          <label class="sr" for="nm">Your name</label>
-          <input id="nm" name="name" type="text" placeholder="Your name" autocomplete="name" maxlength="80" required>
-          <label class="sr" for="em">Your email</label>
-          <input id="em" name="email" type="email" inputmode="email" placeholder="Your email" autocomplete="email" maxlength="254" required>
-          <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-        </div>
-        <div class="dls" role="group" aria-label="Download TwoToTango, free">
-          {btn("android","Android","Download TwoToTango for Android")}
-          {btn("windows","Windows","Download TwoToTango for Windows")}
-          {btn("mac","Mac","Download TwoToTango for Mac")}
-        </div>
-        <p class="msg" id="msg" role="status" aria-live="polite"></p>
-        <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from TwoToTango. Unsubscribe any time.</p>
-      </form>
+      <div class="dls" role="group" aria-label="Download TwoToTango, free">
+        {btn("android","Android","Download TwoToTango for Android")}
+        {btn("windows","Windows","Download TwoToTango for Windows")}
+        {btn("mac","Mac","Download TwoToTango for Mac")}
+      </div>
+      <noscript><p class="fine">Downloads need JavaScript. Or get them from <a href="{GH}/releases/latest">GitHub</a>.</p></noscript>
       <p class="fine">Free · no payment · Android 5.1+, Windows 10+, Mac (Apple Silicon)</p>
     </div>
   </main>
@@ -129,6 +119,22 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
   </footer>
 </section>
 
+<dialog id="dlg" aria-labelledby="dt">
+  <form id="signup" method="post" action="/api/subscribe" novalidate>
+    <button class="x" type="button" id="dx" aria-label="Close">&times;</button>
+    <h2 id="dt">Almost there</h2>
+    <p class="sub">Tell us who to thank. Your download for <b id="osn">Mac</b> starts right after.</p>
+    <input type="hidden" name="os" id="os" value="">
+    <label class="sr" for="nm">Your name</label>
+    <input id="nm" name="name" type="text" placeholder="Your name" autocomplete="name" maxlength="80" required>
+    <label class="sr" for="em">Your email</label>
+    <input id="em" name="email" type="email" inputmode="email" placeholder="Your email" autocomplete="email" maxlength="254" required>
+    <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <button class="cta go" type="submit" id="go">Download free</button>
+    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from TwoToTango. Unsubscribe any time.</p>
+  </form>
+</dialog>
 <div class="more">
 <section id="how" class="sec"><h2>How it works</h2>
   <ol class="steps">{"".join(f"<li><h3>{h}</h3><p>{p}</p></li>" for h,p in STEPS)}</ol></section>
@@ -142,27 +148,35 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
 </div>
 <script>
 (function(){{
-  var f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em");
-  var u=navigator.userAgent,os=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";
-  if(os){{var b=f.querySelector('.dl[value="'+os+'"]');if(b)b.classList.add("pick")}}
+  var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");
+  var NAMES={{android:"Android",windows:"Windows",mac:"Mac"}};
+  var u=navigator.userAgent,my=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";
+  if(my){{var pb=document.querySelector('.dl[data-os="'+my+'"]');if(pb)pb.classList.add("pick")}}
   try{{nm.value=localStorage.getItem("tt_name")||"";em.value=localStorage.getItem("tt_email")||""}}catch(e){{}}
-  var q=new URLSearchParams(location.search).get("error");if(q)say(q,1);
   function say(t,bad){{m.textContent=t;m.className="msg"+(bad?" bad":" ok")}}
+  function open(os){{
+    osf.value=os;osn.textContent=NAMES[os];say("");go.disabled=false;go.textContent="Download free";
+    if(d.showModal){{d.showModal()}}else{{d.setAttribute("open","")}}
+    (nm.value?em:nm).focus();
+  }}
+  document.querySelectorAll(".dl").forEach(function(b){{b.addEventListener("click",function(){{open(b.dataset.os)}})}});
+  document.getElementById("dx").addEventListener("click",function(){{d.close()}});
+  d.addEventListener("click",function(e){{if(e.target===d)d.close()}});
+  var q=new URLSearchParams(location.search).get("error");if(q){{open(my||"android");say(q,1)}}
   f.addEventListener("submit",function(e){{
-    var btn=e.submitter;if(!btn||!window.fetch)return;e.preventDefault();
+    if(!window.fetch)return;e.preventDefault();
     if(!nm.value.trim()){{say("Please tell us your name.",1);nm.focus();return}}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{{2,}}$/.test(em.value.trim())){{say("That email address does not look right.",1);em.focus();return}}
-    var all=f.querySelectorAll(".dl");all.forEach(function(x){{x.disabled=true}});say("One moment…");
+    go.disabled=true;say("One moment…");
     fetch("/api/subscribe",{{method:"POST",headers:{{"Content-Type":"application/json",Accept:"application/json"}},
-      body:JSON.stringify({{name:nm.value,email:em.value,os:btn.value,company:f.company.value}})}})
+      body:JSON.stringify({{name:nm.value,email:em.value,os:osf.value,company:f.company.value}})}})
     .then(function(r){{return r.json().catch(function(){{return{{ok:false}}}})}})
-    .then(function(d){{
-      all.forEach(function(x){{x.disabled=false}});
-      if(!d.ok){{say(d.error||"Something went wrong. Please try again.",1);return}}
+    .then(function(r){{
+      if(!r.ok){{go.disabled=false;say(r.error||"Something went wrong. Please try again.",1);return}}
       try{{localStorage.setItem("tt_name",nm.value.trim());localStorage.setItem("tt_email",em.value.trim())}}catch(e){{}}
-      say("Thank you, "+nm.value.trim().split(" ")[0]+". Your download is starting.");
-      location.href=d.url;
-    }}).catch(function(){{all.forEach(function(x){{x.disabled=false}});say("No connection. Please try again.",1)}});
+      say("Thank you, "+nm.value.trim().split(" ")[0]+". Your download is starting.");go.textContent="Done";
+      location.href=r.url;setTimeout(function(){{d.close()}},2500);
+    }}).catch(function(){{go.disabled=false;say("No connection. Please try again.",1)}});
   }});
   var s=document.getElementById("stamp"),n=document.getElementById("n"),c=0;
   s.addEventListener("click",function(){{c=(c+1)%100;n.textContent=(c<10?"0":"")+c}});
