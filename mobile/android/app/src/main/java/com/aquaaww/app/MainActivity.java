@@ -1,4 +1,4 @@
-package com.twototango.app;
+package com.aquaaww.app;
 
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
@@ -6,7 +6,7 @@ import com.getcapacitor.BridgeActivity;
 public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        registerPlugin(TangoOverlayPlugin.class);   // our floating-buddy plugin
+        registerPlugin(AquaOverlayPlugin.class);   // our floating-buddy plugin
         super.onCreate(savedInstanceState);
     }
 }

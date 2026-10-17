@@ -1,4 +1,4 @@
-package com.twototango.app;
+package com.aquaaww.app;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +18,8 @@ import com.getcapacitor.PluginMethod;
 import java.io.File;
 import java.io.FileOutputStream;
 
-@CapacitorPlugin(name = "TangoOverlay")
-public class TangoOverlayPlugin extends Plugin {
+@CapacitorPlugin(name = "AquaOverlay")
+public class AquaOverlayPlugin extends Plugin {
 
     @PluginMethod
     public void status(PluginCall call) {

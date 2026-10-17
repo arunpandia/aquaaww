@@ -255,7 +255,7 @@
 const $ = id => document.getElementById(id);
 const Cap = window.Capacitor, P = (Cap && Cap.Plugins) || {};
 const LN = P.LocalNotifications, AppP = P.App;
-const WO = P.TangoOverlay || (Cap && Cap.registerPlugin ? Cap.registerPlugin('TangoOverlay') : null);   // native bridge exposes plugins on Capacitor.Plugins
+const WO = P.AquaOverlay || (Cap && Cap.registerPlugin ? Cap.registerPlugin('AquaOverlay') : null);   // native bridge exposes plugins on Capacitor.Plugins
 
 /* ---------------- fit the 402 x 874 design to the screen ---------------- */
 let scale = 1;
