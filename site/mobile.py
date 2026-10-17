@@ -34,8 +34,6 @@ def build(D, hub_ld, GH):
     top.append('<p class="a jb nw" style="left:24.72px;top:24.72px;font-size:11.166px;color:#000">dusktillus</p>')
     top.append('<div class="a" style="left:165.9px;top:167.89px;width:168.292px;height:0;transform:translate(-50%,-50%) rotate(-90deg)"><img alt="" src="' + M + 'line21.svg" style="position:absolute;left:0;top:-.8px;width:168.292px;height:.8px"></div>')
     top.append('<div class="a" style="left:165.9px;top:252.04px;width:280.752px;height:0;transform:translate(-50%,-50%) rotate(180deg)"><img alt="" src="' + M + 'line22.svg" style="position:absolute;left:0;top:-.8px;width:280.752px;height:.8px"></div>')
-    top.append(fx(106.28, 30.19, 61.433, 59.041, img(F + "cal.webp", lazy=False), 60.757, 58.337, rot=0.67))
-    top.append(fx(125.99, 54.02, 17.139, 19.513, img(F + "heart.webp", lazy=False), 16.323, 18.809, rot=-2.54))
     top.append(fx(22.33, 88.53, 125.245, 28.886, '<p class="ad" style="width:124.254px">Our digital garage,</p>', rot=-5.99))
     top.append('<div class="fx" style="left:39.08px;top:126.82px;width:121.847px;height:48.171px"><div class="in ad" style="width:121.779px;transform:rotate(-.08deg);white-space:pre-wrap"><p>—feel free to </p><p>hang out and try everything</p></div></div>')
     top.append(fx(39.08, 192.22, 116.072, 17.163, '<p class="ad" style="width:116.049px;font-size:12.417px">its so so cool,</p>', rot=-0.08))
@@ -48,6 +46,8 @@ def build(D, hub_ld, GH):
     top.append('<div class="a" style="right:0;top:0;width:51.046px;height:501.684px;transform:scaleX(-1);border-top-right-radius:22.33px;overflow:hidden"><div class="tex" style="border-top-right-radius:22.33px"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div></div>')
     # torn paper along the bottom of the page
     top.append('<div class="fx" style="left:calc(50% + 2.04px);top:405.2px;width:571.075px;height:571.075px;transform:translateX(-50%)"><div class="in" style="width:571.075px;height:571.075px;transform:rotate(-90deg)"><img class="cover" alt="" src="' + F + 'paper02.webp" decoding="async" style="opacity:.5"></div></div>')
+    top.append(fx(267.39, -0.16, 61.433, 59.041, img(F + "cal.webp", lazy=False), 60.757, 58.337, rot=0.67))
+    top.append(fx(287.1, 23.68, 17.139, 19.513, img(F + "heart.webp", lazy=False), 16.323, 18.809, rot=-2.54))
     top = [top[0], '<div class="pi">' + "".join(top[1:]) + '</div>', '<div class="bd tr"></div>']
 
     # ---------- things that sit over the top page ----------
