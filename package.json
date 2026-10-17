@@ -1,0 +1,72 @@
+{
+  "name": "twototango",
+  "version": "1.0.0",
+  "description": "A tiny menu-bar buddy that reminds you to drink water",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.twototango.app",
+    "productName": "TwoToTango",
+    "afterPack": "./adhoc-sign.js",
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**",
+      "assets/presets/**"
+    ],
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/*.png",
+      "assets/presets/*.mp4",
+      "package.json",
+      "!mobile/**",
+      "!dist/**"
+    ],
+    "mac": {
+      "identity": null,
+      "target": "dmg",
+      "category": "public.app-category.healthcare-fitness",
+      "extendInfo": {
+        "LSUIElement": true
+      }
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0"
+  },
+  "license": "MIT",
+  "author": "Harish",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arunpandia/twototango.git"
+  },
+  "homepage": "https://github.com/arunpandia/twototango#readme",
+  "bugs": {
+    "url": "https://github.com/arunpandia/twototango/issues"
+  }
+}

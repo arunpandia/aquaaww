@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#F9F0E3">
+<title>TwoToTango</title>
+<style>
+  @font-face{font-family:"Permanent Marker";src:url(fonts/PermanentMarker-Regular.ttf) format("truetype")}
+  @font-face{font-family:"Special Elite";src:url(fonts/SpecialElite-Regular.ttf) format("truetype")}
+  :root{--cream:#F9F0E3;--ink:#342725;--coral:#FF6F59;--blue:#00308E;--tape:#E9B24E}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;background:var(--cream);color:var(--ink);overflow:hidden;overscroll-behavior:none}
+
+  /* ===== the 402 x 874 design canvas, scaled to fit the phone ===== */
+  #stage{position:absolute;left:50%;top:50%;width:402px;height:874px;transform-origin:center;transform:translate(-50%,-50%);background:var(--cream)}
+  .abs{position:absolute}
+  .ctr{position:absolute;display:flex;align-items:center;justify-content:center}
+  .ctr>*{flex:none}
+  .tap{cursor:pointer}
+  .marker{font-family:"Permanent Marker",cursive}
+  .elite{font-family:"Special Elite",monospace}
+  .layer{position:absolute;inset:0;max-width:none;width:100%;height:100%;display:block}
+  .cover{object-fit:cover;pointer-events:none}
+
+  #buddyFrame canvas{position:absolute;left:87.5px;top:358px;width:226px;height:226px;display:block}
+  .btnLabel.fit{font-size:10.2px;letter-spacing:.1px;white-space:nowrap}
+  .btnLabel{position:absolute;display:flex;align-items:center;justify-content:center;font-family:"Permanent Marker",cursive;font-size:13px;color:#1d1d1d;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+  .tapbtn{cursor:pointer;transition:transform .1s}
+  .tapbtn:active{transform:translate(-3px,3px)}
+  .ring{animation:ring 1s ease-in-out 3}
+  @keyframes ring{50%{transform:scale(1.06)}}
+
+  /* ===== loading: the drop fills with water layer by layer ===== */
+  #loader{position:absolute;inset:0;background:var(--cream);z-index:30;transition:opacity .4s}
+  #loader.out{opacity:0;pointer-events:none}
+  #loader svg path{transition:fill-opacity .45s ease}
+
+  /* ===== paper sheets for the settings ===== */
+  #scrim{position:fixed;inset:0;background:rgba(52,39,37,.38);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+  #scrim.on{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;max-height:86vh;overflow:auto;background:#FDF8EF;border-radius:20px 20px 0 0;padding:26px 20px calc(24px + env(safe-area-inset-bottom));
+    transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.9,.3,1);z-index:41;box-shadow:0 -6px 24px rgba(52,39,37,.25)}
+  .sheet.on{transform:none}
+  .sheet::before{content:"";position:absolute;left:50%;top:-8px;width:84px;height:22px;transform:translateX(-50%) rotate(-2deg);background:linear-gradient(#dcc496,#d3b987);opacity:.95;
+    clip-path:polygon(0 8%,3% 0,6% 10%,9% 0,91% 0,94% 10%,97% 0,100% 8%,100% 92%,97% 100%,94% 90%,91% 100%,9% 100%,6% 90%,3% 100%,0 92%)}
+  .sheet h2{font-family:"Permanent Marker",cursive;font-weight:400;font-size:24px;margin:4px 0 14px;color:var(--ink)}
+  .sheet h2 small{display:block;font:400 12px "Special Elite",monospace;color:#7a6a64;margin-top:2px}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 0;font-family:"Special Elite",monospace;font-size:15px}
+  .note{font-family:"Special Elite",monospace;font-size:12.5px;line-height:1.45;color:#7a6a64;margin:8px 0}
+  input[type=time]{width:112px;padding:7px 6px}
+  select,input[type=time]{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:8px;padding:7px 9px;font:inherit;font-family:"Special Elite",monospace}
+  .switch{position:relative;width:50px;height:28px;flex:none}
+  .switch input{opacity:0;position:absolute;inset:0;margin:0}
+  .switch i{position:absolute;inset:0;background:#d9cbbd;border:2px solid var(--ink);border-radius:99px;transition:.2s}
+  .switch i::after{content:"";position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:.2s}
+  .switch input:checked+i{background:var(--tape)}.switch input:checked+i::after{transform:translateX(22px)}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0}
+  .chip{border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:10px;padding:8px 12px;font:15px "Special Elite",monospace;cursor:pointer}
+  .chip.sel{background:var(--ink);color:var(--cream)}
+  .tape{display:inline-block;background:linear-gradient(#dcc496,#d3b987);color:#3a2d1a;padding:10px 16px;border:0;font:14px "Special Elite",monospace;cursor:pointer;
+    clip-path:polygon(0 8%,3% 0,6% 10%,9% 0,100% 0,97% 20%,100% 40%,97% 60%,100% 80%,97% 100%,0 100%,3% 80%,0 60%,3% 40%,0 20%)}
+  .field{margin:14px 0;font-family:"Special Elite",monospace;font-size:15px}
+  .seg{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .seg .chip{padding:5px 9px;font-size:12.5px;border-width:1.5px;border-radius:8px;min-width:38px;text-align:center}
+  .timeChip{padding:5px 9px;font-size:12.5px;border-width:1.5px;border-radius:8px}
+  .timePick{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 16px}
+  .tcol{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .step{border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:10px;width:58px;height:40px;font-size:16px;cursor:pointer}
+  .step:active{background:#fff4dc}
+  .big{font:400 46px "Permanent Marker",cursive;min-width:64px;text-align:center}
+  .colon{font:400 40px "Permanent Marker",cursive;margin-top:2px}
+  .ampm{display:flex;flex-direction:column;gap:8px;margin-left:10px}
+  /* ===== welcome / permissions ===== */
+  #onboard{position:fixed;inset:0;background:var(--cream);z-index:80;display:none;overflow:auto;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+  #onboard.on{display:block}
+  .obWrap{max-width:420px;margin:0 auto;padding:26px 24px 34px;text-align:left}
+  .obLogo{width:34px;height:46px;display:block;margin-bottom:14px}
+  .obStep{display:none}.obStep.on{display:block}
+  .obCount{font:13px "Special Elite",monospace;color:#7a6a64;margin-bottom:6px}
+  #onboard h1{font:400 30px/1.1 "Permanent Marker",cursive;margin:0 0 14px;color:var(--ink)}
+  #onboard p{font:15px/1.5 "Special Elite",monospace;color:var(--ink);margin:0 0 12px}
+  .obMock{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:12px 14px;margin:6px 0 16px;box-shadow:4px 4px 0 var(--tape)}
+  .obMock b{display:block;font:15px "Special Elite",monospace}
+  .obMock span{display:block;font:13px "Special Elite",monospace;color:#7a6a64;margin:2px 0 10px}
+  .obBtns{display:flex;gap:14px}.obBtns i{font:normal 13px "Special Elite",monospace;color:#0a6fa3;font-weight:700}
+  .obCard{display:block;width:96px;margin:4px 0 16px;transform:rotate(-4deg);filter:drop-shadow(0 4px 8px rgba(0,0,0,.28))}
+  .obWarn{color:#b3261e !important;font-weight:700}
+  .coralBtn.big{width:100%;padding:14px 16px;font-size:20px;margin-top:6px}
+  .obSkip{display:block;width:100%;background:none;border:0;margin-top:10px;padding:12px;font:15px "Special Elite",monospace;color:#7a6a64;text-decoration:underline dashed;text-underline-offset:4px;cursor:pointer}
+  .opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:12px 14px;margin:0 0 10px;color:var(--ink);cursor:pointer}
+  .opt b{display:block;font:400 18px "Permanent Marker",cursive;margin-bottom:3px}
+  .opt span{font:13px "Special Elite",monospace;color:#7a6a64}
+  .opt:active{background:#fff4dc}
+  .coralBtn{border:0;background:var(--coral);color:#fff;border-radius:10px;padding:10px 14px;font:16px "Permanent Marker",cursive;cursor:pointer}
+  video{display:none}
+  #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 28px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);padding:10px 16px;border-radius:12px;font:14px "Special Elite",monospace;opacity:0;transition:.25s;z-index:60;pointer-events:none;max-width:86vw;text-align:center}
+  #toast.on{opacity:1;transform:translateX(-50%)}
+</style></head>
+<body>
+
+<div id="stage">
+  <!-- ================= HOME (Figma "iPhone 16 & 17 Pro - 2") ================= -->
+  <div id="home" class="abs" style="inset:0">
+
+    <div class="abs" style="left:28px;top:64px;width:43.872px;height:59px;overflow:hidden">
+      <div class="abs" style="inset:3.21% 7.5% 3.21% 6%"><img class="layer" alt="" src="img/design/logo.svg"></div>
+    </div>
+
+    <div class="ctr" style="left:314.42px;top:63.05px;width:56.153px;height:35.899px">
+      <div style="transform:rotate(2deg);width:55px;height:34px;position:relative"><img class="layer cover" alt="Drink water" src="img/design/drink-water.png"></div>
+    </div>
+    <div class="ctr" style="left:312px;top:101px;width:61.331px;height:30.103px">
+      <div id="inTime" class="marker" style="transform:rotate(-3deg);font-size:18.199px;color:var(--coral);white-space:nowrap">in –</div>
+    </div>
+
+    <div class="abs marker" style="left:71px;top:201px;width:259px;font-size:11.099px;color:#342725;white-space:normal;line-height:normal">
+      <p style="margin:0">I built TwoToTango because I can’t always be there to say “have some water.”</p>
+      <p style="margin:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p>
+      <p style="margin:7px 0 0;text-align:right;color:var(--coral)">– to my wife</p>
+    </div>
+
+    <!-- hand-drawn frame + the buddy -->
+    <div id="buddyFrame" class="abs" style="inset:0;pointer-events:none">
+      <div class="ctr" style="left:69.94px;top:344px;width:261.054px;height:253.804px">
+        <div style="transform:rotate(90deg);width:253.804px;height:261.054px;position:relative"><img class="layer" alt="" src="img/design/frame.svg"></div>
+      </div>
+      <canvas id="c"></canvas>
+    </div>
+
+    <!-- sticky note: timing -->
+    <div id="noteTiming" class="ctr tap" style="left:273px;top:356px;width:94.209px;height:107.953px">
+      <div style="transform:rotate(-5.49deg);width:85px;height:100.277px;position:relative"><img class="layer cover" style="filter:drop-shadow(0 0 6px rgba(0,0,0,.18))" alt="Settings for change timing" src="img/design/note-settings.png"></div>
+    </div>
+    <!-- playing card: floating buddy -->
+    <div id="cardFloat" class="ctr tap" style="left:281px;top:470px;width:77.401px;height:99.272px">
+      <div style="transform:rotate(6.79deg);width:67px;height:92px;position:relative"><img class="layer cover" style="filter:drop-shadow(0 4px 8px rgba(0,0,0,.28))" alt="Floating buddy" src="img/design/card-floating-buddy.png"></div>
+    </div>
+
+    <!-- the 3D upload button -->
+    <div id="btnUpload" class="ctr tapbtn" style="left:133px;top:606.4px;width:136.02px;height:34.2px">
+      <div style="transform:rotate(2.23deg);width:135px;height:28.97px;position:relative">
+        <img alt="" src="img/design/button-left.svg" style="position:absolute;left:-.5%;right:-.5%;top:-2.34%;bottom:-2.34%;width:101%;height:104.7%;max-width:none;display:block">
+        <span class="btnLabel" style="left:10%;right:2%;top:0;height:82%">Upload</span>
+      </div>
+    </div>
+    <!-- presets cluster -->
+    <div id="presetsTap" class="abs tap" style="left:0;top:696px;width:112px;height:100px">
+      <div class="ctr" style="left:69px;top:4px;width:46.467px;height:50.613px"><div style="transform:rotate(14.24deg);width:37.078px;height:42.81px;position:relative"><img class="layer cover" alt="" src="img/design/sticker-duck.png"></div></div>
+      <div class="ctr" style="left:5px;top:7px;width:60.6px;height:56.575px"><div style="transform:rotate(-103.27deg);width:46px;height:51.412px;position:relative"><img class="layer cover" alt="" src="img/design/sticker-cat.png"></div></div>
+      <div class="abs" style="left:42px;top:19px;width:54px;height:52.565px"><img class="layer cover" style="filter:drop-shadow(0 4px 5px rgba(0,0,0,.28))" alt="" src="img/design/sticker-frog.png"></div>
+      <div class="ctr" style="left:42px;top:75px;width:59.339px;height:22.209px"><div class="elite" style="transform:rotate(-9.31deg);font-size:13.325px;color:#000;white-space:nowrap">{Presets}</div></div>
+    </div>
+
+    <!-- done today stamp -->
+    <div class="ctr" style="left:282px;top:685px;width:91.137px;height:123.778px">
+      <div style="transform:rotate(3deg);width:85px;height:119.493px;position:relative"><img class="layer cover" alt="" src="img/design/stamp-done-today.png"></div>
+    </div>
+    <div class="ctr" style="left:302.03px;top:701.82px;width:45.3px;height:28.267px">
+      <div class="elite" style="transform:rotate(3deg);width:44px;font-size:13.325px;color:#000;line-height:normal">Done today</div>
+    </div>
+    <div class="ctr" style="left:329.69px;top:765.35px;width:24.382px;height:28.167px">
+      <div id="doneCount" class="marker" style="transform:rotate(3deg);font-size:18.199px;color:var(--coral);white-space:nowrap">00</div>
+    </div>
+  </div>
+
+  <!-- ================= LOADING (Figma "iPhone 16 & 17 Pro - 3") ================= -->
+  <div id="loader">
+    <div class="abs" style="left:149px;top:365px;width:103px;height:144.051px;overflow:hidden">
+      <div id="drop" class="abs" style="inset:3.21% 7.5% 3.21% 6%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= WELCOME / PERMISSIONS ================= -->
+<div id="onboard">
+  <div class="obWrap">
+    <img class="obLogo" src="img/design/logo.svg" alt="">
+    <div class="obStep" id="obStep1">
+      <div class="obCount">1 of 2</div>
+      <h1>First, let me reach you</h1>
+      <div class="obMock"><b>Time to drink some water</b><span>Tap to meet your buddy</span><div class="obBtns"><i>I drank</i><i>Remind me later</i></div></div>
+      <p>TwoToTango works by sending you a gentle reminder with two buttons: <b>“I drank”</b> and <b>“Later”</b>.</p>
+      <p>If notifications are off, I can’t reach you, and the reminder is lost. So this one is <b>required</b>.</p>
+      <p class="obWarn" id="obWarn"></p>
+      <button class="coralBtn big" id="obNotif">Allow notifications</button>
+    </div>
+    <div class="obStep" id="obStep2">
+      <div class="obCount">2 of 2</div>
+      <h1>Want me to float over your apps?</h1>
+      <img class="obCard" src="img/design/card-floating-buddy.png" alt="Floating buddy">
+      <p>With this, your buddy pops up on top of Instagram, YouTube, or whatever you’re doing, so a reminder is hard to miss.</p>
+      <p>It never blocks the app underneath, and you can turn it off any time.</p>
+      <button class="coralBtn big" id="obFloat">Allow floating buddy</button>
+      <button class="obSkip" id="obSkip">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= sheets ================= -->
+<div id="scrim"></div>
+
+<section class="sheet" id="sheetTiming">
+  <h2>Change timing<small>settings for: when to remind you</small></h2>
+  <div class="field"><span>Remind every (minutes)</span><div class="seg" id="intervalSeg"></div></div>
+  <div class="field"><span>“Later” snooze (minutes)</span><div class="seg" id="snoozeSeg"></div></div>
+  <div class="row"><span>Only between</span><span style="display:flex;align-items:center;gap:8px;white-space:nowrap"><button class="chip timeChip" id="fromBtn"></button> – <button class="chip timeChip" id="toBtn"></button></span></div>
+  <div class="row"><span>Pause reminders</span><label class="switch"><input type="checkbox" id="paused"><i></i></label></div>
+  <div class="row"><span id="perm" style="flex:1">Notifications</span><button class="chip" id="enable">Enable</button></div>
+  <div class="row" style="margin-top:18px"><button class="coralBtn" id="t30">Test in 30 seconds</button></div>
+  <p class="note">Reminders arrive as notifications with “I drank” and “Remind me later”. If they come late, set battery to “Unrestricted” for TwoToTango in Android settings.</p>
+</section>
+
+<section class="sheet" id="sheetTime">
+  <h2 id="timeTitle">Start time<small>when should reminders begin?</small></h2>
+  <div class="timePick">
+    <div class="tcol"><button class="step" id="hUp">▲</button><div class="big" id="hVal">9</div><button class="step" id="hDn">▼</button></div>
+    <div class="colon">:</div>
+    <div class="tcol"><button class="step" id="mUp">▲</button><div class="big" id="mVal">00</div><button class="step" id="mDn">▼</button></div>
+    <div class="ampm"><button class="chip" id="amBtn">AM</button><button class="chip" id="pmBtn">PM</button></div>
+  </div>
+  <div class="row" style="justify-content:flex-end"><button class="coralBtn" id="timeDone">Done</button></div>
+</section>
+
+<section class="sheet" id="sheetFloat">
+  <h2>Floating buddy<small>settings for: showing up over other apps</small></h2>
+  <div class="row"><span>Show over other apps</span><label class="switch"><input type="checkbox" id="ovOn"><i></i></label></div>
+  <p class="note" id="ovmsg"></p>
+  <div class="row"><span>Also send a notification<br><small style="color:#7a6a64;font-size:11px">with “I drank” and “Later” buttons</small></span><label class="switch"><input type="checkbox" id="ovNotify"><i></i></label></div>
+  <div class="row"><span>Let taps pass through the buddy<br><small style="color:#7a6a64;font-size:11px">slightly see-through</small></span><label class="switch"><input type="checkbox" id="ovPass"><i></i></label></div>
+  <div class="field"><span>Corner</span><div class="seg" id="cornerSeg"></div></div>
+  <div class="row" style="gap:10px;justify-content:flex-start"><button class="coralBtn" id="ovDrag">Drag to place…</button><button class="coralBtn" id="ovNow">Show it now</button></div>
+  <p class="note">Your buddy floats over Instagram and other apps without blocking them. Only the little poster is tappable; everything else passes straight through. Android needs a small always-on notification to keep this running.</p>
+</section>
+
+<section class="sheet" id="sheetUpload">
+  <h2>Upload a video<small>how should we handle the background?  (under 30 MB)</small></h2>
+  <button class="opt" data-pick="upKey"><b>Remove white background</b><span>For a video filmed in front of plain white.</span></button>
+  <button class="opt" data-pick="upRaw"><b>Keep it as it is</b><span>Shows the whole video, nothing removed.</span></button>
+  <button class="opt" data-pick="upPerson"><b>Cut out a person</b><span>Works on any background. People only.</span></button>
+</section>
+
+<section class="sheet" id="sheetPresets">
+  <h2>Presets<small>pick a buddy, or bring your own video</small></h2>
+  <div class="chips" id="presets"></div>
+  <div class="chips" style="margin-top:14px"><button class="tape" id="upMore">Upload your own…</button></div>
+  <p class="note">Videos must be under 30 MB.</p>
+</section>
+
+<input type="file" accept="video/*" id="upKey" hidden><input type="file" accept="video/*" id="upRaw" hidden><input type="file" accept="video/*" id="upPerson" hidden>
+<script src="mp/person.js"></script>
+<video id="v" playsinline muted loop></video>
+<div id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const Cap = window.Capacitor, P = (Cap && Cap.Plugins) || {};
+const LN = P.LocalNotifications, AppP = P.App;
+const WO = P.TangoOverlay || (Cap && Cap.registerPlugin ? Cap.registerPlugin('TangoOverlay') : null);   // native bridge exposes plugins on Capacitor.Plugins
+
+/* ---------------- fit the 402 x 874 design to the screen ---------------- */
+let scale = 1;
+function fit() { scale = Math.min(innerWidth / 402, innerHeight / 874); $('stage').style.transform = `translate(-50%,-50%) scale(${scale})`; }
+addEventListener('resize', fit); fit();
+
+/* ---------------- settings ---------------- */
+const PRESET_MODES = { 'yours truly': 'green' };                                  // presets filmed on a green screen
+const modeOf = () => (S.source === 'preset' && PRESET_MODES[S.preset || presets[0]]) || S.mode || (S.keyed ? 'white' : 'raw');                    // 'white' = remove white, 'raw' = as is, 'person' = cut out a person on any background
+const DEF = { interval: 45, snooze: 15, from: '09:00', to: '21:00', paused: false, source: 'preset', preset: '', keyed: true, stats: {}, nextAt: 0, overlay: false, corner: 'bottom-right', nativeVideo: '' };
+let S = { ...DEF, ...(JSON.parse(localStorage.getItem('wb') || '{}')) };
+const save = () => localStorage.setItem('wb', JSON.stringify(S));
+const todayKey = () => new Date().toLocaleDateString('en-CA');                // local date, matches the native counter
+const toast = t => { const e = $('toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 2400); };
+const fmtTime = ms => new Date(ms).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+/* ---------------- uploaded video storage (IndexedDB) ---------------- */
+const idb = () => new Promise((res, rej) => { const r = indexedDB.open('wb', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const kv = async (mode, fn) => { const db = await idb(); return new Promise((res, rej) => { const tx = db.transaction('kv', mode), st = tx.objectStore('kv'), q = fn(st); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); }); };
+const putBlob = b => kv('readwrite', s => s.put(b, 'video'));
+const getBlob = () => kv('readonly', s => s.get('video'));
+
+/* ---------------- floating buddy (native overlay) ---------------- */
+let ovStatus = { canDraw: false, enabled: false, nextAt: 0, todayCount: 0 };
+let presets = [];
+const presetSrc = () => 'file:///android_asset/public/presets/' + encodeURIComponent(S.preset || presets[0] || '') + '.mp4';
+const overlaySrc = () => (S.source === 'upload' && S.nativeVideo) ? 'file://' + S.nativeVideo : presetSrc();
+const overlayActive = () => !!(WO && S.overlay && ovStatus.canDraw);
+async function refreshOverlayStatus() {
+  if (!WO) return;
+  try { ovStatus = await WO.status(); } catch { return; }
+  if (ovStatus.customAt && ovStatus.customAt > (S.customSeen || 0)) { S.customSeen = ovStatus.customAt; S.corner = 'custom'; save(); }   // user just dragged it into place
+}
+async function syncOverlay(reschedule = false) {
+  if (!WO) return;
+  await refreshOverlayStatus();
+  const on = S.overlay && ovStatus.canDraw;
+  try { await WO.configure({ enabled: on, interval: S.interval, snooze: S.snooze, from: S.from, to: S.to, paused: S.paused, src: overlaySrc(), keyed: modeOf() === 'white', mode: modeOf(), pass: !!S.pass, notify: S.notify !== false, corner: S.corner, reschedule }); }
+  catch (e) { toast(e.message || 'Overlay error'); }
+  if (on) { if (LN) await cancelAll(); S.nextAt = 0; save(); } else if (reschedule) { await schedule(); }       // only rebuild notifications when timing actually changed
+  await refreshOverlayStatus(); renderHome();
+}
+async function saveNativeVideo(file, fname = file.name || 'buddy.mp4') {                                   // copy the upload to app storage so the overlay can play it
+  if (!WO) return;
+  const ext = (fname.match(/\.(mp4|mov|m4v|webm|3gp)$/i) || ['', 'mp4'])[1].toLowerCase(), name = 'buddy-' + Date.now() + '.' + ext, CH = 3 * 1024 * 1024;
+  let res;
+  for (let off = 0; off < file.size; off += CH) {
+    const buf = new Uint8Array(await file.slice(off, off + CH).arrayBuffer()); let bin = '';
+    for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+    res = await WO.saveVideoChunk({ name, data: btoa(bin), append: off > 0 });
+  }
+  S.nativeVideo = res.path; save(); try { await WO.cleanupVideos({ keep: name }); } catch {}
+}
+
+/* ---------------- uploads are limited to 30 MB ---------------- */
+const MAX_BYTES = 30 * 1024 * 1024;
+
+/* ---------------- video + white-background keying ---------------- */
+const v = $('v'); let curUrl = '';
+async function videoUrl() {
+  if (S.source === 'upload') { const b = await getBlob(); if (b) { if (curUrl.startsWith('blob:')) URL.revokeObjectURL(curUrl); return curUrl = URL.createObjectURL(b); } }
+  const name = S.preset || presets[0]; if (!name) return '';
+  return 'presets/' + encodeURIComponent(name) + '.mp4';
+}
+function paint(canvas, ctx, mode) {
+  if (v.readyState < 2 || !v.videoWidth) return;
+  const s = Math.min(v.videoWidth, v.videoHeight);                       // centred 1:1 crop
+  ctx.drawImage(v, (v.videoWidth - s) / 2, (v.videoHeight - s) / 2, s, s, 0, 0, canvas.width, canvas.height);
+  if (mode === 'raw') return;
+  const img = ctx.getImageData(0, 0, canvas.width, canvas.height), d = img.data, lo = 30, hi = 90;
+  if (mode === 'green') {                                                    // pure green screen: key out the green, despill the edges
+    for (let i = 0; i < d.length; i += 4) {
+      const m = Math.max(d[i], d[i + 2]), diff = d[i + 1] - m;
+      let a = 1 - (diff - 35) / 65; a = a <= 0 ? 0 : a >= 1 ? 1 : a * a * (3 - 2 * a);
+      if (a < 1 && d[i + 1] > m) d[i + 1] = m;
+      d[i + 3] = a * 255;
+    }
+    ctx.putImageData(img, 0, 0); return;
+  }
+  for (let i = 0; i < d.length; i += 4) {
+    const dist = 255 - Math.min(d[i], d[i + 1], d[i + 2]);
+    let a = (dist - lo) / (hi - lo); a = a <= 0 ? 0 : a >= 1 ? 1 : a * a * (3 - 2 * a);
+    if (a > 0 && a < 1) for (let k = 0; k < 3; k++) { const x = 255 - (255 - d[i + k]) / a; d[i + k] = x < 0 ? 0 : x; }
+    d[i + 3] = a * 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+let raf = 0, session = 0;
+function runCanvas(canvas, mode, px) {
+  const my = ++session; cancelAnimationFrame(raf);
+  canvas.width = canvas.height = px; const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.clearRect(0, 0, px, px);
+  let person = mode === 'person'; const tmp = person ? Object.assign(document.createElement('canvas'), { width: Math.min(px, 384), height: Math.min(px, 384) }) : null;
+  const tctx = person ? tmp.getContext('2d') : null;
+  return videoUrl().then(async url => {
+    if (!url) return;
+    if (person) { try { await PersonCut.init('mp/'); } catch (e) { person = false; mode = 'white'; toast('Cut-out is not available on this phone, using white removal'); } if (my !== session) return; }
+    v.src = url; v.muted = true;
+    await v.play().catch(() => {});
+    const t0 = performance.now();
+    while (my === session && !((v.readyState >= 2 && v.currentTime > 0) || performance.now() - t0 > 1500)) await new Promise(r => setTimeout(r, 30));
+    if (my !== session) return;
+    let busy = false, fails = 0;
+    const tick = async () => {
+      if (my !== session) return;
+      if (person) {
+        if (!busy && v.readyState >= 2 && v.videoWidth) {
+          busy = true;
+          try { const sq = Math.min(v.videoWidth, v.videoHeight); tctx.drawImage(v, (v.videoWidth - sq) / 2, (v.videoHeight - sq) / 2, sq, sq, 0, 0, tmp.width, tmp.height); await PersonCut.cut(tmp, ctx, px); fails = 0; }
+          catch { if (++fails > 8) { person = false; mode = 'white'; toast('Cut-out failed, using white removal'); } }
+          busy = false;
+        }
+      } else paint(canvas, ctx, mode);
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+  });
+}
+const stopCanvas = () => { session++; cancelAnimationFrame(raf); v.pause(); };
+const startBuddy = () => runCanvas($('c'), modeOf(), Math.min(640, Math.round(226 * scale * (devicePixelRatio || 1))));
+
+/* ---------------- notifications ---------------- */
+const mins = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+const inWindow = d => { const m = d.getHours() * 60 + d.getMinutes(), a = mins(S.from), b = mins(S.to); return a <= b ? m >= a && m <= b : m >= a || m <= b; };
+async function cancelAll() { if (!LN) return; const p = await LN.getPending(); if (p.notifications.length) await LN.cancel({ notifications: p.notifications.map(n => ({ id: n.id })) }); }
+async function schedule(firstMin = S.interval) {
+  if (overlayActive()) return;                                              // the floating buddy keeps its own clock
+  S.nextAt = 0;
+  if (LN) await cancelAll();
+  if (S.paused || !LN) { save(); return; }
+  const out = []; let t = new Date(Date.now() + firstMin * 60000), id = 1; const end = Date.now() + 48 * 3600e3;
+  while (out.length < 60 && t.getTime() < end) {
+    if (inWindow(t)) { out.push({ id: id++, title: 'Time to drink some water', body: 'Tap to meet your buddy', channelId: 'reminders', actionTypeId: 'REMIND', smallIcon: 'ic_stat_drop',
+        schedule: { at: new Date(t), allowWhileIdle: true } }); t = new Date(t.getTime() + S.interval * 60000); }
+    else t = new Date(t.getTime() + 5 * 60000);                               // skip ahead until the active window opens
+  }
+  if (out.length) { try { await LN.schedule({ notifications: out }); S.nextAt = out[0].schedule.at.getTime(); } catch (e) { toast('Could not schedule: ' + e.message); } }
+  save();
+}
+let fromNotification = false;
+const minimize = () => { try { AppP && AppP.minimizeApp(); } catch {} };
+async function drank() {
+  if (overlayActive()) return;                                              // the overlay handles its own buttons
+  S.stats[todayKey()] = (S.stats[todayKey()] || 0) + 1; save(); await schedule(S.interval);
+  toast('Nice! Next one ' + (S.nextAt ? 'at ' + fmtTime(S.nextAt) : 'soon'));
+}
+async function later() { await schedule(S.snooze); toast('Okay, in ' + S.snooze + ' min'); }
+async function permState() { if (!LN) return 'unsupported'; try { return (await LN.checkPermissions()).display; } catch { return 'unsupported'; } }
+async function renderPerm() {
+  const s = await permState();
+  $('perm').textContent = s === 'granted' ? 'Notifications are on' : s === 'unsupported' ? 'Notifications: installed app only' : 'Notifications are off';
+  $('enable').style.display = s === 'granted' || s === 'unsupported' ? 'none' : '';
+}
+
+/* ---------------- home ---------------- */
+function inLabel(ms) { const m = Math.max(0, Math.round((ms - Date.now()) / 60000)); return m >= 60 ? `in ${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}m` : `in ${m}m`; }
+/* live numbers only: safe to refresh every few seconds without touching the buttons under a finger */
+async function renderStatus() {
+  await refreshOverlayStatus();
+  const ov = overlayActive(), nx = ov ? ovStatus.nextAt : S.nextAt;
+  $('doneCount').textContent = String(ov ? ovStatus.todayCount : (S.stats[todayKey()] || 0)).padStart(2, '0');
+  $('inTime').textContent = S.paused ? 'paused' : nx ? inLabel(nx) : 'in –';
+  $('ovmsg').textContent = !WO ? '' : !S.overlay ? 'Off: reminders arrive as notifications.' : ovStatus.canDraw ? 'On: your buddy appears over other apps.' : 'Waiting for the “Display over other apps” permission.';
+}
+/* full redraw: also rebuilds the option buttons (call after something actually changed) */
+async function renderHome() {
+  await renderStatus();
+  $('fromBtn').textContent = fmt12(S.from); $('toBtn').textContent = fmt12(S.to); $('paused').checked = S.paused; renderSegs();
+  $('ovOn').checked = S.overlay; $('ovPass').checked = !!S.pass; $('ovNotify').checked = S.notify !== false;
+  $('presets').innerHTML = '';
+  presets.forEach(n => { const b = document.createElement('button'); b.className = 'chip' + (S.source === 'preset' && (S.preset || presets[0]) === n ? ' sel' : ''); b.textContent = n;
+    b.onclick = () => {
+      S.source = 'preset'; S.preset = n; S.mode = PRESET_MODES[n] || 'white'; S.keyed = S.mode === 'white'; save();
+      syncOverlay(false); renderHome(); startBuddy();
+      hideSheet(); toast('Buddy changed: ' + n);                       // close the sheet so you can see the new buddy right away
+    }; $('presets').appendChild(b); });
+}
+
+/* ---------------- sheets ---------------- */
+let openSheet = null;
+function showSheet(id) { openSheet = id; $('scrim').classList.add('on'); $(id).classList.add('on'); renderHome(); renderPerm(); }
+function hideSheet() { if (!openSheet) return; $(openSheet).classList.remove('on'); $('scrim').classList.remove('on'); openSheet = null; }
+$('scrim').onclick = hideSheet;
+$('noteTiming').onclick = () => showSheet('sheetTiming');
+$('cardFloat').onclick = () => showSheet('sheetFloat');
+$('presetsTap').onclick = () => showSheet('sheetPresets');
+
+/* ---------------- app-styled pickers (no native Android pop-ups) ---------------- */
+const CORNER_LABELS = { 'bottom-right': 'Bottom right', 'bottom-left': 'Bottom left', 'top-right': 'Top right', 'top-left': 'Top left', custom: 'Custom' };
+const SEGS = {
+  intervalSeg: { opts: [15, 30, 45, 60, 90, 120], get: () => S.interval, label: v => String(v), pick: v => { S.interval = v; save(); syncOverlay(true); } },
+  snoozeSeg: { opts: [5, 10, 15, 30], get: () => S.snooze, label: v => String(v), pick: v => { S.snooze = v; save(); syncOverlay(false); } },
+  cornerSeg: { opts: ['bottom-right', 'bottom-left', 'top-right', 'top-left', 'custom'], get: () => S.corner, label: v => CORNER_LABELS[v],
+    pick: v => { if (v === 'custom' && !S.customSeen) return toast('Tap “Drag to place…” to choose a spot'); S.corner = v; save(); syncOverlay(false); } }
+};
+function renderSegs() {
+  for (const [id, c] of Object.entries(SEGS)) {
+    const el = $(id); el.innerHTML = '';
+    c.opts.forEach(v => { const b = document.createElement('button'); b.className = 'chip' + (c.get() === v ? ' sel' : ''); b.textContent = c.label(v); b.onclick = () => { c.pick(v); renderSegs(); }; el.appendChild(b); });
+  }
+}
+const fmt12 = t => { const [h, m] = t.split(':').map(Number); return ((h % 12) || 12) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM'); };
+const tp = { which: 'from', h: 9, m: 0, pm: false };
+function drawTime() { $('hVal').textContent = tp.h; $('mVal').textContent = String(tp.m).padStart(2, '0'); $('amBtn').classList.toggle('sel', !tp.pm); $('pmBtn').classList.toggle('sel', tp.pm); }
+function openTime(which) {
+  const [h, m] = S[which].split(':').map(Number);
+  Object.assign(tp, { which, h: (h % 12) || 12, m, pm: h >= 12 });
+  $('timeTitle').innerHTML = which === 'from' ? 'Start time<small>when should reminders begin?</small>' : 'End time<small>when should reminders stop?</small>';
+  drawTime(); hideSheet(); showSheet('sheetTime');
+}
+$('fromBtn').onclick = () => openTime('from');
+$('toBtn').onclick = () => openTime('to');
+$('hUp').onclick = () => { tp.h = tp.h % 12 + 1; drawTime(); };
+$('hDn').onclick = () => { tp.h = (tp.h + 10) % 12 + 1; drawTime(); };
+$('mUp').onclick = () => { tp.m = (tp.m + 5) % 60; drawTime(); };
+$('mDn').onclick = () => { tp.m = (tp.m + 55) % 60; drawTime(); };
+$('amBtn').onclick = () => { tp.pm = false; drawTime(); };
+$('pmBtn').onclick = () => { tp.pm = true; drawTime(); };
+$('timeDone').onclick = () => {
+  const h24 = (tp.h % 12) + (tp.pm ? 12 : 0);
+  S[tp.which] = String(h24).padStart(2, '0') + ':' + String(tp.m).padStart(2, '0'); save(); syncOverlay(true);
+  hideSheet(); showSheet('sheetTiming');
+};
+
+/* ---------------- welcome: permissions (notifications required, floating asked) ---------------- */
+function showOnboard(step, msg) {
+  $('onboard').classList.add('on');
+  $('obStep1').classList.toggle('on', step === 1); $('obStep2').classList.toggle('on', step === 2);
+  $('obWarn').textContent = msg || '';
+}
+const hideOnboard = () => $('onboard').classList.remove('on');
+let obBusy = false;
+async function runOnboarding() {                                              // decides which welcome step (if any) to show; call at launch and on resume
+  if (obBusy) return; obBusy = true;
+  try {
+    const st = await permState();
+    if (st === 'unsupported') { hideOnboard(); return; }                       // plain browser preview: nothing to ask
+    if (st !== 'granted') {                                                     // notifications are REQUIRED: the app stays on this screen until they are on
+      showOnboard(1, st === 'denied' && S.obAsked ? 'Notifications are off, so TwoToTango cannot remind you. Please turn them on to continue.' : '');
+      return;
+    }
+    await refreshOverlayStatus();
+    if (!S.onboarded) {
+      if (ovStatus.canDraw) { S.overlay = true; S.onboarded = true; save(); hideOnboard(); await syncOverlay(true); return; }   // already allowed
+      showOnboard(2); return;
+    }
+    hideOnboard();
+  } finally { obBusy = false; }
+}
+$('obNotif').onclick = async () => {
+  S.obAsked = true; save();
+  const st = await permState();
+  if (st === 'denied' && WO) { try { await WO.openNotificationSettings(); } catch {} }   // Android will not ask again: send them to the settings page
+  else { try { await LN.requestPermissions(); } catch {} }
+  await runOnboarding();
+};
+$('obFloat').onclick = async () => { try { await WO.requestPermission(); } catch {} };       // opens Android's "Display over other apps" page; we continue when you come back
+$('obSkip').onclick = () => { S.onboarded = true; save(); hideOnboard(); };
+
+/* ---------------- wiring ---------------- */
+$('btnUpload').onclick = () => showSheet('sheetUpload');
+$('upMore').onclick = () => { hideSheet(); showSheet('sheetUpload'); };
+document.querySelectorAll('.opt').forEach(b => b.onclick = () => { hideSheet(); $(b.dataset.pick).click(); });   // ask the 3 options, then open the file picker
+let uploading = false;
+for (const [id, mode] of [['upKey', 'white'], ['upRaw', 'raw'], ['upPerson', 'person']]) $(id).onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  if (f.size > MAX_BYTES) return toast('Video is ' + (f.size / 1048576).toFixed(1) + ' MB. Please choose one under 30 MB.');
+  if (uploading) return toast('Still preparing the last video…');
+  uploading = true;
+  try {
+    await putBlob(f); S.source = 'upload'; S.keyed = mode === 'white'; S.mode = mode; save();
+    try { await saveNativeVideo(f); } catch (err) { toast('Could not prepare for overlay: ' + err.message); }
+    syncOverlay(false); renderHome(); startBuddy(); hideSheet(); toast('New buddy loaded');
+  } catch (err) { toast(err.message || 'Could not load that video'); }
+  finally { uploading = false; }
+};
+$('paused').onchange = e => { S.paused = e.target.checked; save(); syncOverlay(true); };
+$('ovNotify').onchange = e => { S.notify = e.target.checked; save(); syncOverlay(false); };
+$('ovPass').onchange = e => { S.pass = e.target.checked; save(); syncOverlay(false); };
+$('ovOn').onchange = async e => {
+  S.overlay = e.target.checked; save(); await refreshOverlayStatus();
+  if (S.overlay && WO && !ovStatus.canDraw) { toast('Allow “Display over other apps”, then come back'); try { await WO.requestPermission(); } catch {} renderHome(); return; }
+  await syncOverlay(true);
+};
+$('ovDrag').onclick = async () => { await refreshOverlayStatus(); if (!overlayActive()) return toast('Turn on “Show over other apps” first'); hideSheet(); toast('Drag the poster, then tap Save'); try { AppP && AppP.minimizeApp(); } catch {} setTimeout(() => WO.editPosition(), 900); };
+$('ovNow').onclick = async () => { await refreshOverlayStatus(); if (!overlayActive()) return toast('Turn on “Show over other apps” first'); hideSheet(); try { AppP && AppP.minimizeApp(); } catch {} setTimeout(() => WO.showNow(), 900); };
+$('enable').onclick = async () => { try { await LN.requestPermissions(); } catch {} await renderPerm(); schedule(); };
+$('t30').onclick = async () => {
+  const btn = $('t30'); if (btn.disabled) return; await refreshOverlayStatus();
+  try {
+    if (overlayActive()) await WO.testIn({ seconds: 30 });
+    else if (LN) { try { await LN.cancel({ notifications: [{ id: 9001 }] }); } catch {}
+      await LN.schedule({ notifications: [{ id: 9001, title: 'Time to drink some water', body: 'Tap to meet your buddy', channelId: 'reminders', actionTypeId: 'REMIND', smallIcon: 'ic_stat_drop', schedule: { at: new Date(Date.now() + 30000), allowWhileIdle: true } }] }); }
+    else return toast('Test needs the installed app');
+  } catch (e) { return toast('Could not schedule: ' + (e.message || e)); }
+  toast('Switch to another app. Reminder in 30 seconds.');
+  btn.disabled = true; let n = 30; btn.textContent = 'Reminder in 30s';
+  const t = setInterval(() => { n--; btn.textContent = n > 0 ? 'Reminder in ' + n + 's' : 'Test in 30 seconds'; if (n <= 0) { clearInterval(t); btn.disabled = false; } }, 1000);
+  setTimeout(() => { hideSheet(); try { AppP && AppP.minimizeApp(); } catch {} }, 1500);
+};
+
+/* ---------------- loading: the drop fills layer by layer, bottom first ---------------- */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function loadDrop() {
+  const svg = await (await fetch('img/design/loader-drop.svg')).text();
+  $('drop').innerHTML = svg;
+  const s = $('drop').querySelector('svg'); s.style.width = '100%'; s.style.height = '100%';
+  const layers = ['Vector_4', 'Vector_3', 'Vector_2', 'Vector'].map(id => s.querySelector('#' + id));
+  layers.forEach(p => p.setAttribute('fill-opacity', '0.1'));
+  return layers;
+}
+async function init() {
+  let layers = [];
+  try { layers = await loadDrop(); } catch {}
+  const fill = async i => { if (layers[i]) layers[i].setAttribute('fill-opacity', '1'); await sleep(430); };
+  const step = async (i, work) => { const t = Date.now(); try { await work(); } catch (e) { console.error(e); } await sleep(Math.max(0, 300 - (Date.now() - t))); await fill(i); };
+
+  await step(0, () => document.fonts.ready);                                                       // layer 1 (bottom): fonts
+  await step(1, async () => { try { presets = await (await fetch('presets/index.json')).json(); } catch { presets = []; } });   // layer 2: buddies
+  await step(2, async () => {                                                                       // layer 3: notifications + overlay
+    if (LN) {
+      try { await LN.createChannel({ id: 'reminders', name: 'Water reminders', description: 'Your drink-water reminders', importance: 4, visibility: 1, vibration: true }); } catch {}
+      try { await LN.registerActionTypes({ types: [{ id: 'REMIND', actions: [{ id: 'drank', title: 'I drank' }, { id: 'later', title: 'Remind me later' }] }] }); } catch {}
+      LN.addListener('localNotificationActionPerformed', async ev => {
+        if (ev.actionId === 'drank') { await drank(); renderHome(); minimize(); }
+        else if (ev.actionId === 'later') { await later(); renderHome(); minimize(); }
+        else { fromNotification = true; hideSheet(); }   // tapped the notification itself
+      });
+    }
+    if (AppP) AppP.addListener('backButton', () => { if (openSheet) hideSheet(); else AppP.minimizeApp(); });
+    await refreshOverlayStatus();
+  });
+  await step(3, async () => {                                                                       // layer 4 (top): schedule + first paint
+    await renderPerm(); await renderHome();
+    if (WO && S.overlay) await syncOverlay(false); else if (!S.nextAt || S.nextAt < Date.now()) await schedule();
+    await renderHome(); startBuddy();
+  });
+  await runOnboarding();                                                                                // welcome / permissions before the app is usable
+  $('loader').classList.add('out');
+  setInterval(() => { if (!document.hidden) renderStatus(); }, 4000);                                  // pick up reminders answered from the overlay, refresh "in 28m"
+  document.addEventListener('visibilitychange', async () => { if (!document.hidden) { startBuddy(); await refreshOverlayStatus(); await runOnboarding();  if (S.overlay && ovStatus.canDraw && !ovStatus.enabled) await syncOverlay(true); renderPerm(); renderHome(); } });
+}
+init();
+</script>
+</body></html>

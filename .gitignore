@@ -1,0 +1,24 @@
+node_modules/
+dist/
+release/
+*.log
+.DS_Store
+*.apk
+*.dmg
+*.exe
+mobile/android/build/
+mobile/android/app/build/
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# Personal / third-party media: not part of the open-source repo.
+# Drop your own videos in assets/presets/ (1:1 .mp4) to ship them as presets.
+assets/presets/*
+!assets/presets/.gitkeep
+assets/*-src.webp
+
+# Third-party character videos (not yours to redistribute)
+mobile/www/presets/*.mp4
+
+# CI workflow kept as docs/release.yml.example (pushing workflows needs extra GitHub permission)
+.github/
