@@ -21,7 +21,9 @@ a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 /* the design is a 1280 x 832 frame; it is scaled to fit the window */
 #fit{position:fixed;left:50%;top:50%;width:1280px;height:832px;transform-origin:0 0}
-#stage{position:absolute;inset:0;width:1280px;height:832px;overflow:hidden;background:#d2d2d2}
+#bgfit{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+#bgst{position:absolute;left:50%;top:50%;width:1280px;height:832px;transform-origin:0 0}
+#stage{position:absolute;inset:0;width:1280px;height:832px}
 .a{position:absolute}
 .fx{position:absolute;display:flex;align-items:center;justify-content:center}
 .in{flex:none;position:relative}
@@ -58,6 +60,7 @@ body.m{overflow:auto}
 body.m #fit{position:relative;left:0;top:0;width:100%;height:auto;transform:none!important}
 body.m #stage{position:relative;width:100%;height:auto;overflow:visible;background:transparent}
 body.m .deco{display:none}
+body.m #bgfit{display:none}
 body.m .hint{position:relative;left:auto;top:auto;transform:none;padding:22px 0 14px;display:block}
 body.m #book{position:relative;left:auto;top:auto;width:auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:26px;padding-bottom:40px}
 body.m .pw{position:relative!important;left:auto!important;top:auto!important;flex:none;transform-origin:50% 0}
@@ -67,12 +70,13 @@ body.m #rw{position:absolute;left:0;top:0}
 </style><meta property="og:type" content="website"><meta property="og:site_name" content="Dusktillus"><meta property="og:title" content="Dusktillus: our digital garage"><meta property="og:description" content="Little apps that look after you. Start with AquaAww, a water reminder that comes as someone you love."><meta property="og:url" content="https://dusktillus.store/"><meta property="og:image" content="https://dusktillus.store/assets/og-dusktillus.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://dusktillus.store/assets/og-dusktillus.png"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://dusktillus.store/#org","name":"Dusktillus","url":"https://dusktillus.store/","logo":"https://dusktillus.store/assets/logo-512.png","sameAs":["https://github.com/arunpandia"]},{"@type":"WebSite","@id":"https://dusktillus.store/#site","url":"https://dusktillus.store/","name":"Dusktillus","publisher":{"@id":"https://dusktillus.store/#org"}},{"@type":"ItemList","name":"Dusktillus apps","itemListElement":[{"@type":"ListItem","position":1,"url":"https://dusktillus.store/aquaaww/","name":"AquaAww"}]}]}</script><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <h1 class="sr">Dusktillus, our digital garage</h1>
-<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div><div id="fit"><div id="stage">
+<div id="bgfit" class="deco"><div id="bgst">
+  <img class="a" alt="" src="/flipbook/img/bg.webp" style="left:0;top:0;width:1280px;height:832px;object-fit:cover">
+  <div class="a" style="left:452px;top:219px;width:1036px;height:909px;transform:scaleX(-1)"><img class="cover" alt="" src="/flipbook/img/torn14.webp"></div>
+  <img class="a" alt="" src="/flipbook/img/torn13.webp" style="left:-161px;top:79px;width:769px;height:948px;object-fit:cover">
 
-  <!-- backdrop: paper texture and the two torn-paper photos -->
-  <img class="a deco" alt="" src="/flipbook/img/bg.webp" style="left:0;top:0;width:1280px;height:832px;object-fit:cover">
-  <div class="a deco" style="left:452px;top:219px;width:1036px;height:909px;transform:scaleX(-1)"><img class="cover" alt="" src="/flipbook/img/torn14.webp"></div>
-  <img class="a deco" alt="" src="/flipbook/img/torn13.webp" style="left:-161px;top:79px;width:769px;height:948px;object-fit:cover">
+</div></div>
+<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div><div id="fit"><div id="stage">
 
   <p class="a pm hint" id="hint"><b>&lt;-</b>   scroll to turn pages    -&gt;</p>
 
@@ -158,19 +162,20 @@ body.m #rw{position:absolute;left:0;top:0}
 
 <script>
 (function(){
-  var fit=document.getElementById("fit"),b=document.body,pages=[document.getElementById("lw"),document.getElementById("rw2")];
+  var fit=document.getElementById("fit"),bg=document.getElementById("bgst"),b=document.body,pages=[document.getElementById("lw"),document.getElementById("rw2")];
   function size(){
     var w=innerWidth,h=innerHeight;
     if(w<760){
       b.classList.add("m");
       var s=Math.min(1,(w-24)/479);
       pages.forEach(function(p){p.style.transform="scale("+s+")";p.style.marginBottom=(-(1-s)*631)+"px"});
-      fit.style.transform="";
+      fit.style.transform="";bg.style.transform="";
     }else{
       b.classList.remove("m");
       pages.forEach(function(p){p.style.transform="";p.style.margin=""});
-      var s=Math.min(w/1280,h/832);
-      fit.style.transform="translate("+(-640*s)+"px,"+(-416*s)+"px) scale("+s+")";
+      var s=Math.min(w/1280,h/832),c=Math.max(w/1280,h/832);
+      fit.style.transform="translate("+(-640.5*s)+"px,"+(-416*s)+"px) scale("+s+")";       /* the spine sits exactly on the centre line */
+      bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";          /* photos cover the whole window: no cut edges */
     }
   }
   size();addEventListener("resize",size);
