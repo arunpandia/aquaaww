@@ -95,7 +95,8 @@ body{background:#fff;color:#000;font-family:"JetBrains Mono",ui-monospace,monosp
 img{display:block;max-width:none;-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-#st{position:relative;width:402px;height:1146px;margin:0 auto;overflow:hidden;background:#fff}
+#bgl{position:fixed;left:50%;top:0;width:402px;margin-left:-201px;height:100%;overflow:hidden;z-index:0;pointer-events:none}
+#st{position:relative;z-index:1;width:402px;margin:0 auto;height:calc(var(--u) * 1122.28 + 40PX);overflow:hidden}
 .a{position:absolute}
 .fx{position:absolute;display:flex;align-items:center;justify-content:center}
 .in{flex:none;position:relative}
@@ -124,10 +125,11 @@ a{color:inherit;text-decoration:none}
     def conv(s):
         return re.sub(r'(?<![\w.#-])(-?\d*\.?\d+)px', lambda m: f'calc(var(--u)*{m.group(1)})', s)
     css_c = conv(css.replace(":root{--u:calc(min(100vw,560px) / 402)}", "@@ROOT@@")).replace("@@ROOT@@", ":root{--u:calc(min(100vw,560px) / 402)}")
-    body = (sr + '<div id="st">'
+    body = (sr + '<div id="bgl">'
             '<div class="a" style="left:132px;top:194px;width:970px;height:851px;transform:scaleX(-1)"><img class="cover" alt="" src="' + F + 'torn14.webp" decoding="async"></div>'
             '<img class="a" alt="" src="' + F + 'torn13.webp" decoding="async" style="left:-443px;top:63px;width:720px;height:888px;object-fit:cover">'
             '<img class="a" alt="Dusktillus" src="' + M + 'sun.svg" width="84" height="84" fetchpriority="high" style="left:50%;top:14px;width:84px;height:84px;transform:translateX(-50%)">'
+            '</div><div id="st">'
             '<div id="pg"><div id="tp">' + "".join(top) + '</div><div id="tx">' + "".join(ex) + '</div>'
             '<div id="bt"><div id="bp">' + "".join(b) + '</div></div></div></div>')
     body = conv(body)
