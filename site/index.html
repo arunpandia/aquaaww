@@ -169,6 +169,7 @@ body.m #rw{position:absolute;left:0;top:0}
   var fit=document.getElementById("fit"),sun=document.getElementById("sun"),bg=document.getElementById("bgst"),b=document.body,pages=[document.getElementById("lw"),document.getElementById("rw2")];
   function size(){
     var w=innerWidth,h=innerHeight;
+    if(w<520){location.replace("/m/");return}
     if(w<520){
       b.classList.add("m");
       var s=Math.min(1,(w-24)/415);

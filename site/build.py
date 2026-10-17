@@ -402,4 +402,6 @@ else:
            '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
     open("index.html","w").write(fb)
+import mobile
+os.makedirs("m", exist_ok=True); open("m/index.html","w").write(mobile.build(D, hub_ld, GH))
 print("built", len(index), "app bytes,", len(hub), "hub bytes")
