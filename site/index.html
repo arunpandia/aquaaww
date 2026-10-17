@@ -33,18 +33,19 @@ a{color:inherit;text-decoration:none}
 .pm{font-family:"Permanent Marker",cursive;line-height:normal}
 .jb{font-family:"JetBrains Mono",monospace;line-height:normal}
 /* pages */
-#book{position:absolute;left:224px;top:102px;width:831px;height:631px}
-#lw{position:absolute;left:0;top:0;width:416px;height:631px}
-#rw2{position:absolute;left:352px;top:0;width:479px;height:631px;z-index:2}
+#book{position:absolute;left:225px;top:102px;width:830px;height:631px}
+#sp{position:absolute;left:350px;top:1px;width:64px;height:629px;z-index:2;transform:scaleX(-1);overflow:hidden}
+#lw{position:absolute;left:0;top:0;width:415px;height:631px}
+#rw2{position:absolute;left:415px;top:0;width:415px;height:631px;z-index:2}
 .pg{position:absolute;top:0;height:631px;overflow:hidden}
 .pg .tex{position:absolute;inset:0;background:#fcfbf6}
 .pg .tex img{opacity:.5}
 .pg .bd{position:absolute;inset:0;pointer-events:none;border:1px solid #000}
-#lp{left:0;width:416px;border-radius:28px 0 0 28px;z-index:1}
+#lp{left:0;width:415px;border-radius:28px 0 0 28px;z-index:1}
 #lp .tex,#lp .bd{border-radius:28px 0 0 28px}
-#lx{position:absolute;left:0;top:0;width:416px;height:631px;z-index:3;pointer-events:none}
+#lx{position:absolute;left:0;top:0;width:415px;height:631px;z-index:3;pointer-events:none}
 #lx *{pointer-events:auto}
-#rw{position:absolute;left:352px;top:0;width:479px;height:631px;z-index:2;transform-origin:65px 50%;transition:transform .55s cubic-bezier(.3,.7,.2,1)}   /* turns on the spine, which stays on the centre line */
+#rw{position:absolute;left:0;top:0;width:415px;height:631px;z-index:2;transform-origin:0 50%;transition:transform .55s cubic-bezier(.3,.7,.2,1)}   /* turns on the spine, which stays on the centre line */
 #rw.lift{transform:perspective(2600px) rotateY(-6deg)}
 #rm{position:absolute;inset:0;transform:scaleX(-1)}
 #rp{position:absolute;inset:0;overflow:hidden;border-radius:28px 0 0 28px;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;background:#fcfbf6}
@@ -65,8 +66,8 @@ body.m #bgfit{display:none}
 body.m .hint{position:relative;left:auto;top:auto;transform:none;padding:22px 0 14px;display:block}
 body.m #book{position:relative;left:auto;top:auto;width:auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:26px;padding-bottom:40px}
 body.m .pw{position:relative!important;left:auto!important;top:auto!important;flex:none;transform-origin:50% 0}
-body.m #lw{width:416px;height:631px}
-body.m #rw2{width:479px;height:631px}
+body.m #lw{width:415px;height:631px}
+body.m #rw2{width:415px;height:631px}
 body.m #rw{position:absolute;left:0;top:0}
 </style><meta property="og:type" content="website"><meta property="og:site_name" content="Dusktillus"><meta property="og:title" content="Dusktillus: our digital garage"><meta property="og:description" content="Little apps that look after you. Start with AquaAww, a water reminder that comes as someone you love."><meta property="og:url" content="https://dusktillus.store/"><meta property="og:image" content="https://dusktillus.store/assets/og-dusktillus.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://dusktillus.store/assets/og-dusktillus.png"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://dusktillus.store/#org","name":"Dusktillus","url":"https://dusktillus.store/","logo":"https://dusktillus.store/assets/logo-512.png","sameAs":["https://github.com/arunpandia"]},{"@type":"WebSite","@id":"https://dusktillus.store/#site","url":"https://dusktillus.store/","name":"Dusktillus","publisher":{"@id":"https://dusktillus.store/#org"}},{"@type":"ItemList","name":"Dusktillus apps","itemListElement":[{"@type":"ListItem","position":1,"url":"https://dusktillus.store/aquaaww/","name":"AquaAww"}]}]}</script><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
@@ -124,6 +125,8 @@ body.m #rw{position:absolute;left:0;top:0}
       <div class="fx" style="left:168px;top:148.27px;width:205.418px;height:157.678px"><div class="in" style="width:199.393px;height:149.545px;transform:rotate(-2.37deg)"><img class="cover" alt="" src="/flipbook/img/polaroid.webp"></div></div>
       <div class="fx" style="left:255.59px;top:191.42px;width:170.905px;height:148.375px"><div class="in" style="width:148.582px;height:118.865px;transform:rotate(-12.58deg)"><img class="cover" alt="" src="/flipbook/img/sunflowers.webp"></div></div>
     </div>
+    <!-- paper that wraps the spine, 64px strip over the left page edge -->
+   <div id="sp" aria-hidden="true"><div style="position:absolute;inset:0;background:#fcfbf6"><img class="cover" alt="" src="/flipbook/img/bg.webp" style="opacity:.5"></div><div style="position:absolute;right:-58px;top:-43px;width:716px;height:716px;transform:scaleX(-1)"><img class="cover" alt="" src="/flipbook/img/paper02.webp" style="opacity:.5"></div></div>
    </div>
 
    <!-- ===== right page (built mirrored, like the design, so its spine sits on the left) ===== -->
@@ -168,7 +171,7 @@ body.m #rw{position:absolute;left:0;top:0}
     var w=innerWidth,h=innerHeight;
     if(w<520){
       b.classList.add("m");
-      var s=Math.min(1,(w-24)/479);
+      var s=Math.min(1,(w-24)/415);
       pages.forEach(function(p){p.style.transform="scale("+s+")";p.style.marginBottom=(-(1-s)*631)+"px"});
       fit.style.transform="";bg.style.transform="";
     }else{
@@ -176,7 +179,7 @@ body.m #rw{position:absolute;left:0;top:0}
       pages.forEach(function(p){p.style.transform="";p.style.margin=""});
       var s=Math.min(w/880,h/832),c=Math.max(w/1280,h/832);        /* the book (831 wide) always fits; the photos fill the rest */
       sun.style.cssText="top:"+(37*s)+"px;right:"+(37*s)+"px;width:"+(111*s)+"px;height:"+(111*s)+"px";
-      fit.style.transform="translate("+(-640.5*s)+"px,"+(-416*s)+"px) scale("+s+")";       /* the spine sits exactly on the centre line */
+      fit.style.transform="translate("+(-640*s)+"px,"+(-416*s)+"px) scale("+s+")";       /* the spine sits exactly on the centre line */
       bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";          /* photos cover the whole window: no cut edges */
     }
   }
