@@ -157,12 +157,16 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
   if(my){{var pb=document.querySelector('.dl[data-os="'+my+'"]');if(pb)pb.classList.add("pick")}}
   try{{nm.value=localStorage.getItem("tt_name")||"";em.value=localStorage.getItem("tt_email")||""}}catch(e){{}}
   function say(t,bad){{m.textContent=t;m.className="msg"+(bad?" bad":" ok")}}
+  function ping(e,os){{try{{navigator.sendBeacon("/api/track",new Blob([JSON.stringify({{e:e,os:os}})],{{type:"application/json"}}))}}catch(x){{}}}}
+  var done=false;
   function open(os){{
+    done=false;ping("open",os);
     osf.value=os;osn.textContent=NAMES[os];say("");go.disabled=false;go.textContent="Download free";
     if(d.showModal){{d.showModal()}}else{{d.setAttribute("open","")}}
     (nm.value?em:nm).focus();
   }}
   document.querySelectorAll(".dl").forEach(function(b){{b.addEventListener("click",function(){{open(b.dataset.os)}})}});
+  d.addEventListener("close",function(){{if(!done)ping("close",osf.value)}});
   document.getElementById("dx").addEventListener("click",function(){{d.close()}});
   d.addEventListener("click",function(e){{if(e.target===d)d.close()}});
   var q=new URLSearchParams(location.search).get("error");if(q){{open(my||"android");say(q,1)}}
@@ -177,7 +181,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
     .then(function(r){{
       if(!r.ok){{go.disabled=false;say(r.error||"Something went wrong. Please try again.",1);return}}
       try{{localStorage.setItem("tt_name",nm.value.trim());localStorage.setItem("tt_email",em.value.trim())}}catch(e){{}}
-      say("Thank you, "+nm.value.trim().split(" ")[0]+". Your download is starting.");go.textContent="Done";
+      say("Thank you, "+nm.value.trim().split(" ")[0]+". Your download is starting.");go.textContent="Done";done=true;
       location.href=r.url;setTimeout(function(){{d.close()}},2500);
     }}).catch(function(){{go.disabled=false;say("No connection. Please try again.",1)}});
   }});

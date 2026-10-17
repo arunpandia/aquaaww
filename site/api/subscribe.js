@@ -46,7 +46,8 @@ module.exports = async (req, res) => {
       unsubscribed: old ? !!old.unsubscribed : false,
       consent: { terms: true, marketing: true, at: old && old.consent ? old.consent.at : now, version: '2026-10' },
     };
-    await redis([['HSET', 'leads', email, JSON.stringify(rec)], ['HINCRBY', 'stats:downloads', os, 1]]);
+    const day = now.slice(0, 10);
+    await redis([['HSET', 'leads', email, JSON.stringify(rec)], ['HINCRBY', 'stats:downloads', os, 1], ['HINCRBY', 'stats:funnel', 'done:' + os, 1], ['HINCRBY', 'stats:day:' + day, 'done:' + os, 1]]);
   } catch (e) {
     console.error('subscribe failed:', e.message);
     return fail(503, 'We could not save that just now. Please try again in a minute.');

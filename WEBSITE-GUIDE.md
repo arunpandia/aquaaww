@@ -47,6 +47,9 @@ The Terms and Privacy pages show this address, so make it real. Easiest free rou
 2. `site/api/subscribe.js` validates it, saves the lead in Redis, and returns the download link. The file then downloads.
 3. Every push to `main` on GitHub redeploys the site in about 20 seconds.
 
+## Drop-off: how many open the pop-up and leave without downloading
+Every time the pop-up opens it counts as `open:<platform>`; closing it without finishing counts `close:<platform>`; a completed download counts `done:<platform>`. Left without downloading = opened minus completed. Numbers live in Redis (`stats:funnel` totals, `stats:day:YYYY-MM-DD` per day). With `LEADS_TOKEN` set you can read a summary: `curl -H "Authorization: Bearer YOUR_TOKEN" https://dusktillus.store/api/stats`. These are event counts, not unique people; one person opening twice counts twice.
+
 ## See your sign-ups
 - Upstash console: Vercel project > Storage > your database > Open in Upstash > Data Browser. Leads are in the hash `leads` (key = email). Download counts per platform are in `stats:downloads`.
 - CSV export for mailing: in Vercel > Settings > Environment Variables add `LEADS_TOKEN` (any long random string). Then
