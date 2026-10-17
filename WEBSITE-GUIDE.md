@@ -4,6 +4,9 @@ Live: https://dusktillus.store (hub for all products) and https://dusktillus.sto
 Code: https://github.com/arunpandia/twototango (website is the `site/` folder, deployed by Vercel on every push)
 Downloads: GitHub Releases. Leads: Upstash Redis through Vercel.
 
+## Right now the domain root shows TwoToTango
+`dusktillus.store/` is served from `/twototango/` (a rewrite in `site/vercel.json`), so visitors land straight on the app. The Dusktillus hub page is built and ready but switched off. To turn it on later: in `site/build.py` set `hub_live=True`, delete the `rewrites` block in `site/vercel.json`, run `python3 build.py`, push. No URLs change.
+
 ## Site map (add future products the same way)
 ```
 /                      Dusktillus hub: what you make, list of apps

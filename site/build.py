@@ -6,6 +6,7 @@ CONFIG = dict(
     gh="https://github.com/arunpandia/twototango",
     contact="hello@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
     updated="October 2026",
+    hub_live=False,                           # False: the domain root shows TwoToTango. Set True (and remove the "/" rewrite in vercel.json) when the Dusktillus hub should go live
     google_verification="",                   # paste the token from Search Console if you verify with an HTML tag
 )
 D = CONFIG["domain"]; GH = CONFIG["gh"]; REL = GH + "/releases/latest/download/"
@@ -303,7 +304,7 @@ os.makedirs("twototango", exist_ok=True); open("twototango/index.html","w").writ
 open("unsubscribe/index.html","w").write(unsub)
 nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
-urls = [("/",1.0),("/twototango/",.9),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+urls = ([("/",1.0)] if CONFIG["hub_live"] else []) + [("/twototango/",1.0),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
 INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
     d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
@@ -352,5 +353,8 @@ hub = head("Dusktillus – little apps that look after you",
 <footer class="foot"><div class="wrap"><span>&copy; {datetime.date.today().year} Dusktillus</span>
 <nav aria-label="Footer"><a href="/twototango/">TwoToTango</a><a href="/terms/">Terms &amp; Conditions</a><a href="/privacy/">Privacy</a><a href="/unsubscribe/">Unsubscribe</a><a href="mailto:{C}">{C}</a></nav></div></footer>
 </body></html>'''
-open("index.html","w").write(hub)
+if CONFIG["hub_live"]:
+    open("index.html","w").write(hub)
+elif os.path.exists("index.html"):
+    os.remove("index.html")
 print("built", len(index), "app bytes,", len(hub), "hub bytes")
