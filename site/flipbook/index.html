@@ -16,7 +16,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}html{overflow-x:hidden}
 body{background:#d2d2d2 url(/flipbook/img/bg.webp) center/cover;overflow:hidden;font-family:"JetBrains Mono",ui-monospace,monospace;color:#000;-webkit-text-size-adjust:100%}
-img{display:block;max-width:none}
+img{display:block;max-width:none;-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 /* the design is a 1280 x 832 frame; it is scaled to fit the window */
@@ -69,7 +69,7 @@ body.m .pw{position:relative!important;left:auto!important;top:auto!important;fl
 body.m #lw{width:415px;height:631px}
 body.m #rw2{width:415px;height:631px}
 body.m #rw{position:absolute;left:0;top:0}
-</style></head>
+</style><script>document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault()});</script></head>
 <body>
 <h1 class="sr">Dusktillus, our digital garage</h1>
 <div id="bgfit" class="deco"><div id="bgst">

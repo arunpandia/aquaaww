@@ -60,6 +60,7 @@ def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og-aq
 {'<link rel="preload" href="/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>' if fonts else ""}
 <style>{css or CSS}</style>
 {gv}{extra}{an}
+<script>document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault()});</script>
 </head>'''
 
 def btn(os_, label, aria):

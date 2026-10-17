@@ -41,3 +41,5 @@ h2{margin:0 0 10px;font-size:clamp(28px,3.8vw,44px);line-height:1.1;letter-spaci
 .foot .wrap{display:flex;gap:18px 32px;flex-wrap:wrap;justify-content:space-between;align-items:center}
 .foot nav{display:flex;gap:18px;flex-wrap:wrap}.foot a{text-decoration:none}.foot a:hover{color:var(--ink)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+img{-webkit-user-drag:none;user-select:none}
