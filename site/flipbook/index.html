@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dusktillus – our digital garage</title>
+<meta name="description" content="Dusktillus is our digital garage. Flip through what we are building, starting with AquaAww, a water reminder that comes as someone you love.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://dusktillus.store/flipbook/">
+<meta name="theme-color" content="#d2d2d2">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/flipbook/fonts/ArchitectsDaughter.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"JetBrains Mono";src:url(/flipbook/fonts/JetBrainsMono.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Architects Daughter";src:url(/flipbook/fonts/ArchitectsDaughter.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Permanent Marker";src:url(/flipbook/fonts/PermanentMarker-Regular.woff2) format("woff2");font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}html{overflow-x:hidden}
+body{background:#d2d2d2 url(/flipbook/img/bg.webp) center/cover;overflow:hidden;font-family:"JetBrains Mono",ui-monospace,monospace;color:#000;-webkit-text-size-adjust:100%}
+img{display:block;max-width:none}
+a{color:inherit;text-decoration:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* the design is a 1280 x 832 frame; it is scaled to fit the window */
+#fit{position:fixed;left:50%;top:50%;width:1280px;height:832px;transform-origin:0 0}
+#stage{position:absolute;inset:0;width:1280px;height:832px;overflow:hidden;background:#d2d2d2}
+.a{position:absolute}
+.fx{position:absolute;display:flex;align-items:center;justify-content:center}
+.in{flex:none;position:relative}
+.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.nw{white-space:nowrap}
+.ad{font-family:"Architects Daughter",cursive;font-size:14px;line-height:normal;color:#000}
+.pm{font-family:"Permanent Marker",cursive;line-height:normal}
+.jb{font-family:"JetBrains Mono",monospace;line-height:normal}
+/* pages */
+#book{position:absolute;left:224px;top:102px;width:831px;height:631px}
+#lw{position:absolute;left:0;top:0;width:416px;height:631px}
+#rw2{position:absolute;left:352px;top:0;width:479px;height:631px;z-index:2}
+.pg{position:absolute;top:0;height:631px;overflow:hidden}
+.pg .tex{position:absolute;inset:0;background:#fcfbf6}
+.pg .tex img{opacity:.5}
+.pg .bd{position:absolute;inset:0;pointer-events:none;border:1px solid #000}
+#lp{left:0;width:416px;border-radius:28px 0 0 28px;z-index:1}
+#lp .tex,#lp .bd{border-radius:28px 0 0 28px}
+#lx{position:absolute;left:0;top:0;width:416px;height:631px;z-index:3;pointer-events:none}
+#lx *{pointer-events:auto}
+#rw{position:absolute;left:352px;top:0;width:479px;height:631px;z-index:2;transform-origin:0 50%;transition:transform .55s cubic-bezier(.3,.7,.2,1)}
+#rw.lift{transform:perspective(1800px) rotateY(-16deg)}
+#rm{position:absolute;inset:0;transform:scaleX(-1)}
+#rp{position:absolute;inset:0;overflow:hidden;border-radius:28px 0 0 28px;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;background:#fcfbf6}
+#rp .tex{position:absolute;inset:0;background:#fcfbf6;border-radius:28px 0 0 28px}
+#rp .tex img{opacity:.5}
+.flip{transform:scaleX(-1)}
+.hint{left:50%;top:60px;transform:translateX(-50%);font-size:14px;color:#000;text-align:center;white-space:pre}
+.hint b{font-weight:400;color:rgba(0,0,0,.3)}
+.link:hover{opacity:.7}
+@media (prefers-reduced-motion:reduce){#rw{transition:none}}
+/* small screens: the two pages stack and scroll */
+body.m{overflow:auto}
+body.m #fit{position:relative;left:0;top:0;width:100%;height:auto;transform:none!important}
+body.m #stage{position:relative;width:100%;height:auto;overflow:visible;background:transparent}
+body.m .deco{display:none}
+body.m .hint{position:relative;left:auto;top:auto;transform:none;padding:22px 0 14px;display:block}
+body.m #book{position:relative;left:auto;top:auto;width:auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:26px;padding-bottom:40px}
+body.m .pw{position:relative!important;left:auto!important;top:auto!important;flex:none;transform-origin:50% 0}
+body.m #lw{width:416px;height:631px}
+body.m #rw2{width:479px;height:631px}
+body.m #rw{position:absolute;left:0;top:0}
+</style></head>
+<body>
+<h1 class="sr">Dusktillus, our digital garage</h1>
+<div id="fit"><div id="stage">
+
+  <!-- backdrop: paper texture and the two torn-paper photos -->
+  <img class="a deco" alt="" src="/flipbook/img/bg.webp" style="left:0;top:0;width:1280px;height:832px;object-fit:cover">
+  <div class="a deco" style="left:452px;top:219px;width:1036px;height:909px;transform:scaleX(-1)"><img class="cover" alt="" src="/flipbook/img/torn14.webp"></div>
+  <img class="a deco" alt="" src="/flipbook/img/torn13.webp" style="left:-161px;top:79px;width:769px;height:948px;object-fit:cover">
+
+  <p class="a pm hint" id="hint"><b>&lt;-</b>   scroll to turn pages    -&gt;</p>
+
+  <div id="book">
+   <div class="pw" id="lw">
+
+    <!-- ===== left page ===== -->
+    <div class="pg" id="lp">
+      <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp"></div>
+      <p class="a jb nw" style="left:31px;top:21px;font-size:8px;color:#7e7e7b">Insta ID - </p>
+      <p class="a jb nw" style="left:31px;top:31px;font-size:14px;color:#000">dusktillus</p>
+
+      <div class="a" style="left:208px;top:210.5px;width:211px;height:0;transform:translate(-50%,-50%) rotate(-90deg)"><img alt="" src="/flipbook/img/line21.svg" style="position:absolute;left:0;top:-1px;width:211px;height:1px"></div>
+      <div class="a" style="left:208px;top:316px;width:352px;height:0;transform:translate(-50%,-50%) rotate(180deg)"><img alt="" src="/flipbook/img/line22.svg" style="position:absolute;left:0;top:-1px;width:352px;height:1px"></div>
+
+      <div class="fx" style="left:133.25px;top:37.85px;width:77.023px;height:74.024px"><div class="in" style="width:76.176px;height:73.141px;transform:rotate(.67deg)"><img class="cover" alt="" src="/flipbook/img/cal.webp"></div></div>
+      <div class="fx" style="left:157.97px;top:67.73px;width:21.489px;height:24.465px"><div class="in" style="width:20.465px;height:23.582px;transform:rotate(-2.54deg)"><img class="cover" alt="" src="/flipbook/img/heart.webp"></div></div>
+
+      <div class="fx" style="left:28px;top:111px;width:156.919px;height:35.162px"><div class="in" style="transform:rotate(-5.99deg)"><p class="ad" style="width:155.786px">Our digital garage,</p></div></div>
+      <div class="fx" style="left:49px;top:159px;width:152.764px;height:57.215px"><div class="in ad" style="width:152.684px;transform:rotate(-.08deg);white-space:pre-wrap"><p style="margin-bottom:0">—feel free to </p><p>hang out and try everything</p></div></div>
+      <div class="fx" style="left:49px;top:241px;width:145.53px;height:22.205px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:145.499px;font-size:15.568px">its so so cool,</p></div></div>
+      <div class="fx" style="left:49px;top:273px;width:145.53px;height:22.205px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:145.499px;font-size:15.568px">*wipes tear*</p></div></div>
+
+      <div class="fx" style="left:225px;top:387px;width:125.611px;height:95.176px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:125.478px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p></div></div>
+      <div class="a" style="left:225px;top:398.96px;width:68px;height:26px"><img alt="" src="/flipbook/img/highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>
+      <div class="a" style="left:225px;top:504px;width:123px;height:16px"><img alt="" src="/flipbook/img/slider.svg" style="position:absolute;inset:0;width:100%;height:100%"></div>
+      <a class="a pm nw link" href="https://github.com/arunpandia/twototango" style="left:226px;top:530px;font-size:10.98px;color:#000">Learn more -&gt;</a>
+
+      <p class="a jb nw" style="left:32px;top:331px;font-size:14px;color:#000">Cardboard box:</p>
+      <div class="bd"></div>
+    </div>
+
+    <!-- left page: things that sit on top of the page edge -->
+    <div id="lx">
+      <div class="fx" style="left:25px;top:356px;width:171.03px;height:254.688px"><div class="in" style="width:170px;height:254px;transform:rotate(179.77deg)"><img class="cover" alt="" src="/flipbook/img/box.webp"></div></div>
+      <div class="fx" style="left:54px;top:447px;width:113.183px;height:54.211px"><div class="in" style="width:108.687px;height:33.892px;transform:rotate(-11.12deg)"><img class="cover" alt="" src="/flipbook/img/gplay.webp"></div></div>
+      <img class="a" alt="" src="/flipbook/img/notebook.webp" style="left:64px;top:468px;width:125px;height:125px;object-fit:cover">
+      <img class="a" alt="" src="/flipbook/img/camera.webp" style="left:87px;top:382px;width:92px;height:92px;object-fit:cover">
+      <img class="a" alt="" src="/flipbook/img/keys.webp" style="left:43px;top:397px;width:61px;height:61px;object-fit:cover">
+
+      <div class="fx" style="left:198.67px;top:81px;width:225.335px;height:186.497px"><div class="in" style="width:199.393px;height:149.545px;transform:rotate(11.57deg)"><img class="cover" alt="" src="/flipbook/img/polaroid.webp"></div></div>
+      <div class="fx" style="left:227.88px;top:112.08px;width:167.063px;height:132.658px"><div class="in" style="width:149.105px;height:105.013px;transform:rotate(11.51deg);overflow:hidden"><img alt="" src="/flipbook/img/couple.webp" style="position:absolute;left:-.02%;top:-94.9%;width:110.22%;height:208.66%"></div></div>
+      <div class="fx" style="left:194.63px;top:174.53px;width:155.681px;height:109.443px"><div class="in" style="width:149.032px;height:99.132px;transform:rotate(-4.06deg);overflow:hidden"><img alt="" src="/flipbook/img/food.webp" style="position:absolute;left:-38.09%;top:-15.02%;width:143.13%;height:161.38%"></div></div>
+      <div class="fx" style="left:168px;top:148.27px;width:205.418px;height:157.678px"><div class="in" style="width:199.393px;height:149.545px;transform:rotate(-2.37deg)"><img class="cover" alt="" src="/flipbook/img/polaroid.webp"></div></div>
+      <div class="fx" style="left:255.59px;top:191.42px;width:170.905px;height:148.375px"><div class="in" style="width:148.582px;height:118.865px;transform:rotate(-12.58deg)"><img class="cover" alt="" src="/flipbook/img/sunflowers.webp"></div></div>
+    </div>
+   </div>
+
+   <!-- ===== right page (built mirrored, like the design, so its spine sits on the left) ===== -->
+   <div class="pw" id="rw2">
+   <div id="rw" style="left:0;top:0">
+    <div id="rm"><div id="rp">
+      <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp"></div>
+
+      <div class="fx" style="left:-180px;top:-43px;width:717px;height:716px"><div class="in" style="width:717px;height:716px;transform:scaleX(-1)"><img class="cover" alt="" src="/flipbook/img/paper02.webp" style="opacity:.5"></div></div>
+
+      <div class="a" style="left:414px;top:316.5px;width:631px;height:0;transform:translate(-50%,-50%) rotate(-90deg) scaleY(-1)"><img alt="" src="/flipbook/img/line23.svg" style="position:absolute;left:0;top:-1px;width:631px;height:1px"></div>
+
+      <div class="fx" style="left:35.31px;top:81px;width:274.69px;height:190.386px"><div class="in" style="width:274.423px;transform:rotate(-179.92deg) scaleY(-1)"><div class="ad" style="text-align:right;white-space:pre-wrap"><p style="white-space:nowrap">I built <span style="color:#e83328"> </span><span style="color:#e83328;text-decoration:underline wavy;text-decoration-thickness:10.5%;text-decoration-skip-ink:none">AquaAww</span> because I can’t always be<br>there to say “have some water.”</p><p style="margin-bottom:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p><p>​</p><p style="color:#7199cc">_  for my loving wife</p></div></div></div>
+
+      <div class="fx" style="left:317px;top:31px"><div class="in flip"><p class="jb nw" style="font-size:14px;color:#000">recently:</p></div></div>
+
+      <!-- laptop (not flipped back, as in the design) -->
+      <div class="a" style="left:-70.57px;top:580.27px;width:367.839px;height:4.065px"><img alt="" src="/flipbook/img/shadow.svg" style="position:absolute;left:-4.86%;top:-440%;width:109.72%;height:980%"></div>
+      <div class="a" style="left:-51.87px;top:349px;width:331.664px;height:225.174px;background:#1a202c;border:.813px solid #4a5568;border-radius:11.381px 11.381px 1.626px 1.626px"></div>
+      <div class="a" style="left:-49.84px;top:351.03px;width:327.6px;height:214.606px;background:#000;border-radius:8.942px 8.942px 0 0"></div>
+      <div class="fx" style="left:-42.93px;top:357.65px;width:313.374px;height:203.8px"><div class="in flip" style="width:313.374px;height:203.8px;background:#fff;overflow:hidden"><img alt="" src="/flipbook/img/screen.webp" style="position:absolute;left:0;top:0;width:100%;height:100%"></div></div>
+      <p class="a nw" style="left:113.39px;top:566.05px;transform:translateX(-50%);font:600 5.284px/.9 Inter,system-ui,sans-serif;color:#a0aec0;text-align:center">Macbook Air</p>
+      <img class="a" alt="" src="/flipbook/img/bottom.svg" style="left:-91.7px;top:572.55px;width:409.703px;height:7.317px">
+      <img class="a" alt="" src="/flipbook/img/phone.webp" style="left:192.44px;top:413.68px;width:76.216px;height:147.847px;object-fit:cover">
+      <div class="fx" style="left:194.41px;top:413.68px;width:76.234px;height:70.459px"><div class="in flip" style="width:76.234px;height:70.459px;overflow:hidden"><img alt="" src="/flipbook/img/phone.webp" style="position:absolute;left:0;top:-.02%;width:100%;height:209.89%"></div></div>
+
+      <div class="fx" style="left:217px;top:208px;width:100px;height:100px"><div class="in flip" style="width:100px;height:100px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="/flipbook/img/smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>
+
+      <div class="fx" style="left:31.5px;top:31px"><div class="in flip"><a class="pm nw link" href="/twototango/" style="font-size:14.381px;color:#e83328">Learn more -&gt;</a></div></div>
+    </div></div>
+   </div>
+   </div>
+  </div>
+
+  <img class="a deco" alt="Dusktillus" src="/flipbook/img/sun.svg" style="left:1132px;top:37px;width:111px;height:111px">
+</div></div>
+
+<script>
+(function(){
+  var fit=document.getElementById("fit"),b=document.body,pages=[document.getElementById("lw"),document.getElementById("rw2")];
+  function size(){
+    var w=innerWidth,h=innerHeight;
+    if(w<760){
+      b.classList.add("m");
+      var s=Math.min(1,(w-24)/479);
+      pages.forEach(function(p){p.style.transform="scale("+s+")";p.style.marginBottom=(-(1-s)*631)+"px"});
+      fit.style.transform="";
+    }else{
+      b.classList.remove("m");
+      pages.forEach(function(p){p.style.transform="";p.style.margin=""});
+      var s=Math.min(w/1280,h/832);
+      fit.style.transform="translate("+(-640*s)+"px,"+(-416*s)+"px) scale("+s+")";
+    }
+  }
+  size();addEventListener("resize",size);
+  /* "scroll to turn pages": there is one spread in the design, so the page lifts and settles back */
+  var rw=document.getElementById("rw"),t;
+  function nudge(){rw.classList.add("lift");clearTimeout(t);t=setTimeout(function(){rw.classList.remove("lift")},650)}
+  var lastY=0;
+  addEventListener("wheel",function(e){if(Math.abs(e.deltaY)>4||Math.abs(e.deltaX)>4)nudge()},{passive:true});
+  addEventListener("keydown",function(e){if(["ArrowRight","ArrowLeft","PageDown","PageUp"," "].indexOf(e.key)>-1)nudge()});
+  addEventListener("touchstart",function(e){lastY=e.touches[0].clientX},{passive:true});
+  addEventListener("touchend",function(e){if(!b.classList.contains("m")&&Math.abs(e.changedTouches[0].clientX-lastY)>40)nudge()},{passive:true});
+})();
+</script>
+</body></html>

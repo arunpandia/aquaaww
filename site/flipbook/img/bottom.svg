@@ -1,0 +1,41 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="409.703" height="7.31691" viewBox="0 0 409.703 7.31691" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Bottom">
+<g id="Base">
+<use xlink:href="#stroke0_0_40" fill="#A3ACB1"/>
+<use xlink:href="#stroke0_0_40" fill="url(#paint0_linear_0_40)"/>
+</g>
+<g id="Bottom Curve">
+<use xlink:href="#stroke1_0_40" fill="#647279"/>
+<use xlink:href="#stroke1_0_40" fill="url(#paint1_linear_0_40)"/>
+</g>
+<g id="Groove">
+<use xlink:href="#stroke2_0_40" fill="#96A1A8"/>
+<use xlink:href="#stroke2_0_40" fill="url(#paint2_linear_0_40)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_40" x1="0" y1="1.21938" x2="409.703" y2="1.21939" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0D1012"/>
+<stop offset="0.0295345" stop-color="#CAD4DB"/>
+<stop offset="0.0625" stop-color="#242729"/>
+<stop offset="0.133609" stop-color="#A3ACB1"/>
+<stop offset="0.865967" stop-color="#A3ACB1"/>
+<stop offset="0.941937" stop-color="#242729"/>
+<stop offset="0.971275" stop-color="#CAD4DB"/>
+<stop offset="0.996436" stop-color="#0D1012"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_40" x1="204.852" y1="2.4395" x2="204.852" y2="7.31691" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7A7F83"/>
+<stop offset="1" stop-color="#0B0B0E"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_40" x1="177.822" y1="1.48121" x2="233.506" y2="1.48121" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3C3C3C"/>
+<stop offset="0.317518" stop-color="#3C3C3C" stop-opacity="0"/>
+<stop offset="0.660584" stop-color="#3C3C3C" stop-opacity="0"/>
+<stop offset="1" stop-color="#444444"/>
+</linearGradient>
+<path id="stroke0_0_40" d="M0 0.812903C0 0.36395 0.363949 0 0.812903 0H408.89C409.339 0 409.703 0.363949 409.703 0.812903V2.43871H0V0.812903Z"/>
+<path id="stroke1_0_40" d="M0 2.4395H409.703L401.43 4.10799C390.849 6.24197 380.082 7.31691 369.288 7.31691H39.7952C27.9329 7.31691 16.1063 6.01868 4.52653 3.44539L0 2.4395Z"/>
+<path id="stroke2_0_40" d="M174.787 0.00057308C174.996 1.36242 173.982 2.43928 177.213 2.43928H232.897C236.127 2.43928 235.113 1.36242 235.322 0.00057308H174.787Z" fill-rule="evenodd" clip-rule="evenodd"/>
+</defs>
+</svg>
