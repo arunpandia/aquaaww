@@ -177,7 +177,7 @@ body.m #rw{position:absolute;left:0;top:0}
     }else{
       b.classList.remove("m");
       pages.forEach(function(p){p.style.transform="";p.style.margin=""});
-      var s=Math.min(w/880,h/832),c=Math.max(w/1280,h/832);        /* the book (831 wide) always fits; the photos fill the rest */
+      var s=Math.min(w/880,h/832),c=Math.max(w/1280,h/832)*1.05;        /* the book (831 wide) always fits; the photos fill the rest */
       sun.style.cssText="top:"+(37*s)+"px;right:"+(37*s)+"px;width:"+(111*s)+"px;height:"+(111*s)+"px";
       fit.style.transform="translate("+(-640*s)+"px,"+(-416*s)+"px) scale("+s+")";       /* the spine sits exactly on the centre line */
       bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";          /* photos cover the whole window: no cut edges */
