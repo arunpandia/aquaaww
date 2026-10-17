@@ -1,6 +1,6 @@
 {
-  "name": "twototango",
-  "version": "1.0.0",
+  "name": "aquaaww",
+  "version": "1.1.0",
   "description": "A tiny menu-bar buddy that reminds you to drink water",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "com.twototango.app",
-    "productName": "TwoToTango",
+    "productName": "AquaAww",
     "afterPack": "./adhoc-sign.js",
     "asarUnpack": [
       "node_modules/ffmpeg-static/**",
@@ -63,10 +63,10 @@
   "author": "Harish",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arunpandia/twototango.git"
+    "url": "https://github.com/arunpandia/aquaaww.git"
   },
-  "homepage": "https://github.com/arunpandia/twototango#readme",
+  "homepage": "https://github.com/arunpandia/aquaaww#readme",
   "bugs": {
-    "url": "https://github.com/arunpandia/twototango/issues"
+    "url": "https://github.com/arunpandia/aquaaww/issues"
   }
 }

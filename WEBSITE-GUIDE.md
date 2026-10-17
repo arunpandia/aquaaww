@@ -1,17 +1,17 @@
-# Dusktillus + TwoToTango website
+# Dusktillus + AquaAww website
 
-Live: https://dusktillus.store (hub for all products) and https://dusktillus.store/twototango/ (this app)
-Code: https://github.com/arunpandia/twototango (website is the `site/` folder, deployed by Vercel on every push)
+Live: https://dusktillus.store (hub for all products) and https://dusktillus.store/aquaaww/ (this app)
+Code: https://github.com/arunpandia/aquaaww (website is the `site/` folder, deployed by Vercel on every push)
 Downloads: GitHub Releases. Leads: Upstash Redis through Vercel.
 
 ## The home page is the Dusktillus flipbook
-`dusktillus.store/` is the flipbook built from your Figma frame (source: `site/flipbook/index.html`, built into `site/index.html` by `build.py`). TwoToTango lives at `/twototango/`. `/flipbook/` redirects to `/`. The simpler text hub page is still available by setting `hub_live=True` in `build.py`.
+`dusktillus.store/` is the flipbook built from your Figma frame (source: `site/flipbook/index.html`, built into `site/index.html` by `build.py`). AquaAww lives at `/aquaaww/`. `/flipbook/` redirects to `/`. The simpler text hub page is still available by setting `hub_live=True` in `build.py`.
 
 ## Site map (add future products the same way)
 ```
 /                      Dusktillus hub: what you make, list of apps
-/twototango/           TwoToTango landing page + download pop-up
-/twototango/water-reminder-app-for-{android,windows,mac}/
+/aquaaww/           AquaAww landing page + download pop-up
+/aquaaww/water-reminder-app-for-{android,windows,mac}/
 /terms/ /privacy/ /unsubscribe/   shared by every product
 /api/subscribe  /api/unsubscribe  /api/leads
 ```
@@ -28,7 +28,7 @@ To add a second product: add an entry to `PRODUCTS` in `site/build.py` (it appea
 2. Add property > **Domain** > `dusktillus.store`. Google shows a TXT record.
 3. Vercel > Domains > dusktillus.store > DNS Records > Add: Type TXT, Name `@`, Value = the string Google gave, then press Verify in Search Console (can take a few minutes).
 4. Sitemaps > add `sitemap.xml` > Submit.
-5. URL Inspection: paste `https://dusktillus.store/`, `/twototango/` and the three platform URLs, press Request indexing on each.
+5. URL Inspection: paste `https://dusktillus.store/`, `/aquaaww/` and the three platform URLs, press Request indexing on each.
 6. Later check Pages (indexing problems), Performance (searches), Core Web Vitals.
 Bing: https://www.bing.com/webmasters > Import from Google Search Console.
 
@@ -37,7 +37,7 @@ The Terms and Privacy pages show this address, so make it real. Easiest free rou
 
 ## Getting more downloads
 - Product Hunt launch, Show HN, Reddit (r/productivity, r/macapps, r/Android), friends sharing the link. The share preview image is set.
-- Publish 3 to 5 helpful pages over time (for example "how much water should I drink", "best water reminder apps"), each under `/twototango/` or a `/blog/` section.
+- Publish 3 to 5 helpful pages over time (for example "how much water should I drink", "best water reminder apps"), each under `/aquaaww/` or a `/blog/` section.
 - Put the link in the GitHub repo description and README, and in every social bio.
 - Replace the third-party characters with your own art; it also makes the page more shareable.
 - Watch Analytics > Referrers and Search Console > Performance, and improve the pages that nearly rank.
@@ -80,7 +80,7 @@ To rank: get links from other sites (Product Hunt, Reddit, Hacker News Show, a b
 - **Legal text.** The terms and privacy pages are a sensible starting draft, not legal advice. They assume India law. Pre-agreed marketing consent by clicking Download is thin under GDPR and similar laws; adding a tick-box for marketing mail is safer for EU visitors.
 - **Install warnings.** Mac is not notarized and Windows is not code-signed, so both warn on first open. The platform pages explain the workaround.
 - **Vercel Hobby plan** is meant for personal, non-commercial use. If you start selling, move to Pro.
-- **Email address** on the Terms page is a placeholder (`hello@twototango.app`). Set a real one.
+- **Email address** on the Terms page is a placeholder (`hello@aquaaww.app`). Set a real one.
 
 ## Updating
 - Copy changes: edit `site/build.py`, run `python3 build.py` inside `site/`, commit, push.

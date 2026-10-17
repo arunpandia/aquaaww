@@ -351,7 +351,7 @@ public class OverlayService extends Service {
     /* ---------------- foreground notification ---------------- */
     private void createChannel() {
         if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannel ch = new NotificationChannel(CHANNEL, "TwoToTango is running", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel ch = new NotificationChannel(CHANNEL, "AquaAww is running", NotificationManager.IMPORTANCE_LOW);
             ch.setShowBadge(false);
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             nm.createNotificationChannel(ch);
@@ -373,7 +373,7 @@ public class OverlayService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= 23 ? PendingIntent.FLAG_IMMUTABLE : 0));
         return new NotificationCompat.Builder(this, CHANNEL)
                 .setSmallIcon(R.drawable.ic_stat_drop)
-                .setContentTitle("TwoToTango")
+                .setContentTitle("AquaAww")
                 .setContentText(text)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)

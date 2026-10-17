@@ -3,23 +3,23 @@
 import os, json, html, datetime
 CONFIG = dict(
     domain="https://dusktillus.store",         # your real domain, no trailing slash
-    gh="https://github.com/arunpandia/twototango",
+    gh="https://github.com/arunpandia/aquaaww",
     contact="hello@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
     updated="October 2026",
-    hub_live=False,                           # False: the domain root shows TwoToTango. Set True (and remove the "/" rewrite in vercel.json) when the Dusktillus hub should go live
+    hub_live=False,                           # False: the domain root shows AquaAww. Set True (and remove the "/" rewrite in vercel.json) when the Dusktillus hub should go live
     google_verification="",                   # paste the token from Search Console if you verify with an HTML tag
 )
 D = CONFIG["domain"]; GH = CONFIG["gh"]; REL = GH + "/releases/latest/download/"
 
 
 FAQ = [
- ("Is TwoToTango free?", "Yes. It is free, has no ads and needs no account. The code is open source on GitHub."),
+ ("Is AquaAww free?", "Yes. It is free, has no ads and needs no account. The code is open source on GitHub."),
  ("What does it actually do?", "You upload a short video of someone you love. At the interval you choose, that video pops up on your screen, floating over whatever you are doing, with two buttons: I drank, or remind me later."),
- ("Do my videos leave my device?", "No. Videos, settings and your daily count stay on your phone or computer. TwoToTango has no account system and no tracking inside the app."),
+ ("Do my videos leave my device?", "No. Videos, settings and your daily count stay on your phone or computer. AquaAww has no account system and no tracking inside the app."),
  ("Why does it ask to display over other apps?", "That permission lets your buddy appear on top of Instagram, YouTube or any other app. It is optional. Without it you still get a notification with the same two buttons."),
  ("Why are notifications required on Android?", "A reminder that cannot reach you is useless. Notifications carry the I drank and Later buttons, so the app asks for them on first launch."),
  ("Can I use any video?", "Yes, up to 30 MB. Choose white background removal, keep it as it is, or let the app cut the person out of any background, all on your device."),
- ("My Mac says it cannot verify the app. What now?", "The Mac build is not notarized yet. Open System Settings, go to Privacy and Security, and choose Open Anyway for TwoToTango. You only do this once. The Mac build is for Apple Silicon."),
+ ("My Mac says it cannot verify the app. What now?", "The Mac build is not notarized yet. Open System Settings, go to Privacy and Security, and choose Open Anyway for AquaAww. You only do this once. The Mac build is for Apple Silicon."),
  ("Windows shows a SmartScreen warning.", "Choose More info, then Run anyway. The installer is not code-signed yet, which is why Windows is cautious."),
  ("Android blocks the install.", "Allow your browser or file manager to install unknown apps when Android asks, then open the downloaded file again."),
 ]
@@ -37,7 +37,7 @@ FEATURES = [
  ("Private and open source", "No account, no ads, no tracking. Read every line on GitHub."),
 ]
 CSS = open("site.css").read()
-def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.png", fonts=True, theme="#F9F0E3", site="TwoToTango"):
+def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.png", fonts=True, theme="#F9F0E3", site="AquaAww"):
     url = D + path
     an = '<script defer src="/_vercel/insights/script.js"></script>'
     gv = f'<meta name="google-site-verification" content="{CONFIG["google_verification"]}">' if CONFIG.get('google_verification') else ''
@@ -67,27 +67,27 @@ def btn(os_, label, aria):
 
 jsonld = {
  "@context":"https://schema.org","@graph":[
-  {"@type":"SoftwareApplication","name":"TwoToTango","url":D+"/twototango/","publisher":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"applicationCategory":"HealthApplication",
+  {"@type":"SoftwareApplication","name":"AquaAww","url":D+"/aquaaww/","publisher":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"applicationCategory":"HealthApplication",
    "operatingSystem":"Android, Windows, macOS","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
    "description":"A water reminder that comes as a video of someone you love. Floats over your apps with I drank and Later buttons.",
-   "image":D+"/assets/og.png","downloadUrl":D+"/twototango/#download"},
+   "image":D+"/assets/og.png","downloadUrl":D+"/aquaaww/#download"},
   {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}]}
 
-index = head("TwoToTango – a water reminder that comes as someone you love",
-  "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/twototango/",
+index = head("AquaAww – a water reminder that comes as someone you love",
+  "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/aquaaww/",
   extra='<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <section class="hero">
   <header class="top">
-    <a class="brand" href="/twototango/" aria-label="TwoToTango home"><img src="/assets/drink-water.webp" width="115" height="72" alt="Drink water"></a>
+    <a class="brand" href="/aquaaww/" aria-label="AquaAww home"><img src="/assets/drink-water.webp" width="115" height="72" alt="Drink water"></a>
     <p class="tag">Where your loved ones come to remind you</p>
   </header>
   <main id="main" class="stage">
     <div class="letter">
-      <img class="drop" src="/assets/logo.svg" width="38" height="55" alt="TwoToTango logo">
-      <h1 class="sr">TwoToTango, the water reminder that comes as someone you love</h1>
-      <p>I built TwoToTango because I can’t always be there to say “have some water.”</p>
+      <img class="drop" src="/assets/logo.svg" width="46" height="56" alt="AquaAww logo">
+      <h1 class="sr">AquaAww, the water reminder that comes as someone you love</h1>
+      <p>I built AquaAww because I can’t always be there to say “have some water.”</p>
       <p>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p>
       <p class="sig">–for my loving wife</p>
     </div>
@@ -102,10 +102,10 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
         <a class="note" href="#how"><img src="/assets/note-timing.webp" width="280" height="330" alt="Settings for change timing"></a>
         <a class="card" href="#faq"><img src="/assets/card-floating.webp" width="260" height="361" alt="Floating buddy"></a>
       </div>
-      <div class="dls" role="group" aria-label="Download TwoToTango, free">
-        {btn("android","Android","Download TwoToTango for Android")}
-        {btn("windows","Windows","Download TwoToTango for Windows")}
-        {btn("mac","Mac","Download TwoToTango for Mac")}
+      <div class="dls" role="group" aria-label="Download AquaAww, free">
+        {btn("android","Android","Download AquaAww for Android")}
+        {btn("windows","Windows","Download AquaAww for Windows")}
+        {btn("mac","Mac","Download AquaAww for Mac")}
       </div>
       <noscript><p class="fine">Downloads need JavaScript. Or get them from <a href="{GH}/releases/latest">GitHub</a>.</p></noscript>
       <p class="fine">Free · no payment · Android 5.1+, Windows 10+, Mac (Apple Silicon)</p>
@@ -146,7 +146,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
 <section id="faq" class="sec"><h2>Questions</h2>
   {"".join(f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>" for q,a in FAQ)}</section>
 <footer class="end"><p>Made with love, one glass at a time. A <a href="/">Dusktillus</a> app.</p>
-  <p><a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>
+  <p><a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p>
   <p><a href="/guides/">Water guides</a> · <a href="{GH}">Source on GitHub</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>
 </div>
 <script>
@@ -193,7 +193,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
 
 
 def nav_footer():
-    return ('<footer class="end"><p><a href="/">Dusktillus</a> · <a href="/twototango/">TwoToTango</a> · <a href="/guides/">Guides</a> · <a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>'
+    return ('<footer class="end"><p><a href="/">Dusktillus</a> · <a href="/aquaaww/">AquaAww</a> · <a href="/guides/">Guides</a> · <a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p>'
             '<p><a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>')
 
 def crumbs(items):
@@ -201,25 +201,25 @@ def crumbs(items):
         {"@type":"ListItem","position":i+1,"name":n,"item":D+p} for i,(n,p) in enumerate(items)]}, separators=(",",":")) + '</script>'
 
 def simple(title, desc, path, body, noindex=False, extra="", product=True):
-    top = '<a href="/twototango/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="TwoToTango"></a>' if product else '<a href="/" class="wm"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><use href="/favicon.svg#m"/></svg><span>Dusktillus</span></a>'
+    top = '<a href="/aquaaww/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="AquaAww"></a>' if product else '<a href="/" class="wm"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><use href="/assets/dusk.svg#m"/></svg><span>Dusktillus</span></a>'
     return head(title, desc, path, extra=extra, noindex=noindex) + f'<body class="doc"><header class="docTop">{top}</header><main class="docBody">{body}</main>{nav_footer()}</body></html>'
 
 C = CONFIG["contact"]; U = CONFIG["updated"]
 
-terms = simple("Terms & Conditions – Dusktillus", "The terms for downloading and using TwoToTango, including how we use your name and email and how to stop emails.", "/terms/", f"""
+terms = simple("Terms & Conditions – Dusktillus", "The terms for downloading and using AquaAww, including how we use your name and email and how to stop emails.", "/terms/", f"""
 <h1>Terms &amp; Conditions</h1>
 <p class="meta">Last updated {U}</p>
-<p>These terms apply when you download or use any Dusktillus product, including TwoToTango (the app for Android, Windows and Mac), or this website. By downloading, you agree to them.</p>
+<p>These terms apply when you download or use any Dusktillus product, including AquaAww (the app for Android, Windows and Mac), or this website. By downloading, you agree to them.</p>
 <h2>1. What you get</h2>
-<p>TwoToTango is free. It reminds you to drink water by showing a video you choose on your screen. It is open source; the code is on <a href="{GH}">GitHub</a> under its own licence.</p>
+<p>AquaAww is free. It reminds you to drink water by showing a video you choose on your screen. It is open source; the code is on <a href="{GH}">GitHub</a> under its own licence.</p>
 <h2>2. What we ask for, and why</h2>
 <p>To download, we ask for your <strong>name</strong> and <strong>email address</strong>. We also record which platform you chose and when. We use this to send you the download, to tell you about updates, new features and related products from Dusktillus, and to count how many people use it.</p>
 <h2>3. Marketing emails</h2>
-<p>By downloading you agree that we may email you about Dusktillus and TwoToTango from time to time. We will not sell your details or share them with anyone to market their own products. Every email can be stopped: use the unsubscribe link, or go to <a href="/unsubscribe/">the unsubscribe page</a>, or write to <a href="mailto:{C}">{C}</a>. We stop within a few days.</p>
+<p>By downloading you agree that we may email you about Dusktillus and AquaAww from time to time. We will not sell your details or share them with anyone to market their own products. Every email can be stopped: use the unsubscribe link, or go to <a href="/unsubscribe/">the unsubscribe page</a>, or write to <a href="mailto:{C}">{C}</a>. We stop within a few days.</p>
 <h2>4. Your videos stay with you</h2>
 <p>The app keeps your videos, settings and daily count on your own device. It does not upload them to us and has no accounts or tracking inside it.</p>
 <h2>5. Not medical advice</h2>
-<p>TwoToTango is a friendly reminder. It is not medical advice. If you have a health condition, follow what your doctor tells you about how much to drink.</p>
+<p>AquaAww is a friendly reminder. It is not medical advice. If you have a health condition, follow what your doctor tells you about how much to drink.</p>
 <h2>6. Your content and other people</h2>
 <p>Only use videos you have the right to use, and only of people who are happy for you to use them. You are responsible for what you upload to the app on your own device.</p>
 <h2>7. No warranty</h2>
@@ -233,10 +233,10 @@ terms = simple("Terms & Conditions – Dusktillus", "The terms for downloading a
 <h2>11. Contact</h2>
 <p><a href="mailto:{C}">{C}</a></p>""", extra=crumbs([("Dusktillus","/"),("Terms","/terms/")]), product=False)
 
-privacy = simple("Privacy – Dusktillus", "What TwoToTango collects, why, and how to remove your details.", "/privacy/", f"""
+privacy = simple("Privacy – Dusktillus", "What AquaAww collects, why, and how to remove your details.", "/privacy/", f"""
 <h1>Privacy</h1>
 <p class="meta">Last updated {U}</p>
-<p>TwoToTango is built to stay out of your way, and out of your data.</p>
+<p>AquaAww is built to stay out of your way, and out of your data.</p>
 <h2>In the app</h2>
 <ul><li>Your videos, settings and daily count are stored on your phone or computer only.</li>
 <li>There are no accounts, no ads and no analytics inside the app.</li>
@@ -252,9 +252,9 @@ privacy = simple("Privacy – Dusktillus", "What TwoToTango collects, why, and h
 <h2>Where it is stored</h2>
 <p>Sign-up details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub.</p>""", extra=crumbs([("Dusktillus","/"),("Privacy","/privacy/")]), product=False)
 
-unsub = simple("Unsubscribe – Dusktillus", "Stop TwoToTango emails.", "/unsubscribe/", """
+unsub = simple("Unsubscribe – Dusktillus", "Stop AquaAww emails.", "/unsubscribe/", """
 <h1>Unsubscribe</h1>
-<p>Enter the email address you used to download TwoToTango and we will stop emailing you.</p>
+<p>Enter the email address you used to download AquaAww and we will stop emailing you.</p>
 <form id="uf" method="post" action="/api/unsubscribe" class="uform">
   <label class="sr" for="ue">Email address</label>
   <input id="ue" name="email" type="email" placeholder="Your email" autocomplete="email" required maxlength="254">
@@ -269,49 +269,49 @@ if(u==="0"){m.textContent="That did not work. Please check the address and try a
 
 PLAT = {
  "android": dict(slug="water-reminder-app-for-android", name="Android", h1="Water reminder app for Android",
-   title="Water Reminder App for Android – Floating Video Buddy | TwoToTango",
+   title="Water Reminder App for Android – Floating Video Buddy | AquaAww",
    desc="Free Android drink-water reminder that shows a video of someone you love over your apps, with I drank and Later buttons. APK download, no account.",
-   intro="TwoToTango turns the usual water-reminder beep into a short video of someone you love. On Android it floats over whatever you are doing, so a reminder in the middle of Instagram or YouTube is hard to miss, and it also sends a notification with the same two buttons.",
+   intro="AquaAww turns the usual water-reminder beep into a short video of someone you love. On Android it floats over whatever you are doing, so a reminder in the middle of Instagram or YouTube is hard to miss, and it also sends a notification with the same two buttons.",
    req=["Android 5.1 or newer","About 20 MB of space","Notifications allowed (the app asks on first launch)","Optional: permission to display over other apps for the floating buddy"],
-   steps=["Fill in your name and email on the home page and tap Android. The file TwoToTango.apk downloads.","Open the file. If Android blocks it, allow your browser or file manager to install unknown apps, then open the file again.","Open TwoToTango. Allow notifications when asked, then allow display over other apps if you want the floating buddy.","Upload a short video, choose how often and which hours, and you are done."],
-   tips=["Keep the video under 30 MB and about 3 to 6 seconds long.","If reminders stop on some phones, set battery use for TwoToTango to Unrestricted in Android settings.","Use Test reminder in the app to see exactly what you will get."]),
+   steps=["Fill in your name and email on the home page and tap Android. The file AquaAww.apk downloads.","Open the file. If Android blocks it, allow your browser or file manager to install unknown apps, then open the file again.","Open AquaAww. Allow notifications when asked, then allow display over other apps if you want the floating buddy.","Upload a short video, choose how often and which hours, and you are done."],
+   tips=["Keep the video under 30 MB and about 3 to 6 seconds long.","If reminders stop on some phones, set battery use for AquaAww to Unrestricted in Android settings.","Use Test reminder in the app to see exactly what you will get."]),
  "windows": dict(slug="water-reminder-app-for-windows", name="Windows", h1="Water reminder app for Windows",
-   title="Water Reminder App for Windows – Video Pop-up Buddy | TwoToTango",
+   title="Water Reminder App for Windows – Video Pop-up Buddy | AquaAww",
    desc="Free Windows 10 and 11 drink-water reminder that pops a video of someone you love onto your screen. Tray app, custom position, no account.",
-   intro="TwoToTango lives in your system tray and, at the interval you choose, pops up a short video of someone you love in the corner of your screen you prefer, with I drank and Later buttons. It stays out of the way until it is time.",
+   intro="AquaAww lives in your system tray and, at the interval you choose, pops up a short video of someone you love in the corner of your screen you prefer, with I drank and Later buttons. It stays out of the way until it is time.",
    req=["Windows 10 or 11, 64-bit","About 300 MB of disk space","No account and no internet needed after the download"],
-   steps=["Fill in your name and email on the home page and click Windows. The installer downloads.","Run TwoToTango-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.","Find the TwoToTango icon near the clock. Right-click it to pick your video, interval, active hours and screen position.","Choose Remind me now to see how it looks."],
+   steps=["Fill in your name and email on the home page and click Windows. The installer downloads.","Run AquaAww-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.","Find the AquaAww icon near the clock. Right-click it to pick your video, interval, active hours and screen position.","Choose Remind me now to see how it looks."],
    tips=["Turn on Launch at login so it is always there.","Drag the reminder to any spot on any monitor with Set position.","Use snooze when you are in a meeting."]),
  "mac": dict(slug="water-reminder-app-for-mac", name="Mac", h1="Water reminder app for Mac",
-   title="Water Reminder App for Mac – Menu Bar Video Buddy | TwoToTango",
+   title="Water Reminder App for Mac – Menu Bar Video Buddy | AquaAww",
    desc="Free Mac menu-bar drink-water reminder that plays a video of someone you love over your desktop, even in full-screen apps. Apple Silicon, no account.",
-   intro="TwoToTango sits quietly in your menu bar. When it is time, a short video of someone you love appears on your screen, even over full-screen apps, with I drank and Later buttons. Pick the interval, active hours and the exact spot on screen.",
+   intro="AquaAww sits quietly in your menu bar. When it is time, a short video of someone you love appears on your screen, even over full-screen apps, with I drank and Later buttons. Pick the interval, active hours and the exact spot on screen.",
    req=["A Mac with Apple Silicon (M1 or newer)","macOS 11 or newer","About 350 MB of disk space"],
-   steps=["Fill in your name and email on the home page and click Mac. A .dmg file downloads.","Open it and drag TwoToTango into Applications.","The first time, macOS may say it cannot verify the app. Open System Settings, go to Privacy and Security, and choose Open Anyway.","Click the drop icon in the menu bar to choose your video, interval and position."],
+   steps=["Fill in your name and email on the home page and click Mac. A .dmg file downloads.","Open it and drag AquaAww into Applications.","The first time, macOS may say it cannot verify the app. Open System Settings, go to Privacy and Security, and choose Open Anyway.","Click the drop icon in the menu bar to choose your video, interval and position."],
    tips=["Turn on Launch at login from the menu bar icon.","Use a square video; the app crops to the centre.","Intel Macs are not supported yet."]),
 }
 def platform_page(k):
     p = PLAT[k]; li = lambda a: "".join(f"<li>{html.escape(x)}</li>" for x in a)
     body = f"""<h1>{p['h1']}</h1>
 <p class="lead">{p['intro']}</p>
-<p><a class="cta" href="/twototango/#download">Download free for {p['name']}</a></p>
+<p><a class="cta" href="/aquaaww/#download">Download free for {p['name']}</a></p>
 <h2>What you need</h2><ul>{li(p['req'])}</ul>
 <h2>How to install on {p['name']}</h2><ol>{li(p['steps'])}</ol>
 <h2>Tips</h2><ul>{li(p['tips'])}</ul>
-<h2>Also available on</h2><p>{" · ".join(f'<a href="/twototango/{PLAT[o]["slug"]}/">{PLAT[o]["name"]}</a>' for o in PLAT if o != k)}</p>"""
-    ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"SoftwareApplication","name":"TwoToTango for "+p['name'],"operatingSystem":p['name'],
-        "applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":p['desc'],"url":D+"/twototango/"+p['slug']+"/"}, separators=(",",":")) + '</script>' + crumbs([("Dusktillus","/"),("TwoToTango","/twototango/"),(p['name'],"/twototango/"+p['slug']+"/")])
-    return simple(p['title'], p['desc'], "/twototango/"+p['slug']+"/", body, extra=ld)
+<h2>Also available on</h2><p>{" · ".join(f'<a href="/aquaaww/{PLAT[o]["slug"]}/">{PLAT[o]["name"]}</a>' for o in PLAT if o != k)}</p>"""
+    ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"SoftwareApplication","name":"AquaAww for "+p['name'],"operatingSystem":p['name'],
+        "applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":p['desc'],"url":D+"/aquaaww/"+p['slug']+"/"}, separators=(",",":")) + '</script>' + crumbs([("Dusktillus","/"),("AquaAww","/aquaaww/"),(p['name'],"/aquaaww/"+p['slug']+"/")])
+    return simple(p['title'], p['desc'], "/aquaaww/"+p['slug']+"/", body, extra=ld)
 
 os.makedirs("privacy", exist_ok=True); os.makedirs("terms", exist_ok=True); os.makedirs("unsubscribe", exist_ok=True)
-os.makedirs("twototango", exist_ok=True); open("twototango/index.html","w").write(index); open("privacy/index.html","w").write(privacy); open("terms/index.html","w").write(terms)
+os.makedirs("aquaaww", exist_ok=True); open("aquaaww/index.html","w").write(index); open("privacy/index.html","w").write(privacy); open("terms/index.html","w").write(terms)
 open("unsubscribe/index.html","w").write(unsub)
-nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
+nf = simple("Page not found – AquaAww", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
-urls = [("/",1.0),("/twototango/",1.0),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+urls = [("/",1.0),("/aquaaww/",1.0),("/aquaaww/water-reminder-app-for-android/",.8),("/aquaaww/water-reminder-app-for-windows/",.8),("/aquaaww/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
 INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
-    d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
+    d="aquaaww/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
 
 # ---------------- Guides (content that people search for) ----------------
 from guides import ARTICLES
@@ -321,7 +321,7 @@ def article_page(a):
     rel = "".join(f'<li><a href="/guides/{x["slug"]}/">{html.escape(x["h1"])}</a></li>' for x in others[:3])
     faq = a.get("faq", [])
     body = f"""<p class="meta">Updated {U} · {a['read']} read</p><h1>{html.escape(a['h1'])}</h1>{a['body']}
-<div class="pcta"><h2>Never forget again</h2><p>TwoToTango pops up a short video of someone you love to remind you to drink water. Free for Android, Windows and Mac.</p><p><a class="cta" href="/twototango/#download">Download free</a></p></div>
+<div class="pcta"><h2>Never forget again</h2><p>AquaAww pops up a short video of someone you love to remind you to drink water. Free for Android, Windows and Mac.</p><p><a class="cta" href="/aquaaww/#download">Download free</a></p></div>
 <h2>More guides</h2><ul>{rel}</ul>"""
     ld = {"@context":"https://schema.org","@graph":[
       {"@type":"Article","headline":a["title"],"description":a["desc"],"datePublished":_today,"dateModified":_today,
@@ -345,7 +345,7 @@ open("sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset x
 # ---------------- Dusktillus hub (home of all products) ----------------
 HUBCSS = open("hub.css").read()
 PRODUCTS = [
-  dict(name="TwoToTango", path="/twototango/", img="/assets/drink-water.webp", w=340, h=212,
+  dict(name="AquaAww", path="/aquaaww/", img="/assets/drink-water.webp", w=340, h=212,
        blurb="A water reminder that comes as someone you love. Floats over your apps with I drank and Later buttons.",
        tags=["Android","Windows","Mac","Free"]),
 ]
@@ -355,20 +355,20 @@ hub_ld = {"@context":"https://schema.org","@graph":[
   {"@type":"ItemList","name":"Dusktillus apps","itemListElement":[{"@type":"ListItem","position":i+1,"url":D+p["path"],"name":p["name"]} for i,p in enumerate(PRODUCTS)]}]}
 cards = "".join(f'<a class="card app" href="{p["path"]}"><img src="{p["img"]}" width="{p["w"]}" height="{p["h"]}" alt="" loading="lazy"><h3>{p["name"]}</h3><p>{html.escape(p["blurb"])}</p><div class="tags">{"".join(f"<span>{t}</span>" for t in p["tags"])}</div><span class="go">Get {p["name"]} &rarr;</span></a>' for p in PRODUCTS)
 hub = head("Dusktillus – little apps that look after you",
-  "Dusktillus makes small, friendly apps for everyday life. Free to start, private by default. Start with TwoToTango, a water reminder that comes as someone you love.",
+  "Dusktillus makes small, friendly apps for everyday life. Free to start, private by default. Start with AquaAww, a water reminder that comes as someone you love.",
   "/", extra='<script type="application/ld+json">'+json.dumps(hub_ld,separators=(",",":"))+'</script>',
   css=HUBCSS, og="/assets/og-dusktillus.png", fonts=False, theme="#15132b", site="Dusktillus") + f'''
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="sky">
   <div class="wrap">
-    <header class="nav"><a class="wm" href="/" aria-label="Dusktillus home"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><use href="/favicon.svg#m"/></svg><span>Dusktillus</span></a>
+    <header class="nav"><a class="wm" href="/" aria-label="Dusktillus home"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><use href="/assets/dusk.svg#m"/></svg><span>Dusktillus</span></a>
       <nav aria-label="Main"><a href="#apps">Apps</a><a href="#about">About</a></nav></header>
     <div class="hero">
       <p class="eyebrow">Dusktillus</p>
       <h1>Little apps that look after you.</h1>
       <p class="lead">We make small, friendly tools for everyday life. Free to start, private by default, and built with care from dusk till the next morning.</p>
-      <div class="btnrow"><a class="btn" href="#apps">See our apps</a><a class="btn ghost" href="/twototango/">Try TwoToTango</a></div>
+      <div class="btnrow"><a class="btn" href="#apps">See our apps</a><a class="btn ghost" href="/aquaaww/">Try AquaAww</a></div>
     </div>
   </div>
 </div>
@@ -381,7 +381,7 @@ hub = head("Dusktillus – little apps that look after you",
   <div><h3>Open and honest</h3><p>Our code is public. We say plainly what each app does and what it needs.</p></div></div></section>
 </main>
 <footer class="foot"><div class="wrap"><span>&copy; {datetime.date.today().year} Dusktillus</span>
-<nav aria-label="Footer"><a href="/twototango/">TwoToTango</a><a href="/terms/">Terms &amp; Conditions</a><a href="/privacy/">Privacy</a><a href="/unsubscribe/">Unsubscribe</a><a href="mailto:{C}">{C}</a></nav></div></footer>
+<nav aria-label="Footer"><a href="/aquaaww/">AquaAww</a><a href="/terms/">Terms &amp; Conditions</a><a href="/privacy/">Privacy</a><a href="/unsubscribe/">Unsubscribe</a><a href="mailto:{C}">{C}</a></nav></div></footer>
 </body></html>'''
 if CONFIG["hub_live"]:
     open("index.html","w").write(hub)
@@ -397,8 +397,8 @@ else:
           '<script type="application/ld+json">'+json.dumps(hub_ld,separators=(",",":"))+'</script>'
           '<script defer src="/_vercel/insights/script.js"></script>')
     fb = fb.replace('</head>', og+'</head>',1)
-    nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, TwoToTango, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
-           '<nav aria-label="Site"><a href="/twototango/">TwoToTango water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+    nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
+           '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
     open("index.html","w").write(fb)
 print("built", len(index), "app bytes,", len(hub), "hub bytes")

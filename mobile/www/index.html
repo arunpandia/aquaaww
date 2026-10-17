@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="theme-color" content="#F9F0E3">
-<title>TwoToTango</title>
+<title>AquaAww</title>
 <style>
   @font-face{font-family:"Permanent Marker";src:url(fonts/PermanentMarker-Regular.ttf) format("truetype")}
   @font-face{font-family:"Special Elite";src:url(fonts/SpecialElite-Regular.ttf) format("truetype")}
@@ -74,7 +74,7 @@
   #onboard{position:fixed;inset:0;background:var(--cream);z-index:80;display:none;overflow:auto;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
   #onboard.on{display:block}
   .obWrap{max-width:420px;margin:0 auto;padding:26px 24px 34px;text-align:left}
-  .obLogo{width:34px;height:46px;display:block;margin-bottom:14px}
+  .obLogo{width:38px;height:46.5px;display:block;margin-bottom:14px}
   .obStep{display:none}.obStep.on{display:block}
   .obCount{font:13px "Special Elite",monospace;color:#7a6a64;margin-bottom:6px}
   #onboard h1{font:400 30px/1.1 "Permanent Marker",cursive;margin:0 0 14px;color:var(--ink)}
@@ -102,8 +102,8 @@
   <!-- ================= HOME (Figma "iPhone 16 & 17 Pro - 2") ================= -->
   <div id="home" class="abs" style="inset:0">
 
-    <div class="abs" style="left:28px;top:64px;width:43.872px;height:59px;overflow:hidden">
-      <div class="abs" style="inset:3.21% 7.5% 3.21% 6%"><img class="layer" alt="" src="img/design/logo.svg"></div>
+    <div class="abs" style="left:28px;top:64px;width:48.2px;height:59px;overflow:hidden">
+      <div class="abs" style="inset:0"><img class="layer" alt="" src="img/design/logo.svg"></div>
     </div>
 
     <div class="ctr" style="left:314.42px;top:63.05px;width:56.153px;height:35.899px">
@@ -114,7 +114,7 @@
     </div>
 
     <div class="abs marker" style="left:71px;top:201px;width:259px;font-size:11.099px;color:#342725;white-space:normal;line-height:normal">
-      <p style="margin:0">I built TwoToTango because I can’t always be there to say “have some water.”</p>
+      <p style="margin:0">I built AquaAww because I can’t always be there to say “have some water.”</p>
       <p style="margin:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p>
       <p style="margin:7px 0 0;text-align:right;color:var(--coral)">– to my wife</p>
     </div>
@@ -165,8 +165,8 @@
 
   <!-- ================= LOADING (Figma "iPhone 16 & 17 Pro - 3") ================= -->
   <div id="loader">
-    <div class="abs" style="left:149px;top:365px;width:103px;height:144.051px;overflow:hidden">
-      <div id="drop" class="abs" style="inset:3.21% 7.5% 3.21% 6%"></div>
+    <div class="abs" style="left:142px;top:365px;width:118px;height:144.4px;overflow:hidden">
+      <div id="drop" class="abs" style="inset:0"></div>
     </div>
   </div>
 </div>
@@ -179,7 +179,7 @@
       <div class="obCount">1 of 2</div>
       <h1>First, let me reach you</h1>
       <div class="obMock"><b>Time to drink some water</b><span>Tap to meet your buddy</span><div class="obBtns"><i>I drank</i><i>Remind me later</i></div></div>
-      <p>TwoToTango works by sending you a gentle reminder with two buttons: <b>“I drank”</b> and <b>“Later”</b>.</p>
+      <p>AquaAww works by sending you a gentle reminder with two buttons: <b>“I drank”</b> and <b>“Later”</b>.</p>
       <p>If notifications are off, I can’t reach you, and the reminder is lost. So this one is <b>required</b>.</p>
       <p class="obWarn" id="obWarn"></p>
       <button class="coralBtn big" id="obNotif">Allow notifications</button>
@@ -207,7 +207,7 @@
   <div class="row"><span>Pause reminders</span><label class="switch"><input type="checkbox" id="paused"><i></i></label></div>
   <div class="row"><span id="perm" style="flex:1">Notifications</span><button class="chip" id="enable">Enable</button></div>
   <div class="row" style="margin-top:18px"><button class="coralBtn" id="t30">Test in 30 seconds</button></div>
-  <p class="note">Reminders arrive as notifications with “I drank” and “Remind me later”. If they come late, set battery to “Unrestricted” for TwoToTango in Android settings.</p>
+  <p class="note">Reminders arrive as notifications with “I drank” and “Remind me later”. If they come late, set battery to “Unrestricted” for AquaAww in Android settings.</p>
 </section>
 
 <section class="sheet" id="sheetTime">
@@ -494,7 +494,7 @@ async function runOnboarding() {                                              //
     const st = await permState();
     if (st === 'unsupported') { hideOnboard(); return; }                       // plain browser preview: nothing to ask
     if (st !== 'granted') {                                                     // notifications are REQUIRED: the app stays on this screen until they are on
-      showOnboard(1, st === 'denied' && S.obAsked ? 'Notifications are off, so TwoToTango cannot remind you. Please turn them on to continue.' : '');
+      showOnboard(1, st === 'denied' && S.obAsked ? 'Notifications are off, so AquaAww cannot remind you. Please turn them on to continue.' : '');
       return;
     }
     await refreshOverlayStatus();
@@ -560,12 +560,11 @@ $('t30').onclick = async () => {
 /* ---------------- loading: the drop fills layer by layer, bottom first ---------------- */
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function loadDrop() {
-  const svg = await (await fetch('img/design/loader-drop.svg')).text();
-  $('drop').innerHTML = svg;
-  const s = $('drop').querySelector('svg'); s.style.width = '100%'; s.style.height = '100%';
-  const layers = ['Vector_4', 'Vector_3', 'Vector_2', 'Vector'].map(id => s.querySelector('#' + id));
-  layers.forEach(p => p.setAttribute('fill-opacity', '0.1'));
-  return layers;
+  const svg = await (await fetch('img/design/logo.svg')).text();      // the glass fills up bottom-first as the app loads
+  $('drop').innerHTML = '<div style="position:absolute;inset:0;opacity:.12;filter:grayscale(1)">' + svg + '</div><div id="rev" style="position:absolute;inset:0;clip-path:inset(100% 0 0 0);transition:clip-path .45s ease">' + svg + '</div>';
+  $('drop').querySelectorAll('svg').forEach(s => { s.style.width = '100%'; s.style.height = '100%'; s.removeAttribute('width'); s.removeAttribute('height'); });
+  const rev = $('rev');
+  return [0, 1, 2, 3].map(i => ({ setAttribute: (k, v) => { if (v === '1') rev.style.clipPath = 'inset(' + (100 - 25 * (i + 1)) + '% 0 0 0)'; } }));
 }
 async function init() {
   let layers = [];

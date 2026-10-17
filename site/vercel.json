@@ -2,6 +2,16 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/twototango",
+      "destination": "/aquaaww/",
+      "permanent": true
+    },
+    {
+      "source": "/twototango/:path*",
+      "destination": "/aquaaww/:path*",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {
@@ -25,17 +35,17 @@
     },
     {
       "source": "/water-reminder-app-for-android",
-      "destination": "/twototango/water-reminder-app-for-android/",
+      "destination": "/aquaaww/water-reminder-app-for-android/",
       "permanent": true
     },
     {
       "source": "/water-reminder-app-for-windows",
-      "destination": "/twototango/water-reminder-app-for-windows/",
+      "destination": "/aquaaww/water-reminder-app-for-windows/",
       "permanent": true
     },
     {
       "source": "/water-reminder-app-for-mac",
-      "destination": "/twototango/water-reminder-app-for-mac/",
+      "destination": "/aquaaww/water-reminder-app-for-mac/",
       "permanent": true
     },
     {

@@ -25,7 +25,7 @@ dict(slug="how-to-remember-to-drink-water", title="9 Ways to Remember to Drink W
 <h2>1. Drink one glass as soon as you wake</h2><p>You have gone hours without fluid. Keep a glass by the bed or the kettle, and drink it before checking your phone.</p>
 <h2>2. Attach water to things you already do</h2><p>Habit stacking works: a glass with each meal, after brushing your teeth, and after every toilet break.</p>
 <h2>3. Keep a bottle where you can see it</h2><p>A bottle on your desk is a constant cue. Out of sight really is out of mind.</p>
-<h2>4. Use a timed reminder</h2><p>Set a reminder every 60 to 90 minutes during your active hours. The best reminders have a clear action ("I drank") so the nudge ends in a sip, not a swipe-away. <a href="/twototango/">TwoToTango</a> does this on Android, Windows and Mac.</p>
+<h2>4. Use a timed reminder</h2><p>Set a reminder every 60 to 90 minutes during your active hours. The best reminders have a clear action ("I drank") so the nudge ends in a sip, not a swipe-away. <a href="/aquaaww/">AquaAww</a> does this on Android, Windows and Mac.</p>
 <h2>5. Make the reminder personal</h2><p>A generic beep is easy to ignore. A short video of someone you love saying a few words is much harder to dismiss, and it feels like care, not nagging. Read <a href="/guides/water-reminder-for-someone-you-love/">how to remind someone you love</a>.</p>
 <h2>6. Tie it to your breaks</h2><p>If you take a short break every hour, drink then. The popular 20-20-20 eye rule (every 20 minutes look 20 feet away for 20 seconds) pairs neatly with a few sips.</p>
 <h2>7. Make water taste good</h2><p>Add lemon, cucumber or mint, or try sparkling water. Cold or room temperature, choose what you like.</p>
@@ -41,7 +41,7 @@ dict(slug="water-reminder-for-someone-you-love", title="How to Remind Someone Yo
 <h2>What works better than telling them</h2>
 <ul><li><strong>Make it easy:</strong> put a bottle or glass within reach where they work or sit.</li><li><strong>Drink together:</strong> a shared tea or glass at set times turns it into a moment.</li><li><strong>Keep reminders gentle:</strong> one calm nudge beats repeated messages.</li><li><strong>Use a tool that speaks for you:</strong> a reminder on their own screen, at their pace.</li></ul>
 <h2>A reminder in your own face and voice</h2>
-<p><a href="/twototango/">TwoToTango</a> was made for exactly this. You record a few seconds of yourself, and at the interval they choose it pops up on their phone or computer, with two buttons: <em>I drank</em> and <em>Later</em>. It feels like you looking out for them, even when you are not in the room.</p>
+<p><a href="/aquaaww/">AquaAww</a> was made for exactly this. You record a few seconds of yourself, and at the interval they choose it pops up on their phone or computer, with two buttons: <em>I drank</em> and <em>Later</em>. It feels like you looking out for them, even when you are not in the room.</p>
 <h2>How to record a good clip</h2>
 <ol><li>Keep it 3 to 6 seconds.</li><li>Stand in front of a plain background with good light on your face.</li><li>Hold the phone steady, roughly square framing, head and shoulders.</li><li>Say something short and warm: "Time for some water. Love you."</li><li>The app can remove a plain white or green background, or cut you out of any background.</li></ol>
 <h2>Getting it onto their device</h2>
@@ -50,7 +50,7 @@ dict(slug="water-reminder-for-someone-you-love", title="How to Remind Someone Yo
 <p>Because it is personal, it also makes a thoughtful small gift for a partner, parent, grandparent or long-distance friend. Set it up for them, then let them discover it.</p>
 <h2>Respect their choice</h2>
 <p>Ask first, and let them control it. A reminder they chose lasts. One forced on them gets switched off. If you are worried about someone's health, encourage them to see a doctor rather than relying on reminders alone.</p>""",
- faq=[("Can I record a video for my parents?","Yes. Record a short clip of yourself and they upload it in TwoToTango on their own device."),("Is it free?","Yes, TwoToTango is free.")]),
+ faq=[("Can I record a video for my parents?","Yes. Record a short clip of yourself and they upload it in AquaAww on their own device."),("Is it free?","Yes, AquaAww is free.")]),
 dict(slug="drink-water-reminder-while-working", title="Drink Water While You Work: A Desk Routine That Sticks",
  desc="Long hours at a computer make it easy to forget water. A simple desk routine, the right reminder interval, and how to stay hydrated without breaking focus.",
  h1="Drink water while you work: a desk routine that sticks", read="4 min",
@@ -60,11 +60,11 @@ dict(slug="drink-water-reminder-while-working", title="Drink Water While You Wor
 <p>Every 60 to 90 minutes works for most people. Shorter intervals feel naggy; longer ones let thirst build. Set active hours so reminders stop at lunch if you want, and in the evening.</p>
 <h2>Use reminders that respect focus</h2>
 <ul><li>Choose a screen position out of the way, such as a corner.</li><li>Pick one-tap actions: confirm you drank, or postpone 15 minutes.</li><li>Snooze during meetings and presentations.</li></ul>
-<p>The <a href="/twototango/water-reminder-app-for-windows/">Windows</a> and <a href="/twototango/water-reminder-app-for-mac/">Mac</a> versions of TwoToTango sit in the tray or menu bar and pop up over your work only when it is time. On a Mac it even shows over full-screen apps.</p>
+<p>The <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> and <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a> versions of AquaAww sit in the tray or menu bar and pop up over your work only when it is time. On a Mac it even shows over full-screen apps.</p>
 <h2>Pair water with natural breaks</h2><p>Drink when you finish a task, before a call, or after you send a long email. Pair it with a stretch or a look out of the window to rest your eyes.</p>
 <h2>Cut the afternoon slump</h2><p>Mild dehydration can add to tiredness and headaches. A glass of water mid-afternoon is a cheap thing to try before another coffee.</p>
 <h2>Do not overdo it</h2><p>Aim for steady sips, not big gulps. Your total need depends on you and your climate; see <a href="/guides/how-much-water-should-you-drink-a-day/">how much water to drink a day</a>.</p>""",
- faq=[("How often should I drink water at work?","About every 60 to 90 minutes."),("Can a reminder appear over full-screen apps?","On Mac and Android, yes. TwoToTango can show over other apps.")]),
+ faq=[("How often should I drink water at work?","About every 60 to 90 minutes."),("Can a reminder appear over full-screen apps?","On Mac and Android, yes. AquaAww can show over other apps.")]),
 dict(slug="water-reminder-app-checklist", title="Water Reminder App: 7 Things to Look For Before You Choose",
  desc="Not all drink-water reminder apps are equal. Seven things to check: reliability, notifications, flexible schedule, privacy, price, platform support, and how personal it feels.",
  h1="Water reminder app: 7 things to look for", read="4 min",
@@ -72,11 +72,11 @@ dict(slug="water-reminder-app-checklist", title="Water Reminder App: 7 Things to
 <h2>1. It actually reaches you</h2><p>The reminder must show up even when the app is closed. On Android that means notifications, and ideally the option to appear over other apps. On desktop it should run quietly in the tray or menu bar.</p>
 <h2>2. A flexible schedule</h2><p>You want to set the interval and active hours, with snooze for meetings and quiet time at night.</p>
 <h2>3. A clear action</h2><p>A reminder you can answer in one tap ("I drank") keeps the habit loop closed. Look for a snooze too.</p>
-<h2>4. Privacy</h2><p>Check what the app collects. Many ask for accounts and send data to servers. TwoToTango keeps your videos, settings and count on your device, has no accounts inside the app, and no ads.</p>
+<h2>4. Privacy</h2><p>Check what the app collects. Many ask for accounts and send data to servers. AquaAww keeps your videos, settings and count on your device, has no accounts inside the app, and no ads.</p>
 <h2>5. Fair price</h2><p>A water reminder should not need a subscription. Free is best; if paid, check what you actually get.</p>
-<h2>6. Works where you work</h2><p>If you spend your day on a laptop and your evenings on a phone, you want both. TwoToTango covers <a href="/twototango/water-reminder-app-for-android/">Android</a>, <a href="/twototango/water-reminder-app-for-windows/">Windows</a> and <a href="/twototango/water-reminder-app-for-mac/">Mac</a>.</p>
-<h2>7. It feels personal</h2><p>The biggest reason people ignore reminders is that they are generic. TwoToTango plays a short video of someone you love, which is much harder to swipe away.</p>
-<h2>What TwoToTango does not do</h2><p>To be clear about it: TwoToTango is a friendly reminder with a daily count of confirmations. It does not measure millilitres, sync with smart bottles, or give health analysis. If you need detailed tracking, pair it with a tracker; if you need a nudge you will not ignore, it is built for that.</p>
-<p><a class="cta" href="/twototango/#download">Try TwoToTango free</a></p>""",
- faq=[("Is TwoToTango a water tracker?","It is a reminder with a daily confirmation count, not a millilitre tracker."),("Does it need an account?","No.")]),
+<h2>6. Works where you work</h2><p>If you spend your day on a laptop and your evenings on a phone, you want both. AquaAww covers <a href="/aquaaww/water-reminder-app-for-android/">Android</a>, <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> and <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a>.</p>
+<h2>7. It feels personal</h2><p>The biggest reason people ignore reminders is that they are generic. AquaAww plays a short video of someone you love, which is much harder to swipe away.</p>
+<h2>What AquaAww does not do</h2><p>To be clear about it: AquaAww is a friendly reminder with a daily count of confirmations. It does not measure millilitres, sync with smart bottles, or give health analysis. If you need detailed tracking, pair it with a tracker; if you need a nudge you will not ignore, it is built for that.</p>
+<p><a class="cta" href="/aquaaww/#download">Try AquaAww free</a></p>""",
+ faq=[("Is AquaAww a water tracker?","It is a reminder with a daily confirmation count, not a millilitre tracker."),("Does it need an account?","No.")]),
 ]

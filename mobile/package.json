@@ -1,8 +1,8 @@
 {
-  "name": "twototango-mobile",
+  "name": "aquaaww-mobile",
   "version": "1.0.0",
   "private": true,
-  "description": "TwoToTango for Android (Capacitor)",
+  "description": "AquaAww for Android (Capacitor)",
   "license": "MIT",
   "dependencies": {
     "@capacitor/android": "^6.2.0",

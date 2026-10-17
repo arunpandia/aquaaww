@@ -40,10 +40,11 @@ const BUBBLE_H = 158, WIN_W = 200, MARGIN = 0;
 const cfgFile = () => path.join(app.getPath('userData'), 'settings.json');
 const today = () => new Date().toLocaleDateString('en-CA');   // local YYYY-MM-DD (UTC would roll the day over at the wrong hour)
 
-function migrateFromWaterBuddy() {       // the app used to be called "Water Buddy": carry over settings and uploaded video
+function migrateFromWaterBuddy() {       // earlier names ("Water Buddy", "TwoToTango"): carry over settings and the uploaded video
   try {
-    const old = path.join(app.getPath('appData'), 'water-buddy');
-    if (fs.existsSync(cfgFile()) || !fs.existsSync(path.join(old, 'settings.json'))) return;
+    if (fs.existsSync(cfgFile())) return;
+    const old = ['TwoToTango', 'water-buddy'].map(n => path.join(app.getPath('appData'), n)).find(d => fs.existsSync(path.join(d, 'settings.json')));
+    if (!old) return;
     fs.mkdirSync(app.getPath('userData'), { recursive: true });
     const s = JSON.parse(fs.readFileSync(path.join(old, 'settings.json'), 'utf8'));
     if (s.videoPath && s.videoPath.startsWith(old) && fs.existsSync(s.videoPath)) {
@@ -198,12 +199,12 @@ async function checkForUpdates() {
   app.focus({ steal: true });
   if (!/^[\w.-]+\/[\w.-]+$/.test(REPO) || /^OWNER\//.test(REPO)) return alertBox('Updates are not set up', 'Set the "repository" field in package.json to your GitHub repo (owner/name) to enable update checks.');
   try {
-    const res = await net.fetch(`https://api.github.com/repos/${REPO}/releases/latest`, { headers: { 'User-Agent': 'twototango', Accept: 'application/vnd.github+json' } });
+    const res = await net.fetch(`https://api.github.com/repos/${REPO}/releases/latest`, { headers: { 'User-Agent': 'aquaaww', Accept: 'application/vnd.github+json' } });
     if (res.status === 404) return alertBox('No releases yet', `Nothing has been published at github.com/${REPO}/releases.`);
     if (!res.ok) throw new Error('GitHub answered ' + res.status);
     const rel = await res.json(), latest = rel.tag_name || '';
-    if (!newer(latest, app.getVersion())) return alertBox('You are up to date', `TwoToTango ${app.getVersion()} is the latest version.`);
-    const r = await alertBox(`TwoToTango ${latest.replace(/^v/, '')} is available`, `You have ${app.getVersion()}.` + (rel.name ? `\n\n${rel.name}` : ''), ['Download', 'Later']);
+    if (!newer(latest, app.getVersion())) return alertBox('You are up to date', `AquaAww ${app.getVersion()} is the latest version.`);
+    const r = await alertBox(`AquaAww ${latest.replace(/^v/, '')} is available`, `You have ${app.getVersion()}.` + (rel.name ? `\n\n${rel.name}` : ''), ['Download', 'Later']);
     if (r.response === 0) shell.openExternal(rel.html_url);
   } catch (e) {
     alertBox('Could not check for updates', String(e && e.message || e), ['OK'], 'error');
@@ -242,7 +243,7 @@ async function loadVideoFile(src, mode = 'white') {
   converting = true;
   const dest = path.join(app.getPath('userData'), 'buddy-' + Date.now() + '.mp4');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
-  if (tray) { tray.setToolTip('TwoToTango - preparing video...'); if (IS_MAC) tray.setTitle(' Preparing...'); }
+  if (tray) { tray.setToolTip('AquaAww - preparing video...'); if (IS_MAC) tray.setTitle(' Preparing...'); }
   try { await convertVideo(src, dest); }
   catch (e) { fs.unlink(dest, () => {}); throw e; }
   finally { converting = false; if (tray && IS_MAC) tray.setTitle(''); updateTray(); }
@@ -275,7 +276,7 @@ function updateTray() {
   const when = settings.paused ? 'paused' : nextAt ? new Date(nextAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-';
   const radio = (label, key, val, resched) => ({ label, type: 'radio', checked: settings[key] === val, click: () => set({ [key]: val }, resched) });
   const hoursChecked = h => h ? settings.limitHours && settings.activeFrom === h[0] && settings.activeTo === h[1] : !settings.limitHours;
-  tray.setToolTip(`TwoToTango - next: ${when}`);
+  tray.setToolTip(`AquaAww - next: ${when}`);
   tray.setContextMenu(Menu.buildFromTemplate([
     { label: `Next: ${when}`, enabled: false },
     { label: `Done today: ${settings.stats[today()] || 0}`, enabled: false },
@@ -309,11 +310,11 @@ function updateTray() {
   ]));
 }
 function createTray() {
-  // macOS: template image (system tints it white on dark bars). Windows: white drop.
+  // macOS: template image (system tints it white on dark bars). Windows: white glass.
   const dir = path.join(__dirname, 'assets');
   let img;
   if (IS_MAC) {
-    img = nativeImage.createFromBuffer(fs.readFileSync(path.join(dir, 'trayTemplate@2x.png')), { scaleFactor: 64 / 18 });   // 18 px tall, crisp on Retina
+    img = nativeImage.createFromBuffer(fs.readFileSync(path.join(dir, 'trayTemplate@2x.png')), { scaleFactor: 2 });   // 18 pt tall, crisp on Retina
     img.setTemplateImage(true);
   } else {
     img = nativeImage.createFromPath(path.join(dir, 'tray-white.png')).resize({ height: 18 });

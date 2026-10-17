@@ -1,4 +1,4 @@
-# TwoToTango
+# AquaAww
 
 A tiny menu-bar / system-tray app for macOS and Windows. At a set interval your own video (a character on a
 white background, or anything) pops up in the corner of your screen on a taped paper note, with two choices:

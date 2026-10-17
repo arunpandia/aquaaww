@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">TwoToTango</string>
-    <string name="title_activity_main">TwoToTango</string>
+    <string name="app_name">AquaAww</string>
+    <string name="title_activity_main">AquaAww</string>
     <string name="package_name">com.twototango.app</string>
     <string name="custom_url_scheme">com.twototango.app</string>
 </resources>
