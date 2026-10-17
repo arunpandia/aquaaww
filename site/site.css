@@ -127,3 +127,4 @@ dialog .msg{margin:0;min-height:1.3em;text-align:left}
 .go{border:0;cursor:pointer;width:100%;text-align:center;font-size:18px}
 .go:disabled{opacity:.6;cursor:wait}
 dialog .terms{text-align:left;margin:0}
+.wm{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:400 22px "Permanent Marker",cursive;color:var(--ink)}

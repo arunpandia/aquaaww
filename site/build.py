@@ -2,9 +2,9 @@
 """Generates the static pages. Edit CONFIG, run `python3 build.py`, deploy the folder."""
 import os, json, html
 CONFIG = dict(
-    domain="https://twototango-plum.vercel.app",   # your real domain, no trailing slash (change when you connect one)
+    domain="https://dusktillus.store",         # your real domain, no trailing slash
     gh="https://github.com/arunpandia/twototango",
-    contact="hello@twototango.app",           # shown on the Terms and Privacy pages: put an address you read
+    contact="hello@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
     updated="October 2026",
 )
 D = CONFIG["domain"]; GH = CONFIG["gh"]; REL = GH + "/releases/latest/download/"
@@ -35,7 +35,7 @@ FEATURES = [
  ("Private and open source", "No account, no ads, no tracking. Read every line on GitHub."),
 ]
 CSS = open("site.css").read()
-def head(title, desc, path, extra="", noindex=False):
+def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.png", fonts=True, theme="#F9F0E3", site="TwoToTango"):
     url = D + path
     an = '<script defer src="/_vercel/insights/script.js"></script>' 
     return f'''<!doctype html>
@@ -46,16 +46,16 @@ def head(title, desc, path, extra="", noindex=False):
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{url}">
 {'<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'}
-<meta name="theme-color" content="#F9F0E3">
+<meta name="theme-color" content="{theme}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<meta property="og:type" content="website"><meta property="og:site_name" content="TwoToTango">
+<meta property="og:type" content="website"><meta property="og:site_name" content="{site}">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
-<meta property="og:url" content="{url}"><meta property="og:image" content="{D}/assets/og.png">
+<meta property="og:url" content="{url}"><meta property="og:image" content="{D}{og}">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}/assets/og.png">
-<link rel="preload" href="/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<style>{CSS}</style>
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}{og}">
+{'<link rel="preload" href="/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>' if fonts else ""}
+<style>{css or CSS}</style>
 {extra}{an}
 </head>'''
 
@@ -64,20 +64,20 @@ def btn(os_, label, aria):
 
 jsonld = {
  "@context":"https://schema.org","@graph":[
-  {"@type":"SoftwareApplication","name":"TwoToTango","url":D+"/","applicationCategory":"HealthApplication",
+  {"@type":"SoftwareApplication","name":"TwoToTango","url":D+"/twototango/","publisher":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"applicationCategory":"HealthApplication",
    "operatingSystem":"Android, Windows, macOS","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
    "description":"A water reminder that comes as a video of someone you love. Floats over your apps with I drank and Later buttons.",
-   "image":D+"/assets/og.png","downloadUrl":D+"/#download"},
+   "image":D+"/assets/og.png","downloadUrl":D+"/twototango/#download"},
   {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}]}
 
 index = head("TwoToTango – a water reminder that comes as someone you love",
-  "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/",
+  "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/twototango/",
   extra='<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <section class="hero">
   <header class="top">
-    <a class="brand" href="/" aria-label="TwoToTango home"><img src="/assets/drink-water.webp" width="115" height="72" alt="Drink water"></a>
+    <a class="brand" href="/twototango/" aria-label="TwoToTango home"><img src="/assets/drink-water.webp" width="115" height="72" alt="Drink water"></a>
     <p class="tag">Where your loved ones come to remind you</p>
   </header>
   <main id="main" class="stage">
@@ -132,7 +132,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
     <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
     <button class="cta go" type="submit" id="go">Download free</button>
-    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from TwoToTango. Unsubscribe any time.</p>
+    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from Dusktillus. Unsubscribe any time.</p>
   </form>
 </dialog>
 <div class="more">
@@ -142,8 +142,8 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
   <ul class="feat">{"".join(f"<li><h3>{h}</h3><p>{p}</p></li>" for h,p in FEATURES)}</ul></section>
 <section id="faq" class="sec"><h2>Questions</h2>
   {"".join(f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>" for q,a in FAQ)}</section>
-<footer class="end"><p>Made with love, one glass at a time.</p>
-  <p><a href="/water-reminder-app-for-android/">Android</a> · <a href="/water-reminder-app-for-windows/">Windows</a> · <a href="/water-reminder-app-for-mac/">Mac</a></p>
+<footer class="end"><p>Made with love, one glass at a time. A <a href="/">Dusktillus</a> app.</p>
+  <p><a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>
   <p><a href="{GH}">Source on GitHub</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>
 </div>
 <script>
@@ -186,28 +186,29 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
 
 
 def nav_footer():
-    return ('<footer class="end"><p><a href="/">Home</a> · <a href="/water-reminder-app-for-android/">Android</a> · <a href="/water-reminder-app-for-windows/">Windows</a> · <a href="/water-reminder-app-for-mac/">Mac</a></p>'
+    return ('<footer class="end"><p><a href="/">Dusktillus</a> · <a href="/twototango/">TwoToTango</a> · <a href="/twototango/water-reminder-app-for-android/">Android</a> · <a href="/twototango/water-reminder-app-for-windows/">Windows</a> · <a href="/twototango/water-reminder-app-for-mac/">Mac</a></p>'
             '<p><a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>')
 
 def crumbs(items):
     return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
         {"@type":"ListItem","position":i+1,"name":n,"item":D+p} for i,(n,p) in enumerate(items)]}, separators=(",",":")) + '</script>'
 
-def simple(title, desc, path, body, noindex=False, extra=""):
-    return head(title, desc, path, extra=extra, noindex=noindex) + f'<body class="doc"><header class="docTop"><a href="/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="TwoToTango"></a></header><main class="docBody">{body}</main>{nav_footer()}</body></html>'
+def simple(title, desc, path, body, noindex=False, extra="", product=True):
+    top = '<a href="/twototango/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="TwoToTango"></a>' if product else '<a href="/" class="wm"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><use href="/favicon.svg#m"/></svg><span>Dusktillus</span></a>'
+    return head(title, desc, path, extra=extra, noindex=noindex) + f'<body class="doc"><header class="docTop">{top}</header><main class="docBody">{body}</main>{nav_footer()}</body></html>'
 
 C = CONFIG["contact"]; U = CONFIG["updated"]
 
-terms = simple("Terms & Conditions – TwoToTango", "The terms for downloading and using TwoToTango, including how we use your name and email and how to stop emails.", "/terms/", f"""
+terms = simple("Terms & Conditions – Dusktillus", "The terms for downloading and using TwoToTango, including how we use your name and email and how to stop emails.", "/terms/", f"""
 <h1>Terms &amp; Conditions</h1>
 <p class="meta">Last updated {U}</p>
-<p>These terms apply when you download or use TwoToTango (the app for Android, Windows and Mac) or this website. By downloading, you agree to them.</p>
+<p>These terms apply when you download or use any Dusktillus product, including TwoToTango (the app for Android, Windows and Mac), or this website. By downloading, you agree to them.</p>
 <h2>1. What you get</h2>
 <p>TwoToTango is free. It reminds you to drink water by showing a video you choose on your screen. It is open source; the code is on <a href="{GH}">GitHub</a> under its own licence.</p>
 <h2>2. What we ask for, and why</h2>
-<p>To download, we ask for your <strong>name</strong> and <strong>email address</strong>. We also record which platform you chose and when. We use this to send you the download, to tell you about updates, new features and related products from TwoToTango, and to count how many people use it.</p>
+<p>To download, we ask for your <strong>name</strong> and <strong>email address</strong>. We also record which platform you chose and when. We use this to send you the download, to tell you about updates, new features and related products from Dusktillus, and to count how many people use it.</p>
 <h2>3. Marketing emails</h2>
-<p>By downloading you agree that we may email you about TwoToTango from time to time. We will not sell your details or share them with anyone to market their own products. Every email can be stopped: use the unsubscribe link, or go to <a href="/unsubscribe/">the unsubscribe page</a>, or write to <a href="mailto:{C}">{C}</a>. We stop within a few days.</p>
+<p>By downloading you agree that we may email you about Dusktillus and TwoToTango from time to time. We will not sell your details or share them with anyone to market their own products. Every email can be stopped: use the unsubscribe link, or go to <a href="/unsubscribe/">the unsubscribe page</a>, or write to <a href="mailto:{C}">{C}</a>. We stop within a few days.</p>
 <h2>4. Your videos stay with you</h2>
 <p>The app keeps your videos, settings and daily count on your own device. It does not upload them to us and has no accounts or tracking inside it.</p>
 <h2>5. Not medical advice</h2>
@@ -223,9 +224,9 @@ terms = simple("Terms & Conditions – TwoToTango", "The terms for downloading a
 <h2>10. Changes and law</h2>
 <p>We may update these terms. The date at the top shows the latest version. These terms are governed by the laws of India, and courts in Chennai have jurisdiction, unless your local consumer law says otherwise.</p>
 <h2>11. Contact</h2>
-<p><a href="mailto:{C}">{C}</a></p>""", extra=crumbs([("Home","/"),("Terms","/terms/")]))
+<p><a href="mailto:{C}">{C}</a></p>""", extra=crumbs([("Dusktillus","/"),("Terms","/terms/")]), product=False)
 
-privacy = simple("Privacy – TwoToTango", "What TwoToTango collects, why, and how to remove your details.", "/privacy/", f"""
+privacy = simple("Privacy – Dusktillus", "What TwoToTango collects, why, and how to remove your details.", "/privacy/", f"""
 <h1>Privacy</h1>
 <p class="meta">Last updated {U}</p>
 <p>TwoToTango is built to stay out of your way, and out of your data.</p>
@@ -242,9 +243,9 @@ privacy = simple("Privacy – TwoToTango", "What TwoToTango collects, why, and h
 <h2>Website statistics</h2>
 <p>We use cookie-free page-view statistics (Vercel Web Analytics) to see how many people visit and which pages they read. No personal profile is built.</p>
 <h2>Where it is stored</h2>
-<p>Sign-up details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub.</p>""", extra=crumbs([("Home","/"),("Privacy","/privacy/")]))
+<p>Sign-up details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub.</p>""", extra=crumbs([("Dusktillus","/"),("Privacy","/privacy/")]), product=False)
 
-unsub = simple("Unsubscribe – TwoToTango", "Stop TwoToTango emails.", "/unsubscribe/", """
+unsub = simple("Unsubscribe – Dusktillus", "Stop TwoToTango emails.", "/unsubscribe/", """
 <h1>Unsubscribe</h1>
 <p>Enter the email address you used to download TwoToTango and we will stop emailing you.</p>
 <form id="uf" method="post" action="/api/unsubscribe" class="uform">
@@ -257,7 +258,7 @@ unsub = simple("Unsubscribe – TwoToTango", "Stop TwoToTango emails.", "/unsubs
 (function(){var u=new URLSearchParams(location.search).get("done"),m=document.getElementById("um");
 if(u==="1"){m.textContent="Done. You will not get any more emails from us.";m.className="msg ok"}
 if(u==="0"){m.textContent="That did not work. Please check the address and try again.";m.className="msg bad"}})();
-</script>""", noindex=True)
+</script>""", noindex=True, product=False)
 
 PLAT = {
  "android": dict(slug="water-reminder-app-for-android", name="Android", h1="Water reminder app for Android",
@@ -286,24 +287,67 @@ def platform_page(k):
     p = PLAT[k]; li = lambda a: "".join(f"<li>{html.escape(x)}</li>" for x in a)
     body = f"""<h1>{p['h1']}</h1>
 <p class="lead">{p['intro']}</p>
-<p><a class="cta" href="/#download">Download free for {p['name']}</a></p>
+<p><a class="cta" href="/twototango/#download">Download free for {p['name']}</a></p>
 <h2>What you need</h2><ul>{li(p['req'])}</ul>
 <h2>How to install on {p['name']}</h2><ol>{li(p['steps'])}</ol>
 <h2>Tips</h2><ul>{li(p['tips'])}</ul>
-<h2>Also available on</h2><p>{" · ".join(f'<a href="/{PLAT[o]["slug"]}/">{PLAT[o]["name"]}</a>' for o in PLAT if o != k)}</p>"""
+<h2>Also available on</h2><p>{" · ".join(f'<a href="/twototango/{PLAT[o]["slug"]}/">{PLAT[o]["name"]}</a>' for o in PLAT if o != k)}</p>"""
     ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"SoftwareApplication","name":"TwoToTango for "+p['name'],"operatingSystem":p['name'],
-        "applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":p['desc'],"url":D+"/"+p['slug']+"/"}, separators=(",",":")) + '</script>' + crumbs([("Home","/"),(p['name'],"/"+p['slug']+"/")])
-    return simple(p['title'], p['desc'], "/"+p['slug']+"/", body, extra=ld)
+        "applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":p['desc'],"url":D+"/twototango/"+p['slug']+"/"}, separators=(",",":")) + '</script>' + crumbs([("Dusktillus","/"),("TwoToTango","/twototango/"),(p['name'],"/twototango/"+p['slug']+"/")])
+    return simple(p['title'], p['desc'], "/twototango/"+p['slug']+"/", body, extra=ld)
 
 os.makedirs("privacy", exist_ok=True); os.makedirs("terms", exist_ok=True); os.makedirs("unsubscribe", exist_ok=True)
-open("index.html","w").write(index); open("privacy/index.html","w").write(privacy); open("terms/index.html","w").write(terms)
+os.makedirs("twototango", exist_ok=True); open("twototango/index.html","w").write(index); open("privacy/index.html","w").write(privacy); open("terms/index.html","w").write(terms)
 open("unsubscribe/index.html","w").write(unsub)
-nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to the reminder.</a></p>', noindex=True)
+nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
-urls = [("/",1.0),("/water-reminder-app-for-android/",.8),("/water-reminder-app-for-windows/",.8),("/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+urls = [("/",1.0),("/twototango/",.9),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
 for k in PLAT:
-    os.makedirs(PLAT[k]["slug"], exist_ok=True); open(PLAT[k]["slug"]+"/index.html","w").write(platform_page(k))
+    d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
 open("robots.txt","w").write(f"User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: {D}/sitemap.xml\n")
 import datetime; today = datetime.date.today().isoformat()
 open("sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{D}{u}</loc><lastmod>{today}</lastmod><priority>{pr}</priority></url>\n" for u,pr in urls) + '</urlset>\n')
-print("built", len(index), "bytes index")
+
+# ---------------- Dusktillus hub (home of all products) ----------------
+HUBCSS = open("hub.css").read()
+PRODUCTS = [
+  dict(name="TwoToTango", path="/twototango/", img="/assets/drink-water.webp", w=340, h=212,
+       blurb="A water reminder that comes as someone you love. Floats over your apps with I drank and Later buttons.",
+       tags=["Android","Windows","Mac","Free"]),
+]
+hub_ld = {"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":D+"/#org","name":"Dusktillus","url":D+"/","logo":D+"/assets/logo-512.png","sameAs":[GH.rsplit("/",1)[0]]},
+  {"@type":"WebSite","@id":D+"/#site","url":D+"/","name":"Dusktillus","publisher":{"@id":D+"/#org"}},
+  {"@type":"ItemList","name":"Dusktillus apps","itemListElement":[{"@type":"ListItem","position":i+1,"url":D+p["path"],"name":p["name"]} for i,p in enumerate(PRODUCTS)]}]}
+cards = "".join(f'<a class="card app" href="{p["path"]}"><img src="{p["img"]}" width="{p["w"]}" height="{p["h"]}" alt="" loading="lazy"><h3>{p["name"]}</h3><p>{html.escape(p["blurb"])}</p><div class="tags">{"".join(f"<span>{t}</span>" for t in p["tags"])}</div><span class="go">Get {p["name"]} &rarr;</span></a>' for p in PRODUCTS)
+hub = head("Dusktillus – little apps that look after you",
+  "Dusktillus makes small, friendly apps for everyday life. Free to start, private by default. Start with TwoToTango, a water reminder that comes as someone you love.",
+  "/", extra='<script type="application/ld+json">'+json.dumps(hub_ld,separators=(",",":"))+'</script>',
+  css=HUBCSS, og="/assets/og-dusktillus.png", fonts=False, theme="#15132b", site="Dusktillus") + f'''
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="sky">
+  <div class="wrap">
+    <header class="nav"><a class="wm" href="/" aria-label="Dusktillus home"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><use href="/favicon.svg#m"/></svg><span>Dusktillus</span></a>
+      <nav aria-label="Main"><a href="#apps">Apps</a><a href="#about">About</a></nav></header>
+    <div class="hero">
+      <p class="eyebrow">Dusktillus</p>
+      <h1>Little apps that look after you.</h1>
+      <p class="lead">We make small, friendly tools for everyday life. Free to start, private by default, and built with care from dusk till the next morning.</p>
+      <div class="btnrow"><a class="btn" href="#apps">See our apps</a><a class="btn ghost" href="/twototango/">Try TwoToTango</a></div>
+    </div>
+  </div>
+</div>
+<main id="main">
+<section id="apps" class="sec wrap"><h2>Our apps</h2><p class="sub">One small thing, done well. New apps will appear here.</p>
+  <div class="grid">{cards}<div class="card soon"><h3>The next one</h3><p>Another small app is in the workshop. Follow along on <a href="{GH.rsplit("/",1)[0]}">GitHub</a>.</p></div></div></section>
+<section id="about" class="sec wrap"><h2>How we build</h2>
+  <div class="why"><div><h3>Private by default</h3><p>Your content stays on your device. No accounts inside the apps, no ads, no tracking.</p></div>
+  <div><h3>Free to start</h3><p>Every app can be downloaded free. We ask for a name and email so we can say thank you and tell you what is new.</p></div>
+  <div><h3>Open and honest</h3><p>Our code is public. We say plainly what each app does and what it needs.</p></div></div></section>
+</main>
+<footer class="foot"><div class="wrap"><span>&copy; {datetime.date.today().year} Dusktillus</span>
+<nav aria-label="Footer"><a href="/twototango/">TwoToTango</a><a href="/terms/">Terms &amp; Conditions</a><a href="/privacy/">Privacy</a><a href="/unsubscribe/">Unsubscribe</a><a href="mailto:{C}">{C}</a></nav></div></footer>
+</body></html>'''
+open("index.html","w").write(hub)
+print("built", len(index), "app bytes,", len(hub), "hub bytes")

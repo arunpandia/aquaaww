@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Sitemap: https://twototango-plum.vercel.app/sitemap.xml
+Sitemap: https://dusktillus.store/sitemap.xml
