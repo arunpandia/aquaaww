@@ -1,13 +1,43 @@
-# TwoToTango website: how it is set up and what you do next
+# Dusktillus + TwoToTango website
 
-Live address: https://twototango-plum.vercel.app
-Code: https://github.com/arunpandia/twototango (the `site/` folder is the website)
-Downloads: https://github.com/arunpandia/twototango/releases (the three buttons)
+Live: https://dusktillus.store (hub for all products) and https://dusktillus.store/twototango/ (this app)
+Code: https://github.com/arunpandia/twototango (website is the `site/` folder, deployed by Vercel on every push)
+Downloads: GitHub Releases. Leads: Upstash Redis through Vercel.
 
+## Site map (add future products the same way)
 ```
-Visitor ─▶ Vercel (site/ + api/ functions) ─▶ Upstash Redis (name + email leads)
-                                          └─▶ GitHub Releases (apk / exe / dmg)
+/                      Dusktillus hub: what you make, list of apps
+/twototango/           TwoToTango landing page + download pop-up
+/twototango/water-reminder-app-for-{android,windows,mac}/
+/terms/ /privacy/ /unsubscribe/   shared by every product
+/api/subscribe  /api/unsubscribe  /api/leads
 ```
+To add a second product: add an entry to `PRODUCTS` in `site/build.py` (it appears on the hub and in the sitemap list when you add its URLs to `urls`), create its pages under `/<product>/`, run `python3 build.py`, push. One domain keeps all search authority together.
+
+## What is switched on
+- HTTPS everywhere, certificate auto-renewed by Vercel. `http://` and `www.` redirect to `https://dusktillus.store`, and the old `twototango-plum.vercel.app` address redirects permanently too.
+- Security headers: HSTS, CSP (only your own files), no framing, no camera/mic/location, same-origin isolation.
+- Vercel Web Analytics enabled (free, no cookies). View it in the project's Analytics tab.
+- IndexNow ping sent to Bing/Yandex for all pages. Sitemap: https://dusktillus.store/sitemap.xml
+
+## Google Search Console (needs your Google login, I could not do this part)
+1. Open https://search.google.com/search-console and sign in with the Google account you want to own the site.
+2. Add property > **Domain** > `dusktillus.store`. Google shows a TXT record.
+3. Vercel > Domains > dusktillus.store > DNS Records > Add: Type TXT, Name `@`, Value = the string Google gave, then press Verify in Search Console (can take a few minutes).
+4. Sitemaps > add `sitemap.xml` > Submit.
+5. URL Inspection: paste `https://dusktillus.store/`, `/twototango/` and the three platform URLs, press Request indexing on each.
+6. Later check Pages (indexing problems), Performance (searches), Core Web Vitals.
+Bing: https://www.bing.com/webmasters > Import from Google Search Console.
+
+## Email for hello@dusktillus.store
+The Terms and Privacy pages show this address, so make it real. Easiest free route: ImprovMX (improvmx.com), add `dusktillus.store`, forward to your inbox, then add the MX and SPF TXT records it shows in Vercel > Domains > DNS Records. For sending marketing mail later use Resend or Brevo, which will ask for DKIM/SPF records in the same place.
+
+## Getting more downloads
+- Product Hunt launch, Show HN, Reddit (r/productivity, r/macapps, r/Android), friends sharing the link. The share preview image is set.
+- Publish 3 to 5 helpful pages over time (for example "how much water should I drink", "best water reminder apps"), each under `/twototango/` or a `/blog/` section.
+- Put the link in the GitHub repo description and README, and in every social bio.
+- Replace the third-party characters with your own art; it also makes the page more shareable.
+- Watch Analytics > Referrers and Search Console > Performance, and improve the pages that nearly rank.
 
 ## How a download works
 1. Visitor taps Android, Windows or Mac. A pop-up asks for name and email, with a small line linking to /terms/.
@@ -23,14 +53,6 @@ Visitor ─▶ Vercel (site/ + api/ functions) ─▶ Upstash Redis (name + emai
 
 ## Sending the marketing emails
 The site only collects consent and addresses. Send from a mailing tool (Resend, Brevo, Mailchimp, MailerLite): import the CSV. Every email must carry a working unsubscribe link (`/unsubscribe/` on your site works, and update the list from the CSV regularly) and your postal or contact details. Edit `CONFIG["contact"]` in `site/build.py` to an address you read.
-
-## Connect your own domain
-1. Buy a domain (Cloudflare Registrar, Namecheap, GoDaddy, Google Domains successors).
-2. Vercel project > Settings > Domains > Add. Follow the DNS record it shows at your registrar (A record for the bare domain, CNAME for www).
-3. In `site/build.py` change `CONFIG["domain"]` to your domain, then
-   `cd site && python3 build.py && cd .. && git add -A && git commit -m "domain" && git push`
-   This updates the canonical links, share image links and sitemap.
-Until then the address ends in vercel.app. Note: `twototango.vercel.app` belongs to someone else; you can rename the project in Settings for a different free name.
 
 ## Analytics
 - Vercel Web Analytics: project > Analytics tab > Enable. The site already loads the script, so numbers appear within minutes. No cookies. Optional: enable Speed Insights too.
