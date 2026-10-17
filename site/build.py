@@ -2,7 +2,7 @@
 """Generates the static pages. Edit CONFIG, run `python3 build.py`, deploy the folder."""
 import os, json, html
 CONFIG = dict(
-    domain="https://twototango.vercel.app",   # your real domain, no trailing slash (change when you connect one)
+    domain="https://twototango-plum.vercel.app",   # your real domain, no trailing slash (change when you connect one)
     gh="https://github.com/arunpandia/twototango",
     contact="hello@twototango.app",           # shown on the Terms and Privacy pages: put an address you read
     updated="October 2026",
