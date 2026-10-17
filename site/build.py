@@ -6,6 +6,7 @@ CONFIG = dict(
     gh="https://github.com/arunpandia/twototango",
     contact="hello@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
     updated="October 2026",
+    google_verification="",                   # paste the token from Search Console if you verify with an HTML tag
 )
 D = CONFIG["domain"]; GH = CONFIG["gh"]; REL = GH + "/releases/latest/download/"
 
@@ -37,7 +38,8 @@ FEATURES = [
 CSS = open("site.css").read()
 def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.png", fonts=True, theme="#F9F0E3", site="TwoToTango"):
     url = D + path
-    an = '<script defer src="/_vercel/insights/script.js"></script>' 
+    an = '<script defer src="/_vercel/insights/script.js"></script>'
+    gv = f'<meta name="google-site-verification" content="{CONFIG["google_verification"]}">' if CONFIG.get('google_verification') else ''
     return f'''<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -56,7 +58,7 @@ def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.pn
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{D}{og}">
 {'<link rel="preload" href="/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>' if fonts else ""}
 <style>{css or CSS}</style>
-{extra}{an}
+{gv}{extra}{an}
 </head>'''
 
 def btn(os_, label, aria):
@@ -302,6 +304,7 @@ open("unsubscribe/index.html","w").write(unsub)
 nf = simple("Page not found – TwoToTango", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
 urls = [("/",1.0),("/twototango/",.9),("/twototango/water-reminder-app-for-android/",.8),("/twototango/water-reminder-app-for-windows/",.8),("/twototango/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
     d="twototango/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
 open("robots.txt","w").write(f"User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: {D}/sitemap.xml\n")
