@@ -43,7 +43,7 @@ Set `repository` in `package.json` to your GitHub repo, publish a Release with a
 
 ## Regenerating art
 
-`gen-icons.js` (tray + app icon from `assets/*.svg`), `gen-paper.js` and `gen-title.js` (cut-outs). Run with
+`gen-icons.js` (every icon from `assets/aquaaww-logo-source.svg`, needs `npm i --no-save sharp`), `gen-paper.js` and `gen-title.js` (cut-outs). Run with
 `npx electron <script>`.
 
 ## License
