@@ -37,7 +37,7 @@ FEATURES = [
  ("Private and open source", "No account, no ads, no tracking. Read every line on GitHub."),
 ]
 CSS = open("site.css").read()
-def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.png", fonts=True, theme="#F9F0E3", site="AquaAww"):
+def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og-aquaaww.png", fonts=True, theme="#F9F0E3", site="AquaAww"):
     url = D + path
     an = '<script defer src="/_vercel/insights/script.js"></script>'
     gv = f'<meta name="google-site-verification" content="{CONFIG["google_verification"]}">' if CONFIG.get('google_verification') else ''
@@ -51,7 +51,7 @@ def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og.pn
 {'<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'}
 <meta name="theme-color" content="{theme}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-v2.png">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{site}">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{url}"><meta property="og:image" content="{D}{og}">
@@ -70,7 +70,7 @@ jsonld = {
   {"@type":"SoftwareApplication","name":"AquaAww","url":D+"/aquaaww/","publisher":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"applicationCategory":"HealthApplication",
    "operatingSystem":"Android, Windows, macOS","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
    "description":"A water reminder that comes as a video of someone you love. Floats over your apps with I drank and Later buttons.",
-   "image":D+"/assets/og.png","downloadUrl":D+"/aquaaww/#download"},
+   "image":D+"/assets/og-aquaaww.png","downloadUrl":D+"/aquaaww/#download"},
   {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}]}
 
 index = head("AquaAww – a water reminder that comes as someone you love",
@@ -85,7 +85,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
   </header>
   <main id="main" class="stage">
     <div class="letter">
-      <img class="drop" src="/assets/logo.svg" width="46" height="56" alt="AquaAww logo">
+      <img class="drop" src="/assets/aquaaww-logo.svg" width="46" height="56" alt="AquaAww logo">
       <h1 class="sr">AquaAww, the water reminder that comes as someone you love</h1>
       <p>I built AquaAww because I can’t always be there to say “have some water.”</p>
       <p>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p>
@@ -325,7 +325,7 @@ def article_page(a):
 <h2>More guides</h2><ul>{rel}</ul>"""
     ld = {"@context":"https://schema.org","@graph":[
       {"@type":"Article","headline":a["title"],"description":a["desc"],"datePublished":_today,"dateModified":_today,
-       "mainEntityOfPage":D+"/guides/"+a["slug"]+"/","image":D+"/assets/og.png",
+       "mainEntityOfPage":D+"/guides/"+a["slug"]+"/","image":D+"/assets/og-aquaaww.png",
        "author":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"publisher":{"@type":"Organization","name":"Dusktillus","logo":{"@type":"ImageObject","url":D+"/assets/logo-512.png"}}}]}
     if faq: ld["@graph"].append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":t}} for q,t in faq]})
     extra = '<script type="application/ld+json">'+json.dumps(ld,separators=(",",":"))+'</script>'+crumbs([("Dusktillus","/"),("Guides","/guides/"),(a["h1"],"/guides/"+a["slug"]+"/")])
