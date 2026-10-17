@@ -113,7 +113,7 @@ index = head("TwoToTango – a water reminder that comes as someone you love",
   </main>
   <footer class="low">
     <a class="presets" href="#features" aria-label="See the ready-made buddies">
-      <img class="p1" src="/assets/sticker-cat.webp" width="340" height="380" alt="" loading="lazy">
+      <img class="p1" src="/assets/buddy-cat.webp" width="311" height="360" alt="" loading="lazy">
       <img class="p3" src="/assets/sticker-duck.webp" width="340" height="393" alt="" loading="lazy">
       <img class="p2" src="/assets/sticker-frog.webp" width="340" height="331" alt="" loading="lazy">
       <span>{{Presets}}</span>

@@ -42,7 +42,7 @@ a{color:inherit}
 .presets{position:relative;display:block;width:clamp(96px,10vw,130px);aspect-ratio:1/.95;text-decoration:none;transition:transform .15s}
 .presets:hover{transform:rotate(-3deg) scale(1.04)}
 .presets img{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
-.p1{left:0;top:16%;width:50%;transform:rotate(-8deg)}.p3{right:0;top:0;width:40%;transform:rotate(6deg)}.p2{left:20%;top:30%;width:62%}
+.p1{left:-6%;top:12%;width:50%;transform:rotate(-12deg)}.p3{right:0;top:0;width:40%;transform:rotate(6deg)}.p2{left:20%;top:30%;width:62%}
 .presets span{position:absolute;left:12%;bottom:-18px;font-size:13px;transform:rotate(-6deg);white-space:nowrap}
 .stamp{position:relative;width:clamp(70px,7vw,92px);aspect-ratio:552/776;padding:0;border:0;background:none;cursor:pointer;color:var(--ink);transform:rotate(2deg);transition:transform .15s}
 .stamp:active{transform:rotate(2deg) scale(.96)}
