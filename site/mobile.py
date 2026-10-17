@@ -31,7 +31,7 @@ def build(D, hub_ld, GH):
     top = []
     top.append('<div class="tex tr"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div>')
     top.append('<p class="a jb nw" style="left:24.72px;top:16.75px;font-size:6.381px;color:#7e7e7b">Insta ID - </p>')
-    top.append('<p class="a jb nw" style="left:24.72px;top:24.72px;font-size:11.166px;color:#000">dusktillus</p>')
+    top.append('<p class="a jb nw" style="left:24.72px;top:24.72px;font-size:11.166px;color:#000"><a class="ig" href="https://www.instagram.com/dusktillus/" target="_blank" rel="noopener">dusktillus</a></p>')
     top.append('<div class="a" style="left:165.9px;top:167.89px;width:168.292px;height:0;transform:translate(-50%,-50%) rotate(-90deg)"><img alt="" src="' + M + 'line21.svg" style="position:absolute;left:0;top:-.8px;width:168.292px;height:.8px"></div>')
     top.append('<div class="a" style="left:165.9px;top:252.04px;width:280.752px;height:0;transform:translate(-50%,-50%) rotate(180deg)"><img alt="" src="' + M + 'line22.svg" style="position:absolute;left:0;top:-.8px;width:280.752px;height:.8px"></div>')
     top.append(fx(22.33, 88.53, 125.245, 28.886, '<p class="ad" style="width:124.254px">Our digital garage,</p>', rot=-5.99))
@@ -120,6 +120,8 @@ a{color:inherit;text-decoration:none}
 #tx{position:absolute;inset:0;pointer-events:none}
 #tx *{pointer-events:auto}
 .link:active{opacity:.7}
+.ig{color:inherit;text-decoration:underline wavy transparent;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px;transition:text-decoration-color .15s}
+.ig:hover,.ig:active,.ig:focus-visible{text-decoration-color:#e83328}
 """
     # px -> calc(var(--u) * n)  (Figma pixels become fractions of the page width)
     def conv(s):
