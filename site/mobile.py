@@ -41,7 +41,7 @@ def build(D, hub_ld, GH):
     top.append(fx(179.46, 308.67, 100.192, 80.141, '<p class="ad" style="width:100.08px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p>', rot=-0.08))
     top.append('<div class="a" style="left:179.46px;top:318.21px;width:54.236px;height:20.737px"><img alt="" src="' + M + 'highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>')
     top.append('<div class="a" style="left:179.46px;top:401.99px;width:98.104px;height:12.761px"><img alt="" src="' + M + 'slider.svg" style="position:absolute;inset:0;width:100%;height:100%"></div>')
-    top.append(f'<a class="a pm nw link" href="{GH}" style="left:179.46px;top:422.72px;font-size:8.758px;color:#000">Learn more -&gt;</a>')
+    top.append('<span class="a pm nw" aria-disabled="true" style="left:179.46px;top:422.72px;font-size:8.758px;color:#000;cursor:default">Learn more -&gt;</span>')
     # strip of paper on the inner (right) edge, drawn flipped as in the design
     top.append('<div class="a" style="right:0;top:0;width:51.046px;height:501.684px;transform:scaleX(-1);border-top-right-radius:22.33px;overflow:hidden"><div class="tex" style="border-top-right-radius:22.33px"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div></div>')
     # torn paper along the bottom of the page
