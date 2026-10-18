@@ -16,10 +16,10 @@ html,body{background:#fff;min-height:0}
 #bgl img{position:absolute;display:block;max-width:none}
 #mstage{position:relative;z-index:1;width:402PX;margin:0 auto;padding:117PX 36PX 40PX;overflow-x:clip}
 #mstage .col{height:auto}
-#mstage .s40{margin-top:-24.5PX}
-#mstage .s38{margin-top:-35PX}
-#mstage .s36{margin-top:-36.5PX}
-#mstage .sfeat{margin-top:-2PX}
+#mstage .s40{margin-top:0}
+#mstage .s38{margin-top:-12PX}
+#mstage .s36{margin-top:-14.5PX}
+#mstage .sfeat{margin-top:-1.5PX}
 #mstage .p36{left:0!important;width:331PX!important}
 #mstage .p36 img{left:0!important;top:0!important;width:100%!important;height:100%!important;object-fit:cover;object-position:100% 50%}
 .mfaq{position:relative;isolation:isolate;width:331PX;border:1PX solid #000;border-radius:0 0 28PX 28PX;background:#fcfbf6;padding:26PX 22PX 22PX;overflow:hidden}
