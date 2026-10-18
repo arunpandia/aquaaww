@@ -95,7 +95,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
   <form id="signup" method="post" action="/api/subscribe" novalidate>
     <button class="x" type="button" id="dx" aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <h2 id="dt">Almost there</h2>
-    <p class="sub">Tell us who to thank. Your download for <b id="osn">Mac</b> starts right after.</p>
+    <p class="sub">Tell us who to thank and your <b id="osn">Mac</b> download starts.</p>
     <input type="hidden" name="os" id="os" value="">
     <label class="sr" for="nm">Your name</label>
     <input id="nm" name="name" type="text" placeholder="Your name" autocomplete="name" maxlength="80" required>
@@ -104,7 +104,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
     <button class="go" type="submit" id="go">Download free</button>
-    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>. Now and then we will send you something interesting when we add something new to the garage. Unsubscribe any time.</p>
+    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>. Now and then we will share something new from the garage.</p>
   </form>
 </dialog>
 <script>
