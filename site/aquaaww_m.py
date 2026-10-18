@@ -54,7 +54,7 @@ def faq_desktop(FAQ, GH):
     return (f'<section id="faq" class="faq" aria-labelledby="faq-h"><h2 id="faq-h" class="fq-l ff-jb">Questions</h2><div class="fq-list">{faq_items(FAQ, "ff-ad")}</div>{nav(GH)}</section>')
 
 EXTRA_CSS = """
-a.dl:hover p,a.dl:focus-visible p,a.dl:active p,a[data-demo]:hover p,a[data-demo]:focus-visible p,a[data-demo]:active p,dialog a:hover,dialog a:focus-visible,dialog .go:hover,dialog .go:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 .fq-nav a:active,.fq summary:active h3{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 @keyframes aqb{0%,100%{opacity:1}50%{opacity:.12}}
 .aq-blink{animation:aqb .55s ease-in-out 3}
