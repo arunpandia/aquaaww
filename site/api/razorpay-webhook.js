@@ -3,7 +3,7 @@
 // A Payment Page can be paid again and again; a single Payment Link can only be paid once.
 const crypto = require('crypto');
 const { redis } = require('./_lib');
-const { LINKS, toUsdCents } = require('./_fund');
+const { LINKS, addPayment } = require('./_fund');
 
 const norm = u => String(u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
 // rzp.io short links redirect to the real page (pages.razorpay.com/pl_...), which is what Razorpay's event names; resolve once and remember
@@ -45,8 +45,7 @@ module.exports = async (req, res) => {
     const [first] = (await redis([['SET', 'fund:paid:' + pay.id, '1', 'NX', 'EX', 7776000]])).map(x => x.result);
     if (first === 'OK') {
       await redis([
-        ['HINCRBY', 'fund', 'cents', toUsdCents(pay.currency, pay.amount)],
-        ['HINCRBY', 'fund', 'count', 1],
+        ...addPayment(pay.currency, pay.amount),
         ['LPUSH', 'fund:log', JSON.stringify({ t: new Date().toISOString(), currency: pay.currency, minor: pay.amount, pay: pay.id })],
         ['LTRIM', 'fund:log', 0, 499],
       ]);

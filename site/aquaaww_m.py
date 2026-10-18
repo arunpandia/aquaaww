@@ -157,11 +157,16 @@ FUND_HTML = """<dialog id="fund" aria-labelledby="ft"><form id="payf" novalidate
 </form></dialog>"""
 
 FUND_JS = """
-  var fd=document.getElementById("fund"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbase=0,fpoll=0;
+  var fd=document.getElementById("fund"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbase=0,fpoll=0,last=null;
   function fsay(t,bad){fmsg.textContent=t;fmsg.className="msg"+(t?(bad?" bad":" ok"):"")}
+  var inIndia=/Asia\\/(Calcutta|Kolkata)/.test((Intl.DateTimeFormat().resolvedOptions().timeZone)||"");
+  function fnumf(n){return Math.round(n).toLocaleString("en-IN")}
   function fbar(d){
-    var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}
-    fnum.textContent="$"+(+d.raised).toFixed(2).replace(/\\.00$/,"")+" of $"+d.goal+" raised";
+    var v=Math.max(0,Math.min(1,d.percent/100));
+    document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}
+    var rs=cfg?cfg.currency==="INR":inIndia;
+    fnum.textContent=rs?"\u20b9"+fnumf(d.raisedInr)+" of \u20b9"+fnumf(d.goalInr)+" raised":"$"+(+d.raisedUsd).toFixed(2).replace(/\\.00$/,"")+" of $"+Math.round(d.goalUsd)+" raised";
+    last=d;
   }
   function fload(fresh){return fetch("/api/fund"+(fresh?"?t="+Date.now():"")).then(function(r){return r.json()}).then(function(d){fbar(d);return d}).catch(function(){})}
   fload();
@@ -171,10 +176,11 @@ FUND_JS = """
     fgo.textContent="Chip in";fgo.href="#";
     fetch("/api/pay").then(function(r){return r.json()}).then(function(c){
       cfg=c;
+      if(last)fbar(last);
       if(c.ready&&c.url){fgo.href=c.url;fgo.textContent="Chip in "+c.symbol+c.amount}
       else{fgo.setAttribute("aria-disabled","true");fsay(c.reason==="region"?"Payments from outside India are coming soon.":"Payments are not switched on yet. Soon!",1)}
     }).catch(function(){fsay("Could not load. Please try again.",1)});
-    fload().then(function(d){fbase=d?d.raised:0});
+    fload().then(function(d){fbase=d?d.raisedInr:0});
     if(fd.showModal){fd.showModal()}else{fd.setAttribute("open","")}
   }
   document.querySelectorAll("[data-fund]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();fopen()})});
@@ -187,7 +193,7 @@ FUND_JS = """
     fstop();var n=0;
     fpoll=setInterval(function(){
       if(++n>75||!fd.open){fstop();return}
-      fload(true).then(function(d){if(d&&d.raised>fbase+0.001){fstop();fsay("Thank you! The bar just moved.");fgo.textContent="Thank you"}});
+      fload(true).then(function(d){if(d&&d.raisedInr>fbase+0.001){fstop();fsay("Thank you! The bar just moved.");fgo.textContent="Thank you"}});
     },4000);
   });
 """

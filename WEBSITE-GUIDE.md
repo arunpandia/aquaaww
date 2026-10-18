@@ -102,8 +102,9 @@ The progress bars (AquaAww page and the home page) read `/api/fund`. They move o
 | `PAYLINK_USD` | yes | the $1 Payment Link url |
 | `PAYLINK_INR_AMOUNT` / `PAYLINK_USD_AMOUNT` | no | the amounts the two links charge, shown on the button (defaults 48 and 1) |
 | `RAZORPAY_WEBHOOK_SECRET` | yes | the webhook secret from step 2 |
-| `FUND_GOAL_USD` | no | goal in dollars, default 25 |
-| `FUND_SEED_USD` | no | dollars already raised before this went live, default 0 |
+| `FUND_GOAL_INR` | no | goal in rupees, default 2500. Keep it equal to the goal on the Razorpay Payment Page so both show the same percentage |
+| `FUND_SEED_INR` / `FUND_SEED_USD` | no | amount already raised before this went live, default 0 |
+| `FUND_KEY` | no | storage key for the total (default `fund2`). Use a new name to start the bar again from zero without deleting anything |
 | `INR_PER_USD` | no | rate used to move the bar for rupee payments, default 88 |
 
 Payments from your other Razorpay products are ignored (only the two links above are counted). Each payment is counted once.
