@@ -50,8 +50,7 @@ def head(title, desc, path, extra="", noindex=False, css=None, og="/assets/og-aq
 <link rel="canonical" href="{url}">
 {'<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'}
 <meta name="theme-color" content="{theme}">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon-v2.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any"><link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/assets/apple-touch-icon-v3.png">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{site}">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{url}"><meta property="og:image" content="{D}{og}">

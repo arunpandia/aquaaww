@@ -151,8 +151,7 @@ a{color:inherit;text-decoration:none}
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="{D}/">
 <meta name="theme-color" content="#ffffff">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon-v2.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any"><link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/assets/apple-touch-icon-v3.png">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Dusktillus"><meta property="og:title" content="Dusktillus: our digital garage">
 <meta property="og:description" content="Little apps that look after you. Start with AquaAww, a water reminder that comes as someone you love.">
 <meta property="og:url" content="{D}/"><meta property="og:image" content="{D}/assets/og-dusktillus.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
