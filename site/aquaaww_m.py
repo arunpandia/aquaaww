@@ -76,7 +76,7 @@ dialog .amt input::-webkit-outer-spin-button,dialog .amt input::-webkit-inner-sp
 dialog .amt:focus-within{outline:2px solid #e83328;outline-offset:1px}
 dialog .amt input:focus-visible{outline:none}
 
-dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+dialog a:not(.go):hover,dialog a:not(.go):focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 .fq-nav a:active,.fq summary:active h3{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 @keyframes aqb{0%,100%{opacity:1}50%{opacity:.12}}
 .aq-blink{animation:aqb .55s ease-in-out 3}
