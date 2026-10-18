@@ -77,13 +77,74 @@ def conv(s):
 # 1px at 2dp inside media query are written as 1PX/1.3PX so they stay real pixels
 CSS = conv(CSS_RAW).replace("PX", "px")
 
-def build(D, FAQ, GH):
-    mk = '<i class="fq-m pm" aria-hidden="true">_</i>'
-    def item(i, q, a):
+
+def faq_items(FAQ, h3cls="ad"):
+    out = []
+    for i, (q, a) in enumerate(FAQ):
         o = ' q1" open' if i == 0 else '"'
-        return (f'<details class="fq{o}><summary class="fq-s"><h3 class="ad">{q}</h3>{mk if i == 0 else ""}</summary><p class="fq-a ad">{a}</p></details>'
-                + ('<div class="fq-sep" aria-hidden="true"></div>' if i < len(FAQ) - 1 else ""))
-    faq = "".join(item(i, q, a) for i, (q, a) in enumerate(FAQ))
+        out.append(f'<details class="fq{o}><summary class="fq-s"><h3 class="{h3cls}">{q}</h3></summary><p class="fq-a ad">{a}</p></details>')
+        if i < len(FAQ) - 1: out.append('<div class="fq-sep" aria-hidden="true"></div>')
+    return "".join(out)
+
+def nav(GH):
+    return ('<nav class="fq-nav ff-jb jb" aria-label="More about AquaAww"><a href="/aquaaww/water-reminder-app-for-android/">Android</a><a href="/aquaaww/water-reminder-app-for-windows/">Windows</a>'
+            f'<a href="/aquaaww/water-reminder-app-for-mac/">Mac</a><a href="/guides/">Guides</a><a href="{GH}">GitHub</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></nav>')
+
+def faq_desktop(FAQ, GH):
+    return (f'<section id="faq" class="faq" aria-labelledby="faq-h"><h2 id="faq-h" class="fq-l ff-jb">Questions</h2><div class="fq-list">{faq_items(FAQ, "ff-ad")}</div>{nav(GH)}</section>')
+
+EXTRA_CSS = """
+.fq-a{font-family:"Architects Daughter",cursive}
+.fq summary::after{content:"+";position:absolute;right:0;top:-1px;font:400 22px/1 "Permanent Marker",cursive;color:#e83328;opacity:0;transition:opacity .15s}
+.fq summary:hover::after,.fq summary:focus-visible::after{opacity:1}
+.fq[open] summary::after{content:"_";top:3px;font-size:16.936px;opacity:1}
+@media (hover:none){.fq:not([open]) summary::after{opacity:.55}}
+#demo{position:fixed;left:16px;bottom:16px;z-index:30;width:230px;height:330px;pointer-events:none;animation:dmpop .3s cubic-bezier(.3,1.4,.5,1)}
+#demo[hidden]{display:none}
+#demo>*{pointer-events:auto}
+#demo canvas{position:absolute;left:0;bottom:0;width:230px;height:230px}
+#demo video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.dm-note{position:absolute;left:4px;top:0;width:104px;transform:rotate(-3deg)}
+.dm-note img{width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.dm-ok{position:absolute;left:25%;top:62%;width:55%;height:15%;border:0;background:none;cursor:pointer;border-radius:4px}
+.dm-ok:hover,.dm-ok:focus-visible{outline:2px solid #e83328}
+.dm-x{position:absolute;right:2px;top:78px;width:28px;height:28px;border:1px solid #000;border-radius:50%;background:#fcfbf6;color:#000;font:400 18px/1 "Permanent Marker",cursive;cursor:pointer;z-index:2}
+.dm-cap{position:absolute;left:0;bottom:-2px;margin:0;font:11px/1.2 "JetBrains Mono",monospace;color:rgba(0,0,0,.55);display:none}
+@keyframes dmpop{from{transform:translateY(60px) scale(.85);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:699px){#demo{width:176px;height:252px;left:10px;bottom:10px}#demo canvas{width:176px;height:176px}.dm-note{width:84px}.dm-x{top:60px}}
+@media (prefers-reduced-motion:reduce){#demo{animation:none}}
+"""
+
+DEMO_HTML = """<aside id="demo" role="dialog" aria-label="AquaAww demo" hidden><div class="dm-note"><img src="/aquaaww/img/demo-note.webp" width="175" height="205" alt="Drink water note with I drank and later buttons"><button class="dm-ok" type="button" aria-label="I drank"></button></div><button class="dm-x" type="button" aria-label="Close demo">&times;</button><canvas id="dmc" width="320" height="320" aria-label="A short video of someone you love reminding you to drink water"></canvas><video id="dmv" muted playsinline loop preload="none"></video></aside>"""
+
+DEMO_JS = """
+  var dm=document.getElementById("demo"),dv=document.getElementById("dmv"),dc=document.getElementById("dmc"),dx=dc.getContext("2d",{willReadFrequently:true}),dOn=false,dRaf=0,W=320;
+  function dFrame(){
+    if(!dOn)return;
+    if(dv.readyState>=2&&dv.videoWidth){
+      var s=Math.min(dv.videoWidth,dv.videoHeight);
+      dx.drawImage(dv,(dv.videoWidth-s)/2,(dv.videoHeight-s)/2,s,s,0,0,W,W);
+      var im=dx.getImageData(0,0,W,W),a=im.data;
+      for(var i=0;i<a.length;i+=4){var m=a[i]>a[i+2]?a[i]:a[i+2],al=1-(a[i+1]-m-35)/65;al=al<=0?0:al>=1?1:al*al*(3-2*al);if(al<1&&a[i+1]>m)a[i+1]=m;a[i+3]=al*255}
+      dx.putImageData(im,0,0);
+    }
+    dRaf=dv.requestVideoFrameCallback?dv.requestVideoFrameCallback(dFrame):requestAnimationFrame(dFrame);
+  }
+  function dOpen(){
+    if(!dv.getAttribute("src"))dv.src="/aquaaww/demo.mp4";
+    dm.hidden=false;dOn=true;dv.currentTime=0;
+    var p=dv.play();if(p&&p.catch)p.catch(function(){});
+    dFrame();
+  }
+  function dClose(){dOn=false;if(dv.cancelVideoFrameCallback)dv.cancelVideoFrameCallback(dRaf);cancelAnimationFrame(dRaf);dv.pause();dm.hidden=true}
+  document.querySelectorAll("[data-demo]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();dm.hidden?dOpen():dClose()})});
+  dm.querySelector(".dm-x").addEventListener("click",dClose);
+  dm.querySelector(".dm-ok").addEventListener("click",dClose);
+  addEventListener("keydown",function(e){if(e.key==="Escape"&&!dm.hidden)dClose()});
+"""
+
+def build(D, FAQ, GH):
+    faq = faq_items(FAQ)
     def note(cls, img, paras, white=False):
         return (f'<div class="nt {cls}{" w" if white else ""}"><img src="{I}{img}.webp" alt="" loading="lazy" decoding="async">'
                 f'<div class="t ad">{"".join(f"<p>{p}</p>" for p in paras)}</div></div>')
@@ -100,7 +161,7 @@ def build(D, FAQ, GH):
 <div class="mw">
 <header class="mtop"><a class="mback" href="/" aria-label="Back to Dusktillus home">&lt;- GO BACK</a><img class="mlogo" src="{I}863bd.svg" width="44" height="54" alt="AquaAww logo"></header>
 <section class="mc sa" aria-label="Why AquaAww exists"><div class="st ad"><p>I built <a href="#m-download">AquaAww</a> because I can’t always be there to say “have some water.”</p><p>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p></div>
-<div class="wrow"><a class="b3" href="#m-how">Show how it works</a><span class="wife ad">_ for my loving wife</span></div>
+<div class="wrow"><a class="b3" href="#m-how" data-demo="1">Show how it works</a><span class="wife ad">_ for my loving wife</span></div>
 <img class="lap" src="{I}laptop-m.webp" width="673" height="625" alt="AquaAww popping up on a Mac screen with a smile and a Drink water note" loading="lazy" decoding="async"></section>
 <section class="mc sb" id="m-download"><img class="ph" src="{I}phone-m.webp" width="280" height="567" alt="AquaAww water reminder app on an iPhone" loading="lazy" decoding="async">
 <div class="tx ad"><h1>AquaAww is a water reminder that comes as a person you love, not a beep.</h1><p>Upload a short video of your loved ones and it pops up on your screen with a smile, right when you need it.</p><p>Tap “I drank,” and it feels like they were there to look after you</p></div>
@@ -110,6 +171,6 @@ def build(D, FAQ, GH):
 <p class="pk"><img src="{I}a91a6.svg" alt="" loading="lazy">feeling lucky<img src="{I}092c9.svg" alt="" loading="lazy"></p><p class="rd ad">like to see the app on playstore,,<br>share - post / story / reel</p></div>
 <section class="mc sh" id="m-how" aria-labelledby="m-how-h"><h2 id="m-how-h">what makes AquaAww special?</h2>{notes}</section>
 <section class="mc qa" aria-labelledby="m-faq-h"><h2 id="m-faq-h">Questions</h2><div class="fq-list">{faq}</div>
-<nav class="fq-nav jb" aria-label="More about AquaAww"><a href="/aquaaww/water-reminder-app-for-android/">Android</a><a href="/aquaaww/water-reminder-app-for-windows/">Windows</a><a href="/aquaaww/water-reminder-app-for-mac/">Mac</a><a href="/guides/">Guides</a><a href="{GH}">GitHub</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/unsubscribe/">Unsubscribe</a></nav></section>
+{nav(GH)}</section>
 </div></div>'''
     return html

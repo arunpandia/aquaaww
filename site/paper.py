@@ -1,0 +1,114 @@
+"""Shared 'paper on the photo backdrop' look for every page except the home book and the AquaAww page itself
+(terms, privacy, unsubscribe, platform pages, guides, 404). Same fonts, backdrop and card as the Figma pages."""
+
+CSS = """
+@font-face{font-family:"JetBrains Mono";src:url(/flipbook/fonts/JetBrainsMono.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Architects Daughter";src:url(/flipbook/fonts/ArchitectsDaughter.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Permanent Marker";src:url(/flipbook/fonts/PermanentMarker-Regular.woff2) format("woff2");font-display:swap}
+*,*::before,*::after{box-sizing:border-box}
+html{background:#d2d2d2;-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:#000;font:17px/1.6 "Architects Daughter",cursive;min-height:100vh;overflow-x:hidden}
+img{display:block;max-width:100%;-webkit-user-drag:none}
+a{color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#bgfit{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+#bgst{position:absolute;left:50%;top:50%;width:1280px;height:832px;transform-origin:0 0}
+#bgst i{position:absolute;display:block;background-size:cover;background-position:center}
+#b0{left:0;top:0;width:1280px;height:832px}
+#b1{left:466px;top:210px;width:970px;height:851px;transform:scaleX(-1)}
+#b2{left:-109px;top:79px;width:720px;height:888px}
+#bgl{display:none}
+#sun{position:fixed;z-index:1;right:51px;top:42px;width:83px;height:101px;display:block}
+.dw{position:relative;z-index:2;width:min(830px,100% - 32px);margin:51px auto 40px}
+.dback{display:inline-block;margin:0 0 16px 16px;font:400 14px/1.4 "Permanent Marker",cursive;text-decoration:none}
+.dback:hover,.dback:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+.dc{position:relative;isolation:isolate;border:1px solid #000;border-radius:28px;background:#fcfbf6;padding:44px 56px 30px;overflow:hidden}
+.dc::before{content:"";position:absolute;inset:0;background:url(/flipbook/img/bg.webp) center/cover;opacity:.5;z-index:-1}
+.dc>*:first-child{margin-top:0}
+.dc h1{font:400 clamp(26px,4vw,34px)/1.15 "Permanent Marker",cursive;margin:0 0 14px;text-wrap:balance}
+.dc h2{font:400 21px/1.25 "Permanent Marker",cursive;margin:30px 0 8px}
+.dc h3{font:400 17px/1.3 "Permanent Marker",cursive}
+.dc p,.dc li{color:#111}
+.dc p{margin:0 0 12px}
+.dc ul,.dc ol{padding-left:1.3em;margin:0 0 12px}
+.dc li{margin:.35em 0}
+.dc strong{font-weight:400;background:linear-gradient(transparent 60%,rgba(233,178,78,.6) 60%)}
+.dc a{text-decoration:underline;text-decoration-color:rgba(232,51,40,.6);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.dc a:hover,.dc a:focus-visible{text-decoration-style:wavy;text-decoration-color:#e83328}
+.dc .meta{font:12px/1.4 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.5);margin:0 0 20px}
+.dc .lead{font-size:19px;line-height:1.55}
+.dc code{font:14px "JetBrains Mono",monospace;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:5px}
+.cta,.dc a.cta,.dl{position:relative;display:inline-block;isolation:isolate;margin:8px 0 6px 10px;padding:9px 20px 8px 18px;border:0;background:none;font:400 15px/1.2 "Permanent Marker",cursive;color:#000;text-decoration:none;cursor:pointer;transition:transform .12s}
+.cta::before,.dl::before{content:"";position:absolute;left:-7px;top:5px;right:6px;bottom:-5px;background:#E9B24E;border:1.3px solid #1d1d1d;z-index:-2}
+.cta::after,.dl::after{content:"";position:absolute;inset:0;background:#fff;border:1.3px solid #1d1d1d;z-index:-1}
+.cta:hover,.dl:hover{transform:translate(-2px,2px)}
+.cta:active,.dl:active{transform:translate(-4px,4px)}
+.dl:disabled{opacity:.55;cursor:wait}
+.dl span{display:block}
+.pcta{margin:34px 0 6px;padding:20px 24px 16px;border:1px dashed #000;border-radius:20px;background:rgba(255,255,255,.55)}
+.pcta h2{margin:0 0 6px!important}
+.glist{list-style:none;padding:0!important;display:grid;gap:12px;margin:18px 0 0}
+.glist li{margin:0}
+.glist a{display:block;text-decoration:none!important;padding:14px 20px;background:rgba(255,255,255,.7);border:1px solid #000;border-radius:18px;transition:transform .12s,box-shadow .12s}
+.glist a:hover{transform:translate(-2px,2px);box-shadow:-5px 5px 0 #E9B24E}
+.glist b{display:block;font:400 19px/1.3 "Permanent Marker",cursive;margin-bottom:2px}
+.glist span{font-size:15px;color:#333;line-height:1.45}
+.uform{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:18px 0 6px}
+.uform input{flex:1;min-width:200px;height:46px;padding:0 14px;border:1px solid #000;border-radius:12px;background:#fff;color:#000;font:16px "Architects Daughter",cursive}
+.uform input:focus-visible{outline:2px solid #e83328;outline-offset:1px}
+.uform .dl{margin:0 0 0 8px}
+.msg{min-height:1.4em;font-size:15px}.msg.bad{color:#b3261e}.msg.ok{color:#2f6b3a}
+.dfoot{margin-top:34px;padding-top:16px;border-top:1px dashed rgba(0,0,0,.3);display:flex;flex-wrap:wrap;gap:6px 18px;font:12px/1.5 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.55)}
+.dfoot a{text-decoration:none!important}
+.dfoot a:hover,.dfoot a:focus-visible{color:#000;text-decoration:underline wavy #e83328!important}
+@media (min-width:700px){
+body{background:#d2d2d2 url(/flipbook/img/bg.webp) center/cover fixed}
+#b0{background-image:url(/flipbook/img/bg.webp)}#b1{background-image:url(/flipbook/img/torn14.webp)}#b2{background-image:url(/flipbook/img/torn13.webp)}
+}
+@media (max-width:699px){
+#bgfit{display:none}
+#bgl{display:block;position:fixed;left:50%;top:0;width:402px;margin-left:-201px;height:100%;overflow:hidden;z-index:0;pointer-events:none;transform-origin:50% 0}
+#bgl i{position:absolute;display:block;background-size:cover;background-position:center}
+#sun{right:12px;top:10px;width:44px;height:54px}
+.dw{margin:12px auto 32px;width:calc(100% - 24px)}
+.dback{margin:8px 0 14px 10px}
+.dc{padding:28px 20px 22px;border-radius:22px}
+.dc::before{background-image:url(/m/img/bg-m.webp)}
+.dc h2{font-size:19px;margin-top:26px}
+body{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+"""
+
+BG = ('<div id="bgfit" aria-hidden="true"><div id="bgst"><i id="b0"></i><i id="b1"></i><i id="b2"></i></div></div>'
+      '<div id="bgl" aria-hidden="true"><i style="left:132px;top:194px;width:970px;height:851px;transform:scaleX(-1);background-image:url(/flipbook/img/torn14.webp)"></i>'
+      '<i style="left:-443px;top:63px;width:720px;height:888px;background-image:url(/flipbook/img/torn13.webp)"></i></div>'
+      '<a href="/aquaaww/" aria-label="AquaAww"><img id="sun" src="/aquaaww/img/863bd.svg" width="83" height="101" alt="AquaAww logo"></a>')
+
+JS = """<script>
+(function(){
+  var sun=document.getElementById("sun"),bg=document.getElementById("bgst");
+  function size(){
+    var w=innerWidth,h=innerHeight;
+    if(w<700){sun.style.cssText="";return}
+    var s=Math.min(w/880,h/832),c=Math.max(w/1280,h/832)*1.05;
+    sun.style.cssText="right:"+(51*s)+"px;top:"+(42*s)+"px;width:"+(83*s)+"px;height:"+(101.48*s)+"px";
+    bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
+  }
+  size();addEventListener("resize",size);
+})();
+</script>"""
+
+PRELOAD = ('<link rel="preload" href="/flipbook/fonts/ArchitectsDaughter.woff2" as="font" type="font/woff2" crossorigin>'
+           '<link rel="preload" href="/flipbook/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>')
+
+
+def footer():
+    return ('<footer class="dfoot" aria-label="More"><a href="/">Dusktillus</a><a href="/aquaaww/">AquaAww</a><a href="/guides/">Guides</a>'
+            '<a href="/aquaaww/water-reminder-app-for-android/">Android</a><a href="/aquaaww/water-reminder-app-for-windows/">Windows</a>'
+            '<a href="/aquaaww/water-reminder-app-for-mac/">Mac</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></footer>')
+
+
+def body(inner, back="/aquaaww/"):
+    return (f'<body class="doc">{BG}<div class="dw"><a class="dback" href="{back}">&lt;- GO BACK</a>'
+            f'<main class="dc">{inner}{footer()}</main></div>{JS}</body></html>')

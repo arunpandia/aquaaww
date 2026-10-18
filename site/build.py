@@ -74,10 +74,9 @@ jsonld = {
    "image":D+"/assets/og-aquaaww.png","downloadUrl":D+"/aquaaww/#download"},
   {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}]}
 
-import aquaaww_m
-AQ_CSS = open("aquaaww.css").read() + aquaaww_m.CSS
-AQ_BODY = open("aquaaww_body.html").read()
-jsonld["@graph"][1]["mainEntity"] = [{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ[:3]]
+import aquaaww_m, paper
+AQ_CSS = open("aquaaww.css").read() + aquaaww_m.CSS + aquaaww_m.EXTRA_CSS
+AQ_BODY = open("aquaaww_body.html").read().replace("<!--FAQ-->", aquaaww_m.faq_desktop(FAQ, GH))
 jsonld["@graph"][0]["downloadUrl"] = D+"/aquaaww/#download"
 jsonld["@graph"].append({"@type":"WebPage","@id":D+"/aquaaww/","url":D+"/aquaaww/","name":"AquaAww – a water reminder that comes as someone you love","isPartOf":{"@type":"WebSite","name":"Dusktillus","url":D+"/"},
   "about":{"@type":"SoftwareApplication","name":"AquaAww"},"primaryImageOfPage":{"@type":"ImageObject","url":D+"/assets/og-aquaaww.png"}})
@@ -90,7 +89,8 @@ index = head("AquaAww – a water reminder that comes as someone you love",
 <div id="bgfit" aria-hidden="true"><div id="bgst"><i id="b0"></i><i id="b1"></i><i id="b2"></i></div></div>
 <img id="sun" src="/aquaaww/img/863bd.svg" width="83" height="101" alt="AquaAww logo">
 <main id="stage">{AQ_BODY}</main>
-{aquaaww_m.build(D, FAQ[:3], GH)}
+{aquaaww_m.build(D, FAQ, GH)}
+{aquaaww_m.DEMO_HTML}
 <dialog id="dlg" aria-labelledby="dt">
   <form id="signup" method="post" action="/api/subscribe" novalidate>
     <button class="x" type="button" id="dx" aria-label="Close">&times;</button>
@@ -111,12 +111,13 @@ index = head("AquaAww – a water reminder that comes as someone you love",
 (function(){{
   var st=document.getElementById("stage"),sun=document.getElementById("sun"),bg=document.getElementById("bgst");
   function size(){{
-    var w=innerWidth,h=innerHeight,s=w>=1280?w/1280:Math.min(1,w/880),c=Math.max(w/1280,h/832)*1.05;
+    var w=innerWidth,h=innerHeight,s=w>=1280?w/1280:Math.min(1,w/880),c=Math.max(w/1280,h/832)*1.05,k=Math.min(w/880,h/832);
     st.style.zoom=s;
-    sun.style.cssText="right:"+(51*s)+"px;top:"+(42*s)+"px;width:"+(83*s)+"px;height:"+(101.48*s)+"px";
+    if(w>=700)sun.style.cssText="right:"+(51*k)+"px;top:"+(42*k)+"px;width:"+(83*k)+"px;height:"+(101.48*k)+"px";else sun.style.cssText="";
     bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
   }}
   size();addEventListener("resize",size);
+{aquaaww_m.DEMO_JS}
   var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");
   var NAMES={{android:"Android",windows:"Windows",mac:"Mac"}};
   var u=navigator.userAgent,my=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";
@@ -163,9 +164,8 @@ def crumbs(items):
     return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
         {"@type":"ListItem","position":i+1,"name":n,"item":D+p} for i,(n,p) in enumerate(items)]}, separators=(",",":")) + '</script>'
 
-def simple(title, desc, path, body, noindex=False, extra="", product=True):
-    top = '<a href="/aquaaww/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="AquaAww"></a>' if product else '<a href="/" class="wm"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><use href="/assets/dusk.svg#m"/></svg><span>Dusktillus</span></a>'
-    return head(title, desc, path, extra=extra, noindex=noindex) + f'<body class="doc"><header class="docTop">{top}</header><main class="docBody">{body}</main>{nav_footer()}</body></html>'
+def simple(title, desc, path, body, noindex=False, extra="", product=True, back="/aquaaww/"):
+    return head(title, desc, path, extra=extra+paper.PRELOAD, noindex=noindex, css=paper.CSS, fonts=False) + paper.body(body, back)
 
 C = CONFIG["contact"]; U = CONFIG["updated"]
 
@@ -236,21 +236,21 @@ PLAT = {
    desc="Free Android drink-water reminder that shows a video of someone you love over your apps, with I drank and Later buttons. APK download, no account.",
    intro="AquaAww turns the usual water-reminder beep into a short video of someone you love. On Android it floats over whatever you are doing, so a reminder in the middle of Instagram or YouTube is hard to miss, and it also sends a notification with the same two buttons.",
    req=["Android 5.1 or newer","About 20 MB of space","Notifications allowed (the app asks on first launch)","Optional: permission to display over other apps for the floating buddy"],
-   steps=["Fill in your name and email on the home page and tap Android. The file AquaAww.apk downloads.","Open the file. If Android blocks it, allow your browser or file manager to install unknown apps, then open the file again.","Open AquaAww. Allow notifications when asked, then allow display over other apps if you want the floating buddy.","Upload a short video, choose how often and which hours, and you are done."],
+   steps=["Fill in your name and email on the AquaAww page and tap Android. The file AquaAww.apk downloads.","Open the file. If Android blocks it, allow your browser or file manager to install unknown apps, then open the file again.","Open AquaAww. Allow notifications when asked, then allow display over other apps if you want the floating buddy.","Upload a short video, choose how often and which hours, and you are done."],
    tips=["Keep the video under 30 MB and about 3 to 6 seconds long.","If reminders stop on some phones, set battery use for AquaAww to Unrestricted in Android settings.","Use Test reminder in the app to see exactly what you will get."]),
  "windows": dict(slug="water-reminder-app-for-windows", name="Windows", h1="Water reminder app for Windows",
    title="Water Reminder App for Windows – Video Pop-up Buddy | AquaAww",
    desc="Free Windows 10 and 11 drink-water reminder that pops a video of someone you love onto your screen. Tray app, custom position, no account.",
    intro="AquaAww lives in your system tray and, at the interval you choose, pops up a short video of someone you love in the corner of your screen you prefer, with I drank and Later buttons. It stays out of the way until it is time.",
    req=["Windows 10 or 11, 64-bit","About 300 MB of disk space","No account and no internet needed after the download"],
-   steps=["Fill in your name and email on the home page and click Windows. The installer downloads.","Run AquaAww-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.","Find the AquaAww icon near the clock. Right-click it to pick your video, interval, active hours and screen position.","Choose Remind me now to see how it looks."],
+   steps=["Fill in your name and email on the AquaAww page and click Windows. The installer downloads.","Run AquaAww-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.","Find the AquaAww icon near the clock. Right-click it to pick your video, interval, active hours and screen position.","Choose Remind me now to see how it looks."],
    tips=["Turn on Launch at login so it is always there.","Drag the reminder to any spot on any monitor with Set position.","Use snooze when you are in a meeting."]),
  "mac": dict(slug="water-reminder-app-for-mac", name="Mac", h1="Water reminder app for Mac",
    title="Water Reminder App for Mac – Menu Bar Video Buddy | AquaAww",
    desc="Free Mac menu-bar drink-water reminder that plays a video of someone you love over your desktop, even in full-screen apps. Apple Silicon, no account.",
    intro="AquaAww sits quietly in your menu bar. When it is time, a short video of someone you love appears on your screen, even over full-screen apps, with I drank and Later buttons. Pick the interval, active hours and the exact spot on screen.",
    req=["A Mac with Apple Silicon (M1 or newer)","macOS 11 or newer","About 350 MB of disk space"],
-   steps=["Fill in your name and email on the home page and click Mac. A .dmg file downloads.","Open it and drag AquaAww into Applications.","The first time, macOS may say it cannot verify the app. Open System Settings, go to Privacy and Security, and choose Open Anyway.","Click the drop icon in the menu bar to choose your video, interval and position."],
+   steps=["Fill in your name and email on the AquaAww page and click Mac. A .dmg file downloads.","Open it and drag AquaAww into Applications.","The first time, macOS may say it cannot verify the app. Open System Settings, go to Privacy and Security, and choose Open Anyway.","Click the drop icon in the menu bar to choose your video, interval and position."],
    tips=["Turn on Launch at login from the menu bar icon.","Use a square video; the app crops to the centre.","Intel Macs are not supported yet."]),
 }
 def platform_page(k):
@@ -292,7 +292,7 @@ def article_page(a):
        "author":{"@type":"Organization","name":"Dusktillus","url":D+"/"},"publisher":{"@type":"Organization","name":"Dusktillus","logo":{"@type":"ImageObject","url":D+"/assets/logo-512.png"}}}]}
     if faq: ld["@graph"].append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":t}} for q,t in faq]})
     extra = '<script type="application/ld+json">'+json.dumps(ld,separators=(",",":"))+'</script>'+crumbs([("Dusktillus","/"),("Guides","/guides/"),(a["h1"],"/guides/"+a["slug"]+"/")])
-    return simple(a["title"], a["desc"], "/guides/"+a["slug"]+"/", body, extra=extra)
+    return simple(a["title"], a["desc"], "/guides/"+a["slug"]+"/", body, extra=extra, back="/guides/")
 os.makedirs("guides", exist_ok=True)
 for a in ARTICLES:
     os.makedirs("guides/"+a["slug"], exist_ok=True); open("guides/"+a["slug"]+"/index.html","w").write(article_page(a))

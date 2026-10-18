@@ -14,152 +14,103 @@
 <meta property="og:url" content="https://dusktillus.store/aquaaww/water-reminder-app-for-windows/"><meta property="og:image" content="https://dusktillus.store/assets/og-aquaaww.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://dusktillus.store/assets/og-aquaaww.png">
-<link rel="preload" href="/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<style>@font-face{font-family:"Permanent Marker";src:url(/fonts/PermanentMarker-Regular.woff2) format("woff2");font-display:swap}
-@font-face{font-family:"Special Elite";src:url(/fonts/SpecialElite-Regular.woff2) format("woff2");font-display:swap}
-:root{--cream:#F9F0E3;--ink:#342725;--coral:#FF6F59;--blue:#00308E;--tape:#E9B24E;--muted:#7a6a64;--gx:clamp(16px,4.7vw,64px);color-scheme:light}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 "Special Elite",ui-monospace,Menlo,Consolas,monospace;overflow-x:hidden}
-img{display:block;max-width:100%;height:auto}
+
+<style>
+@font-face{font-family:"JetBrains Mono";src:url(/flipbook/fonts/JetBrainsMono.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Architects Daughter";src:url(/flipbook/fonts/ArchitectsDaughter.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Permanent Marker";src:url(/flipbook/fonts/PermanentMarker-Regular.woff2) format("woff2");font-display:swap}
+*,*::before,*::after{box-sizing:border-box}
+html{background:#d2d2d2;-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:#000;font:17px/1.6 "Architects Daughter",cursive;min-height:100vh;overflow-x:hidden}
+img{display:block;max-width:100%;-webkit-user-drag:none}
 a{color:inherit}
-.sr,.skip:not(:focus){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.skip:focus{position:fixed;left:12px;top:12px;z-index:9;background:#fff;padding:8px 12px;border:2px solid var(--ink);border-radius:8px}
-:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
-.marker,h1,h2,h3,.tag,.letter,.dl,.presets span,.stamp i{font-family:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;font-weight:400}
-
-/* hero: drop + letter left, framed buddy + downloads right, stamp and presets in the corners */
-.hero{min-height:100vh;min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(16px,3.5vw,48px) max(var(--gx),env(safe-area-inset-right,0px)) clamp(16px,3vw,40px) max(var(--gx),env(safe-area-inset-left,0px))}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.brand img{width:clamp(84px,8.2vw,115px)}
-.tag{margin:6px 0 0;color:var(--coral);font-size:clamp(15px,1.5vw,20px);line-height:1.3;max-width:11em;transform:rotate(-3deg);text-wrap:balance}
-.stage{display:grid;grid-template-columns:minmax(0,300px) auto;gap:clamp(28px,5vw,72px);justify-content:center;align-items:center;padding-block:clamp(20px,3vw,40px)}
-.letter{font-size:clamp(13px,1.15vw,15px);line-height:1.5}
-.letter .drop{width:46px;height:auto;margin-bottom:clamp(24px,4vw,56px)}
-.letter p{margin:0 0 1.1em}
-.sig{color:var(--coral)}
-.get{display:flex;flex-direction:column;align-items:center;min-width:0}
-.frameWrap{position:relative;width:clamp(250px,26vw,330px);aspect-ratio:254/261}
-.frame{position:absolute;inset:0;width:100%;height:100%}
-.buddy{position:absolute;inset:16% 22% 12% 14%;display:grid;animation:bob 3.6s ease-in-out infinite}
-.buddy img{grid-area:1/1;width:100%;height:100%;object-fit:contain;opacity:0;animation:cyc 9s infinite}
-.buddy img:nth-child(1){animation-delay:-.4s}.buddy img:nth-child(2){animation-delay:2.6s}.buddy img:nth-child(3){animation-delay:5.6s}
-@keyframes cyc{0%{opacity:0;transform:translateY(8px)}4%,30%{opacity:1;transform:none}34%,100%{opacity:0}}
-@keyframes bob{50%{transform:translateY(-6px)}}
-.note,.card{position:absolute;display:block;transition:transform .15s}
-.note{left:79%;top:3%;width:31%;transform:rotate(-5.5deg);filter:drop-shadow(0 0 6px rgba(0,0,0,.18))}
-.card{left:78%;top:50%;width:29%;transform:rotate(3deg);filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
-.note:hover{transform:rotate(-3deg) translateY(-3px)}.card:hover{transform:rotate(1deg) translateY(-3px)}
-.dls{display:flex;gap:10px;margin-top:clamp(18px,2.6vw,30px);width:max-content;max-width:100%}
-.dl{display:grid;place-items:center;min-width:118px;height:46px;padding:0 8px 7px 14px;background:url(/assets/btn.svg) 100% 100%/100% 100% no-repeat;color:#1d1d1d;text-decoration:none;font-size:15px;letter-spacing:.4px;text-transform:uppercase;transition:transform .1s}
-.dl:hover{transform:translate(-1px,1px)}.dl:active{transform:translate(-4px,4px)}
-.dl.pick span{color:var(--coral)}
-.fine{margin:12px 0 0;font-size:12px;color:var(--muted);text-align:center;max-width:34em}
-.low{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
-.presets{position:relative;display:block;width:clamp(102px,10.8vw,147px);aspect-ratio:253/190;margin-bottom:26px;text-decoration:none;transition:transform .15s}
-.presets:hover{transform:rotate(-2deg) scale(1.04)}
-.presets img{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.22))}
-.p1{left:7%;top:13%;width:40%}.p3{left:57%;top:4%;width:30%}.p2{left:27%;top:19%;width:50%}
-.presets span{position:absolute;left:50%;bottom:-27px;transform:translateX(-50%) rotate(-3deg);font:400 clamp(13px,1.15vw,16px) "Special Elite",ui-monospace,monospace;white-space:nowrap}
-.stamp{position:relative;width:clamp(70px,7vw,92px);aspect-ratio:552/776;padding:0;border:0;background:none;cursor:pointer;color:var(--ink);transform:rotate(2deg);transition:transform .15s}
-.stamp:active{transform:rotate(2deg) scale(.96)}
-.stamp img{width:100%;height:100%}
-.stamp b{position:absolute;left:14%;top:12%;font:400 clamp(10px,1vw,13px)/1.05 "Special Elite",monospace;text-align:left}
-.stamp i{position:absolute;right:15%;bottom:13%;font-style:normal;color:var(--coral);font-size:clamp(16px,1.6vw,22px)}
-
-/* below the fold: real content for people and search engines */
-.more{padding:0 max(var(--gx),env(safe-area-inset-right,0px)) 0 max(var(--gx),env(safe-area-inset-left,0px))}
-.sec{max-width:940px;margin:0 auto;padding-block:clamp(36px,6vw,80px)}
-.sec h2,.docBody h1{font-size:clamp(24px,3.4vw,36px);line-height:1.15;margin:0 0 clamp(18px,3vw,32px);text-wrap:balance}
-.steps,.feat{list-style:none;margin:0;padding:0;display:grid;gap:18px}
-.steps{grid-template-columns:repeat(3,minmax(0,1fr));counter-reset:s}
-.feat{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
-.steps li,.feat li{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:20px 20px 22px;box-shadow:4px 4px 0 var(--tape)}
-.steps li::before{counter-increment:s;content:counter(s);display:block;font:400 28px/1 "Permanent Marker",cursive;color:var(--coral);margin-bottom:10px}
-.sec h3{font-size:19px;margin:0 0 6px}
-.sec li p,details p{margin:0;font-size:15px;line-height:1.6}
-details{border-bottom:2px dashed var(--ink);padding:14px 0}
-summary{cursor:pointer;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font:400 24px/1 "Permanent Marker",cursive;color:var(--coral)}
-details[open] summary::after{content:"–"}
-details p{padding-top:10px;max-width:60ch}
-.end{text-align:center;padding:32px 16px calc(40px + env(safe-area-inset-bottom,0px));font-size:14px;color:var(--muted)}
-.end p{margin:6px 0}
-.doc .docTop{padding:24px max(var(--gx),env(safe-area-inset-left,0px))}
-.docBody{max-width:660px;margin:0 auto;padding:8px max(16px,env(safe-area-inset-left,0px)) 40px}
-.docBody h2{font-size:22px;margin:28px 0 8px}
-.docBody p,.docBody li{line-height:1.65}
-
-@media (max-width:820px){
-  .stage{grid-template-columns:minmax(0,1fr);justify-items:center;gap:34px}
-  .letter{max-width:440px;width:100%}
-  .letter .drop{margin-bottom:22px}
-  .get{width:100%}
-  .frameWrap{width:min(70vw,300px)}
-  .dls{width:100%;max-width:420px;gap:8px}
-  .dl{flex:1;min-width:0;height:44px;font-size:13px;padding-left:12px}
-  .steps{grid-template-columns:1fr}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#bgfit{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+#bgst{position:absolute;left:50%;top:50%;width:1280px;height:832px;transform-origin:0 0}
+#bgst i{position:absolute;display:block;background-size:cover;background-position:center}
+#b0{left:0;top:0;width:1280px;height:832px}
+#b1{left:466px;top:210px;width:970px;height:851px;transform:scaleX(-1)}
+#b2{left:-109px;top:79px;width:720px;height:888px}
+#bgl{display:none}
+#sun{position:fixed;z-index:1;right:51px;top:42px;width:83px;height:101px;display:block}
+.dw{position:relative;z-index:2;width:min(830px,100% - 32px);margin:51px auto 40px}
+.dback{display:inline-block;margin:0 0 16px 16px;font:400 14px/1.4 "Permanent Marker",cursive;text-decoration:none}
+.dback:hover,.dback:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+.dc{position:relative;isolation:isolate;border:1px solid #000;border-radius:28px;background:#fcfbf6;padding:44px 56px 30px;overflow:hidden}
+.dc::before{content:"";position:absolute;inset:0;background:url(/flipbook/img/bg.webp) center/cover;opacity:.5;z-index:-1}
+.dc>*:first-child{margin-top:0}
+.dc h1{font:400 clamp(26px,4vw,34px)/1.15 "Permanent Marker",cursive;margin:0 0 14px;text-wrap:balance}
+.dc h2{font:400 21px/1.25 "Permanent Marker",cursive;margin:30px 0 8px}
+.dc h3{font:400 17px/1.3 "Permanent Marker",cursive}
+.dc p,.dc li{color:#111}
+.dc p{margin:0 0 12px}
+.dc ul,.dc ol{padding-left:1.3em;margin:0 0 12px}
+.dc li{margin:.35em 0}
+.dc strong{font-weight:400;background:linear-gradient(transparent 60%,rgba(233,178,78,.6) 60%)}
+.dc a{text-decoration:underline;text-decoration-color:rgba(232,51,40,.6);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.dc a:hover,.dc a:focus-visible{text-decoration-style:wavy;text-decoration-color:#e83328}
+.dc .meta{font:12px/1.4 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.5);margin:0 0 20px}
+.dc .lead{font-size:19px;line-height:1.55}
+.dc code{font:14px "JetBrains Mono",monospace;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:5px}
+.cta,.dc a.cta,.dl{position:relative;display:inline-block;isolation:isolate;margin:8px 0 6px 10px;padding:9px 20px 8px 18px;border:0;background:none;font:400 15px/1.2 "Permanent Marker",cursive;color:#000;text-decoration:none;cursor:pointer;transition:transform .12s}
+.cta::before,.dl::before{content:"";position:absolute;left:-7px;top:5px;right:6px;bottom:-5px;background:#E9B24E;border:1.3px solid #1d1d1d;z-index:-2}
+.cta::after,.dl::after{content:"";position:absolute;inset:0;background:#fff;border:1.3px solid #1d1d1d;z-index:-1}
+.cta:hover,.dl:hover{transform:translate(-2px,2px)}
+.cta:active,.dl:active{transform:translate(-4px,4px)}
+.dl:disabled{opacity:.55;cursor:wait}
+.dl span{display:block}
+.pcta{margin:34px 0 6px;padding:20px 24px 16px;border:1px dashed #000;border-radius:20px;background:rgba(255,255,255,.55)}
+.pcta h2{margin:0 0 6px!important}
+.glist{list-style:none;padding:0!important;display:grid;gap:12px;margin:18px 0 0}
+.glist li{margin:0}
+.glist a{display:block;text-decoration:none!important;padding:14px 20px;background:rgba(255,255,255,.7);border:1px solid #000;border-radius:18px;transition:transform .12s,box-shadow .12s}
+.glist a:hover{transform:translate(-2px,2px);box-shadow:-5px 5px 0 #E9B24E}
+.glist b{display:block;font:400 19px/1.3 "Permanent Marker",cursive;margin-bottom:2px}
+.glist span{font-size:15px;color:#333;line-height:1.45}
+.uform{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:18px 0 6px}
+.uform input{flex:1;min-width:200px;height:46px;padding:0 14px;border:1px solid #000;border-radius:12px;background:#fff;color:#000;font:16px "Architects Daughter",cursive}
+.uform input:focus-visible{outline:2px solid #e83328;outline-offset:1px}
+.uform .dl{margin:0 0 0 8px}
+.msg{min-height:1.4em;font-size:15px}.msg.bad{color:#b3261e}.msg.ok{color:#2f6b3a}
+.dfoot{margin-top:34px;padding-top:16px;border-top:1px dashed rgba(0,0,0,.3);display:flex;flex-wrap:wrap;gap:6px 18px;font:12px/1.5 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.55)}
+.dfoot a{text-decoration:none!important}
+.dfoot a:hover,.dfoot a:focus-visible{color:#000;text-decoration:underline wavy #e83328!important}
+@media (min-width:700px){
+body{background:#d2d2d2 url(/flipbook/img/bg.webp) center/cover fixed}
+#b0{background-image:url(/flipbook/img/bg.webp)}#b1{background-image:url(/flipbook/img/torn14.webp)}#b2{background-image:url(/flipbook/img/torn13.webp)}
 }
-@media (max-width:380px){.tag{font-size:14px}.dl{font-size:12px}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}.buddy img:first-child{opacity:1}}
-
-/* signup form */
-.signup{width:100%;max-width:440px;margin-top:clamp(16px,2.2vw,26px);display:flex;flex-direction:column;align-items:center}
-.fields{display:flex;gap:8px;width:100%}
-.fields input:not(.hp),.uform input{flex:1;min-width:0;height:44px;padding:0 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);font:15px "Special Elite",ui-monospace,monospace;box-shadow:3px 3px 0 var(--tape)}
-.fields input::placeholder,.uform input::placeholder{color:#a39489}
-.fields input:focus-visible,.uform input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.signup .dls{margin-top:16px}
-button.dl{border:0;cursor:pointer;font-family:"Permanent Marker","Marker Felt","Comic Sans MS",cursive}
-button.dl:disabled{opacity:.55;cursor:wait}
-.msg{min-height:1.4em;margin:10px 0 0;font-size:13px;text-align:center}
-.msg.bad{color:#b3261e}.msg.ok{color:#2f6b3a}
-.terms{margin:2px 0 0;font-size:11px;line-height:1.45;color:var(--muted);text-align:center;max-width:36em}
-.terms a{text-underline-offset:2px}
-@media (max-width:520px){.fields{flex-direction:column}.signup{max-width:420px}}
-.uform{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px}
-.uform .dl{flex:none;width:150px}
-.docBody .meta{color:var(--muted);font-size:13px;margin-top:-8px}
-.docBody .lead{font-size:18px;line-height:1.6}
-.docBody h1{margin-top:0}
-.docBody a{color:var(--blue)}
-.cta{display:inline-block;background:var(--coral);color:#fff!important;text-decoration:none;padding:12px 20px;border-radius:10px;font:400 17px "Permanent Marker",cursive;box-shadow:3px 3px 0 var(--ink)}
-.cta:hover{transform:translate(-1px,-1px)}
-.docBody ol,.docBody ul{padding-left:1.3em}.docBody li{margin:.4em 0}
-
-/* download pop-up */
-dialog{width:min(92vw,400px);max-height:92vh;overflow:auto;margin:auto;padding:26px 24px 22px;border:2px solid var(--ink);border-radius:18px;background:var(--cream);color:var(--ink);box-shadow:6px 6px 0 var(--tape)}
-dialog::backdrop{background:rgba(52,39,37,.5)}
-dialog[open]{animation:pop .18s ease-out}
-@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}}
-dialog form{display:flex;flex-direction:column;gap:10px;position:relative}
-dialog h2{font-size:26px;margin:0 28px 0 0}
-dialog .sub{margin:0 0 6px;font-size:14px;line-height:1.5}
-dialog input:not(.hp):not([type=hidden]){height:46px;padding:0 12px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);font:16px "Special Elite",ui-monospace,monospace;width:100%;box-shadow:3px 3px 0 var(--tape)}
-dialog input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-dialog .x{position:absolute;right:-6px;top:-10px;width:36px;height:36px;border:0;background:none;font:400 28px/1 "Permanent Marker",cursive;color:var(--ink);cursor:pointer}
-dialog .msg{margin:0;min-height:1.3em;text-align:left}
-.go{border:0;cursor:pointer;width:100%;text-align:center;font-size:18px}
-.go:disabled{opacity:.6;cursor:wait}
-dialog .terms{text-align:left;margin:0}
-.wm{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:400 22px "Permanent Marker",cursive;color:var(--ink)}
-
-.pcta{margin:36px 0 8px;padding:22px 22px 20px;background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--tape)}
-.pcta h2{margin:0 0 6px!important}.pcta p{margin:6px 0}
-.glist{list-style:none;padding:0!important;display:grid;gap:14px}
-.glist a{display:block;text-decoration:none;color:var(--ink)!important;padding:16px 18px;background:#fff;border:2px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--tape)}
-.glist b{display:block;font:400 19px "Permanent Marker",cursive;margin-bottom:4px}.glist span{font-size:14px;color:var(--muted)}
-
-img{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
+@media (max-width:699px){
+#bgfit{display:none}
+#bgl{display:block;position:fixed;left:50%;top:0;width:402px;margin-left:-201px;height:100%;overflow:hidden;z-index:0;pointer-events:none;transform-origin:50% 0}
+#bgl i{position:absolute;display:block;background-size:cover;background-position:center}
+#sun{right:12px;top:10px;width:44px;height:54px}
+.dw{margin:12px auto 32px;width:calc(100% - 24px)}
+.dback{margin:8px 0 14px 10px}
+.dc{padding:28px 20px 22px;border-radius:22px}
+.dc::before{background-image:url(/m/img/bg-m.webp)}
+.dc h2{font-size:19px;margin-top:26px}
+body{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AquaAww for Windows","operatingSystem":"Windows","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free Windows 10 and 11 drink-water reminder that pops a video of someone you love onto your screen. Tray app, custom position, no account.","url":"https://dusktillus.store/aquaaww/water-reminder-app-for-windows/"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Dusktillus","item":"https://dusktillus.store/"},{"@type":"ListItem","position":2,"name":"AquaAww","item":"https://dusktillus.store/aquaaww/"},{"@type":"ListItem","position":3,"name":"Windows","item":"https://dusktillus.store/aquaaww/water-reminder-app-for-windows/"}]}</script><script defer src="/_vercel/insights/script.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AquaAww for Windows","operatingSystem":"Windows","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free Windows 10 and 11 drink-water reminder that pops a video of someone you love onto your screen. Tray app, custom position, no account.","url":"https://dusktillus.store/aquaaww/water-reminder-app-for-windows/"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Dusktillus","item":"https://dusktillus.store/"},{"@type":"ListItem","position":2,"name":"AquaAww","item":"https://dusktillus.store/aquaaww/"},{"@type":"ListItem","position":3,"name":"Windows","item":"https://dusktillus.store/aquaaww/water-reminder-app-for-windows/"}]}</script><link rel="preload" href="/flipbook/fonts/ArchitectsDaughter.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/flipbook/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin><script defer src="/_vercel/insights/script.js"></script>
 <script>document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault()});</script>
-</head><body class="doc"><header class="docTop"><a href="/aquaaww/" class="brand"><img src="/assets/drink-water.webp" width="86" height="54" alt="AquaAww"></a></header><main class="docBody"><h1>Water reminder app for Windows</h1>
+</head><body class="doc"><div id="bgfit" aria-hidden="true"><div id="bgst"><i id="b0"></i><i id="b1"></i><i id="b2"></i></div></div><div id="bgl" aria-hidden="true"><i style="left:132px;top:194px;width:970px;height:851px;transform:scaleX(-1);background-image:url(/flipbook/img/torn14.webp)"></i><i style="left:-443px;top:63px;width:720px;height:888px;background-image:url(/flipbook/img/torn13.webp)"></i></div><a href="/aquaaww/" aria-label="AquaAww"><img id="sun" src="/aquaaww/img/863bd.svg" width="83" height="101" alt="AquaAww logo"></a><div class="dw"><a class="dback" href="/aquaaww/">&lt;- GO BACK</a><main class="dc"><h1>Water reminder app for Windows</h1>
 <p class="lead">AquaAww lives in your system tray and, at the interval you choose, pops up a short video of someone you love in the corner of your screen you prefer, with I drank and Later buttons. It stays out of the way until it is time.</p>
 <p><a class="cta" href="/aquaaww/#download">Download free for Windows</a></p>
 <h2>What you need</h2><ul><li>Windows 10 or 11, 64-bit</li><li>About 300 MB of disk space</li><li>No account and no internet needed after the download</li></ul>
-<h2>How to install on Windows</h2><ol><li>Fill in your name and email on the home page and click Windows. The installer downloads.</li><li>Run AquaAww-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.</li><li>Find the AquaAww icon near the clock. Right-click it to pick your video, interval, active hours and screen position.</li><li>Choose Remind me now to see how it looks.</li></ol>
+<h2>How to install on Windows</h2><ol><li>Fill in your name and email on the AquaAww page and click Windows. The installer downloads.</li><li>Run AquaAww-Setup.exe. If SmartScreen appears, choose More info, then Run anyway. The installer is not code-signed yet.</li><li>Find the AquaAww icon near the clock. Right-click it to pick your video, interval, active hours and screen position.</li><li>Choose Remind me now to see how it looks.</li></ol>
 <h2>Tips</h2><ul><li>Turn on Launch at login so it is always there.</li><li>Drag the reminder to any spot on any monitor with Set position.</li><li>Use snooze when you are in a meeting.</li></ul>
-<h2>Also available on</h2><p><a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p></main><footer class="end"><p><a href="/">Dusktillus</a> · <a href="/aquaaww/">AquaAww</a> · <a href="/guides/">Guides</a> · <a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p><p><a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer></body></html>
+<h2>Also available on</h2><p><a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p><footer class="dfoot" aria-label="More"><a href="/">Dusktillus</a><a href="/aquaaww/">AquaAww</a><a href="/guides/">Guides</a><a href="/aquaaww/water-reminder-app-for-android/">Android</a><a href="/aquaaww/water-reminder-app-for-windows/">Windows</a><a href="/aquaaww/water-reminder-app-for-mac/">Mac</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></footer></main></div><script>
+(function(){
+  var sun=document.getElementById("sun"),bg=document.getElementById("bgst");
+  function size(){
+    var w=innerWidth,h=innerHeight;
+    if(w<700){sun.style.cssText="";return}
+    var s=Math.min(w/880,h/832),c=Math.max(w/1280,h/832)*1.05;
+    sun.style.cssText="right:"+(51*s)+"px;top:"+(42*s)+"px;width:"+(83*s)+"px;height:"+(101.48*s)+"px";
+    bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
+  }
+  size();addEventListener("resize",size);
+})();
+</script></body></html>

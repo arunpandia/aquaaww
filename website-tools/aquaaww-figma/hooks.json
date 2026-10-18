@@ -43,7 +43,8 @@
    "tag": "a",
    "attrs": {
     "href": "#how",
-    "aria-label": "Show how AquaAww works"
+    "aria-label": "Show how AquaAww works",
+    "data-demo": "1"
    }
   },
   {
