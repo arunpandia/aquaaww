@@ -64,14 +64,14 @@ EXTRA_CSS = """
 .dm-note img{width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
 .dm-ok{position:absolute;left:25%;top:62%;width:55%;height:15%;border:0;background:none;cursor:pointer;border-radius:4px}
 .dm-ok:hover,.dm-ok:focus-visible{outline:2px solid #e83328}
-.dm-x{position:absolute;right:4px;top:6px;width:28px;height:28px;border:1px solid #000;border-radius:50%;background:#fcfbf6;color:#000;font:400 18px/1 "Permanent Marker",cursive;cursor:pointer;z-index:2}
+.dm-x{position:absolute;right:4px;top:6px;width:28px;height:28px;border:1px solid #000;border-radius:50%;background:#fcfbf6;color:#000;display:grid;place-items:center;padding:0;cursor:pointer;z-index:2}
 .dm-cap{position:absolute;left:0;bottom:-2px;margin:0;font:11px/1.2 "JetBrains Mono",monospace;color:rgba(0,0,0,.55);display:none}
 @keyframes dmpop{from{transform:translateY(60px) scale(.85);opacity:0}to{transform:none;opacity:1}}
 @media (max-width:699px){#demo{width:176px;height:252px;left:10px;bottom:10px}#demo canvas{width:176px;height:176px}.dm-note{width:84px}.dm-x{top:6px}}
 @media (prefers-reduced-motion:reduce){#demo{animation:none}}
 """
 
-DEMO_HTML = """<aside id="demo" role="dialog" aria-label="AquaAww demo" hidden><div class="dm-note"><img src="/aquaaww/img/demo-note.webp" width="175" height="205" alt="Drink water note with I drank and later buttons"><button class="dm-ok" type="button" aria-label="I drank"></button></div><button class="dm-x" type="button" aria-label="Close demo">&times;</button><canvas id="dmc" width="320" height="320" aria-label="A short video of someone you love reminding you to drink water"></canvas><video id="dmv" muted playsinline loop preload="none"></video></aside>"""
+DEMO_HTML = """<aside id="demo" role="dialog" aria-label="AquaAww demo" hidden><div class="dm-note"><img src="/aquaaww/img/demo-note.webp" width="175" height="205" alt="Drink water note with I drank and later buttons"><button class="dm-ok" type="button" aria-label="I drank"></button></div><button class="dm-x" type="button" aria-label="Close demo"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button><canvas id="dmc" width="320" height="320" aria-label="A short video of someone you love reminding you to drink water"></canvas><video id="dmv" muted playsinline loop preload="none"></video></aside>"""
 
 DEMO_JS = """
   var dm=document.getElementById("demo"),dv=document.getElementById("dmv"),dc=document.getElementById("dmc"),dx=dc.getContext("2d",{willReadFrequently:true}),dOn=false,dRaf=0,W=320;

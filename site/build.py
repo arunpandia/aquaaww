@@ -93,7 +93,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
 {aquaaww_m.DEMO_HTML}
 <dialog id="dlg" aria-labelledby="dt">
   <form id="signup" method="post" action="/api/subscribe" novalidate>
-    <button class="x" type="button" id="dx" aria-label="Close">&times;</button>
+    <button class="x" type="button" id="dx" aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <h2 id="dt">Almost there</h2>
     <p class="sub">Tell us who to thank. Your download for <b id="osn">Mac</b> starts right after.</p>
     <input type="hidden" name="os" id="os" value="">
