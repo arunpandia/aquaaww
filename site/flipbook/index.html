@@ -56,6 +56,11 @@ a{color:inherit;text-decoration:none}
 .hint{left:50%;top:60px;transform:translateX(-50%);font-size:14px;color:#000;text-align:center;white-space:pre}
 .hint b{font-weight:400;color:rgba(0,0,0,.3)}
 .link:hover{opacity:.7}
+#rw2{cursor:none}#rw2 a{cursor:pointer}
+#xp{position:fixed;left:0;top:0;z-index:50;pointer-events:none;font:400 16px/1 "Permanent Marker",cursive;color:#e83328;white-space:nowrap;opacity:0;transition:opacity .12s;will-change:transform}
+#xp.on{opacity:1}
+@media (hover:none){#rw2{cursor:auto}#xp{display:none}}
+
 .cb{display:none;height:29.41px;padding:0 18px 4px 30px;font:400 14px/25.36px "Permanent Marker",cursive;color:#000;white-space:nowrap;text-decoration:none;transition:transform .12s;background:url(/aquaaww/img/b90a5.svg) 11.68px 0/calc(100% - 11.68px) 25.36px no-repeat,url(/aquaaww/img/d6503.svg) 0 22.05px/100% 7.36px no-repeat,url(/aquaaww/img/e5a21.svg) 0 0/12.376px 29.409px no-repeat}.cb.on{display:block}.cb:hover{transform:translate(2px,2px)}.cb:active{transform:translate(4px,4px)}
 
 .gbar i{position:absolute;display:block}.gbar .gl{left:0;right:0;top:6px;height:3px;background:rgba(0,0,0,.1)}.gbar .gf{left:0;top:6px;height:3px;width:calc(var(--p,0)*100%);background:#e83328;opacity:.9;transition:width .8s ease}.gbar .gm{top:0;bottom:0;width:1px;background:#e83328;left:calc(var(--p,0)*100%);transition:left .8s ease}
@@ -163,7 +168,7 @@ body.m #rw{position:absolute;left:0;top:0}
 
       <div class="fx" style="left:268px;top:243px;width:100px;height:100px"><div class="in flip" style="width:100px;height:100px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="/flipbook/img/smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>
 
-      <div class="fx" style="left:31.5px;top:31px"><div class="in flip"><a class="pm nw link ig" href="/aquaaww/" style="font-size:14.381px;color:#e83328">Learn more -&gt;</a></div></div>
+      
     </div></div>
    </div>
    </div>
@@ -204,4 +209,18 @@ body.m #rw{position:absolute;left:0;top:0}
 })();
 </script>
 <script>fetch("/api/fund").then(function(r){return r.json()}).then(function(d){var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}}).catch(function(){});fetch("/api/pay").then(function(r){return r.json()}).then(function(c){if(!c.ready||!c.url)return;var b=document.getElementById("cb");b.href=c.url;b.textContent="Chip in "+c.symbol+c.amount;b.className+=" on";document.getElementById("lm").style.top="580px"}).catch(function(){})</script>
+<a class="sr" href="/aquaaww/">Explore AquaAww, the water reminder app</a><div id="xp" aria-hidden="true">Explore</div>
+<script>
+(function(){
+  var r=document.getElementById("rw2"),x=document.getElementById("xp");
+  if(!r||!x)return;
+  r.addEventListener("mousemove",function(e){
+    var link=e.target.closest&&e.target.closest("a");
+    x.style.transform="translate("+(e.clientX+16)+"px,"+(e.clientY+14)+"px)";
+    x.classList.toggle("on",!link);
+  });
+  r.addEventListener("mouseleave",function(){x.classList.remove("on")});
+  r.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("a"))return;location.href="/aquaaww/"});
+})();
+</script>
 </body></html>
