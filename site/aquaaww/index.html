@@ -187,6 +187,7 @@ dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;tex
   }
   function dOpen(){
     if(!dv.getAttribute("src"))dv.src="/aquaaww/demo.mp4";
+    ping("demo",innerWidth<700?"phone":"desktop");
     dm.hidden=false;dOn=true;dv.currentTime=0;
     var p=dv.play();if(p&&p.catch)p.catch(function(){});
     dFrame();
@@ -194,7 +195,7 @@ dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;tex
   function dClose(){dOn=false;if(dv.cancelVideoFrameCallback)dv.cancelVideoFrameCallback(dRaf);cancelAnimationFrame(dRaf);dv.pause();dm.hidden=true}
   document.querySelectorAll("[data-demo]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();dm.hidden?dOpen():dClose()})});
   dm.querySelector(".dm-x").addEventListener("click",dClose);
-  dm.querySelector(".dm-ok").addEventListener("click",dClose);
+  dm.querySelector(".dm-ok").addEventListener("click",function(){ping("demoOk",innerWidth<700?"phone":"desktop");dClose()});
   addEventListener("keydown",function(e){if(e.key==="Escape"&&!dm.hidden)dClose()});
 
   function goal(){

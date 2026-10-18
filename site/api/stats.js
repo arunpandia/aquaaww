@@ -13,8 +13,8 @@ module.exports = async (req, res) => {
     const out = await redis([['HGETALL', 'stats:funnel'], ...days.map(d => ['HGETALL', 'stats:day:' + d])]);
     const obj = r => { const o = {}; for (let i = 0; i < (r || []).length; i += 2) o[r[i]] = +r[i + 1]; return o; };
     const sum = o => {
-      const s = { opened: 0, completed: 0, left: 0 };
-      for (const k in o) { if (k.startsWith('open:')) s.opened += o[k]; if (k.startsWith('done:')) s.completed += o[k]; }
+      const s = { opened: 0, completed: 0, left: 0, demoTaps: 0, demoIDrank: 0 };
+      for (const k in o) { if (k.startsWith('open:')) s.opened += o[k]; if (k.startsWith('done:')) s.completed += o[k]; if (k.startsWith('demo:')) s.demoTaps += o[k]; if (k.startsWith('demoOk:')) s.demoIDrank += o[k]; }
       s.left = Math.max(0, s.opened - s.completed);
       s.leftPercent = s.opened ? Math.round(100 * s.left / s.opened) : 0;
       return s;
