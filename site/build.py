@@ -84,7 +84,7 @@ PRE = '<link rel="preload" href="/flipbook/fonts/ArchitectsDaughter.woff2" as="f
 index = head("AquaAww – a water reminder that comes as someone you love",
   "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/aquaaww/",
   css=AQ_CSS, fonts=False,
-  extra=PRE+'<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
+  extra=PRE+aquaaww_m.FUND_BOOT+'<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
 <body>
 <div id="bgfit" aria-hidden="true"><div id="bgst"><i id="b0"></i><i id="b1"></i><i id="b2"></i></div></div>
 <img id="sun" src="/aquaaww/img/863bd.svg" width="83" height="101" alt="AquaAww logo">

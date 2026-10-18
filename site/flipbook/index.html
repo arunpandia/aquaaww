@@ -73,7 +73,7 @@ body.m .pw{position:relative!important;left:auto!important;top:auto!important;fl
 body.m #lw{width:415px;height:631px}
 body.m #rw2{width:415px;height:631px}
 body.m #rw{position:absolute;left:0;top:0}
-</style><script>document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault()});</script></head>
+</style><script>document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault()});</script><script>try{var _p=localStorage.getItem("aq_p");if(_p!==null)document.documentElement.style.setProperty("--p",_p)}catch(e){}</script></head>
 <body>
 <h1 class="sr">Dusktillus, our digital garage</h1>
 <div id="bgfit" class="deco"><div id="bgst">
@@ -200,5 +200,5 @@ body.m #rw{position:absolute;left:0;top:0}
   addEventListener("touchend",function(e){if(!b.classList.contains("m")&&Math.abs(e.changedTouches[0].clientX-lastY)>40)nudge()},{passive:true});
 })();
 </script>
-<script>fetch("/api/fund").then(function(r){return r.json()}).then(function(d){document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)))}).catch(function(){})</script>
+<script>fetch("/api/fund").then(function(r){return r.json()}).then(function(d){var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}}).catch(function(){})</script>
 </body></html>

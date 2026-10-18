@@ -143,6 +143,8 @@ GOAL_JS = """
   addEventListener("hashchange",function(){if(location.hash==="#goal")goal()});
 """
 
+FUND_BOOT = '''<script>try{var _p=localStorage.getItem("aq_p");if(_p!==null)document.documentElement.style.setProperty("--p",_p)}catch(e){}</script>'''
+
 FUND_HTML = """<dialog id="fund" aria-labelledby="ft"><form id="payf" novalidate>
 <button class="x" type="button" id="fx" aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button>
 <h2 id="ft">Feeling lucky?</h2>
@@ -158,7 +160,7 @@ FUND_JS = """
   var fd=document.getElementById("fund"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbase=0,fpoll=0;
   function fsay(t,bad){fmsg.textContent=t;fmsg.className="msg"+(t?(bad?" bad":" ok"):"")}
   function fbar(d){
-    document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)));
+    var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}
     fnum.textContent="$"+(+d.raised).toFixed(2).replace(/\\.00$/,"")+" of $"+d.goal+" raised";
   }
   function fload(fresh){return fetch("/api/fund"+(fresh?"?t="+Date.now():"")).then(function(r){return r.json()}).then(function(d){fbar(d);return d}).catch(function(){})}

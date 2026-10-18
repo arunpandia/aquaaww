@@ -161,4 +161,5 @@ a{color:inherit;text-decoration:none}
 <script type="application/ld+json">{json.dumps(hub_ld, separators=(",", ":"))}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 {guard}
-</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)))}}).catch(function(){{}})</script></body></html>'''
+<script>try{{var _p=localStorage.getItem("aq_p");if(_p!==null)document.documentElement.style.setProperty("--p",_p)}}catch(e){{}}</script>
+</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{{localStorage.setItem("aq_p",String(v))}}catch(e){{}}}}).catch(function(){{}})</script></body></html>'''
