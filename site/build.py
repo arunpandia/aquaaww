@@ -113,6 +113,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
   function size(){{
     var w=innerWidth,h=innerHeight,s=w>=1280?w/1280:Math.min(1,w/880),c=Math.max(w/1280,h/832)*1.05,k=Math.min(w/880,h/832);
     st.style.zoom=s;
+    var ms=document.getElementById("mstage");ms.style.zoom=w<700?Math.min(w,560)/402:"";
     if(w>=700)sun.style.cssText="right:"+(51*k)+"px;top:"+(42*k)+"px;width:"+(83*k)+"px;height:"+(101.48*k)+"px";else sun.style.cssText="";
     bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
   }}
