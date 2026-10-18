@@ -6,6 +6,17 @@ const { redis } = require('./_lib');
 const { LINKS, toUsdCents } = require('./_fund');
 
 const norm = u => String(u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+// rzp.io short links redirect to the real page (pages.razorpay.com/pl_...), which is what Razorpay's event names; resolve once and remember
+const resolved = new Map();
+async function expand(u) {
+  if (!u) return [];
+  if (!resolved.has(u)) {
+    let loc = '';
+    try { const r = await fetch(u, { redirect: 'manual', signal: AbortSignal.timeout(3000) }); loc = r.headers.get('location') || ''; } catch { /* keep what we have */ }
+    resolved.set(u, loc);
+  }
+  return [u, resolved.get(u)].filter(Boolean);
+}
 const readRaw = req => new Promise((ok, no) => { const c = []; req.on('data', d => c.push(d)); req.on('end', () => ok(Buffer.concat(c))); req.on('error', no); });
 
 module.exports = async (req, res) => {
@@ -24,7 +35,7 @@ module.exports = async (req, res) => {
   const src = (p.payment_page && p.payment_page.entity) || (p.payment_link && p.payment_link.entity);
   const pay = p.payment && p.payment.entity;
   if (!src || !pay || !/^pay_[A-Za-z0-9]+$/.test(pay.id || '')) return res.status(200).json({ ignored: true });
-  const ours = [LINKS().INR, LINKS().USD].filter(Boolean).map(norm);
+  const ours = (await Promise.all([LINKS().INR, LINKS().USD].map(expand))).flat().map(norm);
   const seen = [src.url, src.short_url].filter(Boolean).map(norm);
   const mine = ours.some(o => seen.includes(o) || (src.id && o.includes(String(src.id).toLowerCase())) || (src.slug && o.endsWith('/' + String(src.slug).toLowerCase())));
   if (!mine) return res.status(200).json({ ignored: true });   // payments on your other Razorpay products are not ours
