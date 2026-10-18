@@ -118,7 +118,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
   }}
   size();addEventListener("resize",size);
-{aquaaww_m.DEMO_JS}
+{aquaaww_m.DEMO_JS}{aquaaww_m.GOAL_JS}
   var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");
   var NAMES={{android:"Android",windows:"Windows",mac:"Mac"}};
   var u=navigator.userAgent,my=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";

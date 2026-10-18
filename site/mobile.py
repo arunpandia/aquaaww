@@ -41,7 +41,7 @@ def build(D, hub_ld, GH):
     top.append(fx(179.46, 308.67, 100.192, 80.141, '<p class="ad" style="width:100.08px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p>', rot=-0.08))
     top.append('<div class="a" style="left:179.46px;top:318.21px;width:54.236px;height:20.737px"><img alt="" src="' + M + 'highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>')
     top.append('<div class="a" style="left:179.46px;top:401.99px;width:98.104px;height:12.761px"><img alt="" src="' + M + 'slider.svg" style="position:absolute;inset:0;width:100%;height:100%"></div>')
-    top.append('<span class="a pm nw" aria-disabled="true" style="left:179.46px;top:422.72px;font-size:8.758px;color:#000;cursor:default">Learn more -&gt;</span>')
+    top.append('<a class="a pm nw ig" href="/aquaaww/#goal" style="left:179.46px;top:422.72px;font-size:8.758px;color:#000">Learn more -&gt;</a>')
     # strip of paper on the inner (right) edge, drawn flipped as in the design
     top.append('<div class="a" style="right:0;top:0;width:51.046px;height:501.684px;transform:scaleX(-1);border-top-right-radius:22.33px;overflow:hidden"><div class="tex" style="border-top-right-radius:22.33px"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div></div>')
     # torn paper along the bottom of the page
@@ -84,7 +84,7 @@ def build(D, hub_ld, GH):
     b.append('<img class="a" alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="left:153.49px;top:329.95px;width:60.789px;height:117.922px;object-fit:cover">')
     b.append('<div class="fx" style="left:155.06px;top:329.95px;width:60.803px;height:56.197px"><div class="in flip" style="width:60.803px;height:56.197px;overflow:hidden"><img alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:-.02%;width:100%;height:209.89%"></div></div>')
     b.append('<div class="fx" style="left:173.08px;top:165.9px;width:79.759px;height:79.759px"><div class="in flip" style="width:79.759px;height:79.759px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="' + M + 'smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>')
-    b.append('<div class="fx" style="left:24.27px;top:24.72px"><div class="in flip"><a class="pm nw link" href="/aquaaww/" style="font-size:11.47px;color:#e83328">Learn more -&gt;</a></div></div>')
+    b.append('<div class="fx" style="left:24.27px;top:24.72px"><div class="in flip"><a class="pm nw link ig" href="/aquaaww/" style="font-size:11.47px;color:#e83328">Learn more -&gt;</a></div></div>')
     b = [b[0], '<div class="pi">' + "".join(b[1:]) + '</div>', '<div class="bd br"></div>']
 
     css = """

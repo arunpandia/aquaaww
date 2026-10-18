@@ -33,8 +33,11 @@ a{color:inherit}
 .dc ul,.dc ol{padding-left:1.3em;margin:0 0 12px}
 .dc li{margin:.35em 0}
 .dc strong{font-weight:400;background:linear-gradient(transparent 60%,rgba(233,178,78,.6) 60%)}
-.dc a{text-decoration:underline;text-decoration-color:rgba(232,51,40,.6);text-underline-offset:3px;text-decoration-thickness:1.5px}
-.dc a:hover,.dc a:focus-visible{text-decoration-style:wavy;text-decoration-color:#e83328}
+.dc a{text-decoration:underline wavy rgba(232,51,40,.55);text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:3px}
+.dc a:hover,.dc a:focus-visible{text-decoration-color:#e83328}
+.dc a.cta,.dc .glist a{text-decoration:none}
+.cta:hover,.cta:focus-visible,.dl:hover,.dl:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+.glist a:hover b,.glist a:focus-visible b{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 .dc .meta{font:12px/1.4 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.5);margin:0 0 20px}
 .dc .lead{font-size:19px;line-height:1.55}
 .dc code{font:14px "JetBrains Mono",monospace;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:5px}

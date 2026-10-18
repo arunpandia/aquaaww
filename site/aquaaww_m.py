@@ -54,6 +54,11 @@ def faq_desktop(FAQ, GH):
     return (f'<section id="faq" class="faq" aria-labelledby="faq-h"><h2 id="faq-h" class="fq-l ff-jb">Questions</h2><div class="fq-list">{faq_items(FAQ, "ff-ad")}</div>{nav(GH)}</section>')
 
 EXTRA_CSS = """
+a.dl:hover p,a.dl:focus-visible p,a.dl:active p,a[data-demo]:hover p,a[data-demo]:focus-visible p,a[data-demo]:active p,dialog a:hover,dialog a:focus-visible,dialog .go:hover,dialog .go:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+.fq-nav a:active,.fq summary:active h3{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+@keyframes aqb{0%,100%{opacity:1}50%{opacity:.12}}
+.aq-blink{animation:aqb .55s ease-in-out 3}
+@media (prefers-reduced-motion:reduce){.aq-blink{animation:none}}
 .fq-a{font-family:"Architects Daughter",cursive}
 .fq summary::after{content:"+";position:absolute;right:0;top:-1px;font:400 22px/1 "Permanent Marker",cursive;color:#e83328;opacity:0;transition:opacity .15s}
 .fq summary:hover::after,.fq summary:focus-visible::after{opacity:1}
@@ -101,6 +106,17 @@ DEMO_JS = """
   dm.querySelector(".dm-x").addEventListener("click",dClose);
   dm.querySelector(".dm-ok").addEventListener("click",dClose);
   addEventListener("keydown",function(e){if(e.key==="Escape"&&!dm.hidden)dClose()});
+"""
+
+GOAL_JS = """
+  function goal(){
+    var m=innerWidth<700,els=m?[].slice.call(document.querySelectorAll("#mstage .s40,#mstage .s38,#mstage .s36")):[document.getElementById("goal")];
+    var mid=els[Math.floor(els.length/2)];if(!mid)return;
+    mid.scrollIntoView({block:"center",behavior:"smooth"});
+    setTimeout(function(){els.forEach(function(e){e.classList.remove("aq-blink");void e.offsetWidth;e.classList.add("aq-blink")})},550);
+  }
+  if(location.hash==="#goal")addEventListener("load",function(){setTimeout(goal,250)});
+  addEventListener("hashchange",function(){if(location.hash==="#goal")goal()});
 """
 
 def build(D, FAQ, GH):
