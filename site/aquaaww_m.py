@@ -59,7 +59,7 @@ EXTRA_CSS = """
 .fq summary:hover::after,.fq summary:focus-visible::after{opacity:1}
 .fq[open] summary::after{content:"_";top:3px;font-size:16.936px;opacity:1}
 @media (hover:none){.fq:not([open]) summary::after{opacity:.55}}
-#demo{position:fixed;left:16px;bottom:16px;z-index:30;width:230px;height:330px;pointer-events:none;animation:dmpop .3s cubic-bezier(.3,1.4,.5,1)}
+#demo{position:fixed;left:16px;bottom:0;z-index:30;width:230px;height:330px;pointer-events:none;animation:dmpop .3s cubic-bezier(.3,1.4,.5,1)}
 #demo[hidden]{display:none}
 #demo>*{pointer-events:auto}
 #demo canvas{position:absolute;left:0;bottom:0;width:230px;height:230px}
@@ -71,7 +71,7 @@ EXTRA_CSS = """
 .dm-x{position:absolute;right:4px;top:6px;width:28px;height:28px;border:1px solid #000;border-radius:50%;background:#fcfbf6;color:#000;display:grid;place-items:center;padding:0;cursor:pointer;z-index:2}
 .dm-cap{position:absolute;left:0;bottom:-2px;margin:0;font:11px/1.2 "JetBrains Mono",monospace;color:rgba(0,0,0,.55);display:none}
 @keyframes dmpop{from{transform:translateY(60px) scale(.85);opacity:0}to{transform:none;opacity:1}}
-@media (max-width:699px){#demo{width:176px;height:252px;left:10px;bottom:10px}#demo canvas{width:176px;height:176px}.dm-note{width:84px}.dm-x{top:6px}}
+@media (max-width:699px){#demo{width:176px;height:252px;left:10px;bottom:0}#demo canvas{width:176px;height:176px}.dm-note{width:84px}.dm-x{top:6px}}
 @media (prefers-reduced-motion:reduce){#demo{animation:none}}
 """
 
