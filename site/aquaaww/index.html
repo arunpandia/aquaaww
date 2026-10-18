@@ -173,11 +173,9 @@ dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;tex
 <p class="sub">Google Play charges a one-time $25 fee to list AquaAww. Chip in and the bar moves.</p>
 <div class="pbar" role="img" aria-label="Progress toward the Google Play fee"><i class="t"></i><i class="f"></i><b></b></div>
 <p class="pnum" id="pnum">&nbsp;</p>
-<label class="sr" for="amt">Amount</label>
-<div class="amt"><span id="cur">&#8377;</span><input id="amt" type="number" inputmode="decimal" step="any" min="1" value="50"></div>
 <p class="msg" id="pmsg" role="status" aria-live="polite"></p>
-<button class="go" type="submit" id="pgo">Chip in</button>
-<p class="terms">Paid securely with Razorpay.</p>
+<a class="go" id="pgo" href="#" target="_blank" rel="noopener">Chip in</a>
+<p class="terms">Paid securely on Razorpay.</p>
 </form></dialog>
 <dialog id="dlg" aria-labelledby="dt">
   <form id="signup" method="post" action="/api/subscribe" novalidate>
@@ -242,54 +240,38 @@ dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;tex
   if(location.hash==="#goal")addEventListener("load",function(){setTimeout(goal,250)});
   addEventListener("hashchange",function(){if(location.hash==="#goal")goal()});
 
-  var fd=document.getElementById("fund"),fa=document.getElementById("amt"),fcur=document.getElementById("cur"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbusy=false,fdone=false;
+  var fd=document.getElementById("fund"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbase=0,fpoll=0;
   function fsay(t,bad){fmsg.textContent=t;fmsg.className="msg"+(t?(bad?" bad":" ok"):"")}
-  function fmoney(n){try{return new Intl.NumberFormat(undefined,{style:"currency",currency:cfg.currency,minimumFractionDigits:0,maximumFractionDigits:2}).format(n)}catch(e){return cfg.symbol+n}}
   function fbar(d){
     document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)));
     fnum.textContent="$"+(+d.raised).toFixed(2).replace(/\.00$/,"")+" of $"+d.goal+" raised";
   }
-  function fload(){return fetch("/api/fund").then(function(r){return r.json()}).then(function(d){fbar(d);return d}).catch(function(){})}
+  function fload(fresh){return fetch("/api/fund"+(fresh?"?t="+Date.now():"")).then(function(r){return r.json()}).then(function(d){fbar(d);return d}).catch(function(){})}
   fload();
-  function flabel(){var v=parseFloat(fa.value);fgo.textContent=fdone?"Thank you":"Chip in"+(cfg&&v>0?" "+fmoney(v):"")}
+  function fstop(){clearInterval(fpoll);fpoll=0}
   function fopen(){
-    fdone=false;fsay("");fgo.disabled=false;
+    fstop();fsay("");fgo.removeAttribute("aria-disabled");
+    fgo.textContent="Chip in";fgo.href="#";
     fetch("/api/pay").then(function(r){return r.json()}).then(function(c){
-      cfg=c;fcur.textContent=c.symbol;fa.min=c.min;fa.max=c.max;fa.value=c.amount;flabel();
-      if(!c.ready){fsay("Payments are not switched on yet. Soon!",1);fgo.disabled=true}
+      cfg=c;
+      if(c.ready&&c.url){fgo.href=c.url;fgo.textContent="Chip in "+c.symbol+c.amount}
+      else{fgo.setAttribute("aria-disabled","true");fsay("Payments are not switched on yet. Soon!",1)}
     }).catch(function(){fsay("Could not load. Please try again.",1)});
-    fload();
+    fload().then(function(d){fbase=d?d.raised:0});
     if(fd.showModal){fd.showModal()}else{fd.setAttribute("open","")}
-    fa.focus();
   }
-  function frzp(){return window.Razorpay?Promise.resolve():new Promise(function(ok,no){var s=document.createElement("script");s.src="https://checkout.razorpay.com/v1/checkout.js";s.onload=ok;s.onerror=function(){no(new Error("load"))};document.head.appendChild(s)})}
-  function fpost(u,b){return fetch(u,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json().catch(function(){return{ok:false}})})}
   document.querySelectorAll("[data-fund]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();fopen()})});
   document.getElementById("fx").addEventListener("click",function(){fd.close()});
+  fd.addEventListener("close",fstop);
   fd.addEventListener("click",function(e){if(e.target===fd)fd.close()});
-  fa.addEventListener("input",flabel);
-  document.getElementById("payf").addEventListener("submit",function(e){
-    e.preventDefault();if(fbusy||fdone||!cfg||!cfg.ready)return;
-    var v=parseFloat(fa.value);
-    if(!(v>=cfg.min&&v<=cfg.max)){fsay("Please enter between "+cfg.symbol+cfg.min+" and "+cfg.symbol+cfg.max+".",1);fa.focus();return}
-    fbusy=true;fgo.disabled=true;fsay("One moment…");
-    fpost("/api/pay",{amount:v}).then(function(o){
-      if(!o.ok)throw new Error(o.error||"Could not start the payment.");
-      return frzp().then(function(){
-        var z=new Razorpay({key:o.keyId,order_id:o.orderId,amount:o.amount,currency:o.currency,name:"Dusktillus",description:"AquaAww: Google Play fee",theme:{color:"#e83328"},
-          handler:function(r){
-            fsay("Checking your payment…");
-            fpost("/api/pay-verify",r).then(function(d){
-              fbusy=false;
-              if(!d.ok){fgo.disabled=false;fsay(d.error||"Could not verify the payment.",1);return}
-              fdone=true;fbar(d);fsay("Thank you! The bar just moved.");flabel();fgo.disabled=true;
-            }).catch(function(){fbusy=false;fgo.disabled=false;fsay("Could not verify. Please write to us with your payment id: "+r.razorpay_payment_id,1)});
-          },
-          modal:{ondismiss:function(){fbusy=false;fgo.disabled=false;fsay("")}}});
-        z.on("payment.failed",function(x){fbusy=false;fgo.disabled=false;fsay((x.error&&x.error.description)||"The payment did not go through.",1)});
-        z.open();
-      });
-    }).catch(function(err){fbusy=false;fgo.disabled=false;fsay(err.message||"Something went wrong. Please try again.",1)});
+  fgo.addEventListener("click",function(e){
+    if(fgo.getAttribute("aria-disabled")==="true"||!cfg||!cfg.url){e.preventDefault();return}
+    fsay("Waiting for your payment…");
+    fstop();var n=0;
+    fpoll=setInterval(function(){
+      if(++n>75||!fd.open){fstop();return}
+      fload(true).then(function(d){if(d&&d.raised>fbase+0.001){fstop();fsay("Thank you! The bar just moved.");fgo.textContent="Thank you"}});
+    },4000);
   });
 
   var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");

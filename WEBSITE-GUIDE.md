@@ -87,20 +87,23 @@ To rank: get links from other sites (Product Hunt, Reddit, Hacker News Show, a b
 - New app version: publish a new GitHub release with the same three file names. The buttons always serve the latest.
 - The CI release workflow was kept as `docs/release.yml.example` (pushing workflow files needs extra GitHub permission). Copy it to `.github/workflows/release.yml` in the GitHub web editor if you want automatic builds.
 
-## "Feeling lucky" fund (Razorpay)
+## "Feeling lucky" fund (Razorpay Payment Links)
 
-The "feeling lucky" strip on /aquaaww/ opens a pop-up to chip in toward the one-time Google Play Console fee. India sees ₹50 pre-filled; everyone else sees $1 (the amount can be edited).
-The progress bars (AquaAww page and the home page) read `/api/fund` and move only after `/api/pay-verify` has checked Razorpay's signature.
+The "feeling lucky" strip on /aquaaww/ opens a pop-up with a button to a Razorpay Payment Link: ₹50 for visitors in India, $1 for everyone else.
+The progress bars (AquaAww page and the home page) read `/api/fund`. They move only when Razorpay calls `/api/razorpay-webhook` after a successful payment.
 
-Vercel environment variables:
+1. Razorpay > Payment Links: create one link for ₹50 and one for $1 (the dollar one needs International Payments enabled). Copy the two links (`https://rzp.io/...`).
+2. Razorpay > Account & Settings > Webhooks > Add: url `https://dusktillus.store/api/razorpay-webhook`, event `payment_link.paid`, and a secret you invent.
+3. Vercel environment variables, then redeploy:
 
 | Name | Required | Meaning |
 |---|---|---|
-| `RAZORPAY_KEY_ID` | yes | Key id (`rzp_test_...` to try, `rzp_live_...` for real money) |
-| `RAZORPAY_KEY_SECRET` | yes | Key secret (never put it in the page) |
-| `FUND_GOAL_USD` | no | Goal in dollars, default 25 |
-| `FUND_SEED_USD` | no | Dollars already raised before this went live, default 0 |
-| `INR_PER_USD` | no | Rate used to move the bar for rupee payments, default 88 |
+| `PAYLINK_INR` | yes | the ₹50 Payment Link url |
+| `PAYLINK_USD` | yes | the $1 Payment Link url |
+| `RAZORPAY_WEBHOOK_SECRET` | yes | the webhook secret from step 2 |
+| `FUND_GOAL_USD` | no | goal in dollars, default 25 |
+| `FUND_SEED_USD` | no | dollars already raised before this went live, default 0 |
+| `INR_PER_USD` | no | rate used to move the bar for rupee payments, default 88 |
 
-Dollar payments from outside India need International Payments switched on in the Razorpay dashboard.
-Every verified payment is also listed in the Razorpay dashboard; the last 500 are kept in Redis under `fund:log`.
+Payments from your other Razorpay products are ignored (only the two links above are counted). Each payment is counted once.
+The last 500 payments are kept in Redis under `fund:log`.
