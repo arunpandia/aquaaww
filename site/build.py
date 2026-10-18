@@ -104,7 +104,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
     <button class="go" type="submit" id="go">Download free</button>
-    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from Dusktillus. Unsubscribe any time.</p>
+    <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>. Now and then we will send you something interesting when we add something new to the garage. Unsubscribe any time.</p>
   </form>
 </dialog>
 <script>
