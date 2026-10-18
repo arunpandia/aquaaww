@@ -57,7 +57,8 @@ a{color:inherit;text-decoration:none}
 .hint b{font-weight:400;color:rgba(0,0,0,.3)}
 .link:hover{opacity:.7}
 #rw2{cursor:none}#rw2 a{cursor:pointer}
-#xp{position:fixed;left:0;top:0;z-index:50;pointer-events:none;font:400 16px/1 "Permanent Marker",cursive;color:#e83328;white-space:nowrap;opacity:0;transition:opacity .12s;will-change:transform}
+#xp{position:fixed;left:0;top:0;z-index:50;pointer-events:none;width:60px;opacity:0;transition:opacity .12s;will-change:transform}
+#xp img{display:block;width:60px;height:auto}
 #xp.on{opacity:1}
 @media (hover:none){#rw2{cursor:auto}#xp{display:none}}
 
@@ -209,14 +210,14 @@ body.m #rw{position:absolute;left:0;top:0}
 })();
 </script>
 <script>fetch("/api/fund").then(function(r){return r.json()}).then(function(d){var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}}).catch(function(){});fetch("/api/pay").then(function(r){return r.json()}).then(function(c){if(!c.ready||!c.url)return;var b=document.getElementById("cb");b.href=c.url;b.textContent="Chip in "+c.symbol+c.amount;b.className+=" on";document.getElementById("lm").style.top="580px"}).catch(function(){})</script>
-<a class="sr" href="/aquaaww/">Explore AquaAww, the water reminder app</a><div id="xp" aria-hidden="true">Explore</div>
+<a class="sr" href="/aquaaww/">Explore AquaAww, the water reminder app</a><div id="xp" aria-hidden="true"><img src="/flipbook/img/explore.webp" width="60" height="24" alt=""></div>
 <script>
 (function(){
   var r=document.getElementById("rw2"),x=document.getElementById("xp");
   if(!r||!x)return;
   r.addEventListener("mousemove",function(e){
     var link=e.target.closest&&e.target.closest("a");
-    x.style.transform="translate("+(e.clientX+16)+"px,"+(e.clientY+14)+"px)";
+    x.style.transform="translate("+(e.clientX-30)+"px,"+(e.clientY-12)+"px)";
     x.classList.toggle("on",!link);
   });
   r.addEventListener("mouseleave",function(){x.classList.remove("on")});
