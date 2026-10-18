@@ -74,55 +74,23 @@ jsonld = {
    "image":D+"/assets/og-aquaaww.png","downloadUrl":D+"/aquaaww/#download"},
   {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}]}
 
+import aquaaww_m
+AQ_CSS = open("aquaaww.css").read() + aquaaww_m.CSS
+AQ_BODY = open("aquaaww_body.html").read()
+jsonld["@graph"][1]["mainEntity"] = [{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ[:3]]
+jsonld["@graph"][0]["downloadUrl"] = D+"/aquaaww/#download"
+jsonld["@graph"].append({"@type":"WebPage","@id":D+"/aquaaww/","url":D+"/aquaaww/","name":"AquaAww – a water reminder that comes as someone you love","isPartOf":{"@type":"WebSite","name":"Dusktillus","url":D+"/"},
+  "about":{"@type":"SoftwareApplication","name":"AquaAww"},"primaryImageOfPage":{"@type":"ImageObject","url":D+"/assets/og-aquaaww.png"}})
+PRE = '<link rel="preload" href="/flipbook/fonts/ArchitectsDaughter.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/flipbook/fonts/PermanentMarker-Regular.woff2" as="font" type="font/woff2" crossorigin>'
 index = head("AquaAww – a water reminder that comes as someone you love",
   "Upload a video of someone you love and it pops up on your screen to remind you to drink water. Free for Android, Windows and Mac.", "/aquaaww/",
-  extra='<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
+  css=AQ_CSS, fonts=False,
+  extra=PRE+'<script type="application/ld+json">'+json.dumps(jsonld,separators=(",",":"))+'</script>') + f'''
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<section class="hero">
-  <header class="top">
-    <a class="brand" href="/aquaaww/" aria-label="AquaAww home"><img src="/assets/drink-water.webp" width="115" height="72" alt="Drink water"></a>
-    <p class="tag">Where your loved ones come to remind you</p>
-  </header>
-  <main id="main" class="stage">
-    <div class="letter">
-      <img class="drop" src="/assets/aquaaww-logo.svg" width="46" height="56" alt="AquaAww logo">
-      <h1 class="sr">AquaAww, the water reminder that comes as someone you love</h1>
-      <p>I built AquaAww because I can’t always be there to say “have some water.”</p>
-      <p>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p>
-      <p class="sig">–for my loving wife</p>
-    </div>
-    <div class="get" id="download">
-      <div class="frameWrap">
-        <img class="frame" src="/assets/frame.svg" width="254" height="261" alt="">
-        <div class="buddy" aria-hidden="true">
-          <img src="/assets/buddy-cat.webp" width="311" height="360" alt="" fetchpriority="high">
-          <img src="/assets/buddy-frog.webp" width="360" height="341" alt="" loading="lazy">
-          <img src="/assets/buddy-duck.webp" width="293" height="360" alt="" loading="lazy">
-        </div>
-        <a class="note" href="#how"><img src="/assets/note-timing.webp" width="280" height="330" alt="Settings for change timing"></a>
-        <a class="card" href="#faq"><img src="/assets/card-floating.webp" width="260" height="361" alt="Floating buddy"></a>
-      </div>
-      <div class="dls" role="group" aria-label="Download AquaAww, free">
-        {btn("android","Android","Download AquaAww for Android")}
-        {btn("windows","Windows","Download AquaAww for Windows")}
-        {btn("mac","Mac","Download AquaAww for Mac")}
-      </div>
-      <noscript><p class="fine">Downloads need JavaScript. Or get them from <a href="{GH}/releases/latest">GitHub</a>.</p></noscript>
-      <p class="fine">Free · no payment · Android 5.1+, Windows 10+, Mac (Apple Silicon)</p>
-    </div>
-  </main>
-  <footer class="low">
-    <a class="presets" href="#features" aria-label="See the ready-made buddies">
-      <img class="p1" src="/assets/buddy-cat.webp" width="311" height="360" alt="" loading="lazy">
-      <img class="p3" src="/assets/sticker-duck.webp" width="340" height="393" alt="" loading="lazy">
-      <img class="p2" src="/assets/sticker-frog.webp" width="340" height="331" alt="" loading="lazy">
-      <span>{{Presets}}</span>
-    </a>
-    <button class="stamp" type="button" id="stamp" aria-label="Done today"><img src="/assets/stamp-done.webp" width="260" height="366" alt="" loading="lazy"><b>Done<br>today</b><i id="n">––</i></button>
-  </footer>
-</section>
-
+<div id="bgfit" aria-hidden="true"><div id="bgst"><i id="b0"></i><i id="b1"></i><i id="b2"></i></div></div>
+<img id="sun" src="/aquaaww/img/863bd.svg" width="83" height="101" alt="AquaAww logo">
+<main id="stage">{AQ_BODY}</main>
+{aquaaww_m.build(D, FAQ[:3], GH)}
 <dialog id="dlg" aria-labelledby="dt">
   <form id="signup" method="post" action="/api/subscribe" novalidate>
     <button class="x" type="button" id="dx" aria-label="Close">&times;</button>
@@ -135,27 +103,23 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     <input id="em" name="email" type="email" inputmode="email" placeholder="Your email" autocomplete="email" maxlength="254" required>
     <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
-    <button class="cta go" type="submit" id="go">Download free</button>
+    <button class="go" type="submit" id="go">Download free</button>
     <p class="terms">By downloading you agree to our <a href="/terms/">Terms &amp; Conditions</a>, including occasional emails from Dusktillus. Unsubscribe any time.</p>
   </form>
 </dialog>
-<div class="more">
-<section id="how" class="sec"><h2>How it works</h2>
-  <ol class="steps">{"".join(f"<li><h3>{h}</h3><p>{p}</p></li>" for h,p in STEPS)}</ol></section>
-<section id="features" class="sec"><h2>Small on purpose</h2>
-  <ul class="feat">{"".join(f"<li><h3>{h}</h3><p>{p}</p></li>" for h,p in FEATURES)}</ul></section>
-<section id="faq" class="sec"><h2>Questions</h2>
-  {"".join(f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>" for q,a in FAQ)}</section>
-<footer class="end"><p>Made with love, one glass at a time. A <a href="/">Dusktillus</a> app.</p>
-  <p><a href="/aquaaww/water-reminder-app-for-android/">Android</a> · <a href="/aquaaww/water-reminder-app-for-windows/">Windows</a> · <a href="/aquaaww/water-reminder-app-for-mac/">Mac</a></p>
-  <p><a href="/guides/">Water guides</a> · <a href="{GH}">Source on GitHub</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a> · <a href="/unsubscribe/">Unsubscribe</a></p></footer>
-</div>
 <script>
 (function(){{
+  var st=document.getElementById("stage"),sun=document.getElementById("sun"),bg=document.getElementById("bgst");
+  function size(){{
+    var w=innerWidth,h=innerHeight,s=w>=1280?w/1280:Math.min(1,w/880),c=Math.max(w/1280,h/832)*1.05;
+    st.style.zoom=s;
+    sun.style.cssText="right:"+(51*s)+"px;top:"+(42*s)+"px;width:"+(83*s)+"px;height:"+(101.48*s)+"px";
+    bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
+  }}
+  size();addEventListener("resize",size);
   var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");
   var NAMES={{android:"Android",windows:"Windows",mac:"Mac"}};
   var u=navigator.userAgent,my=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";
-  if(my){{var pb=document.querySelector('.dl[data-os="'+my+'"]');if(pb)pb.classList.add("pick")}}
   try{{nm.value=localStorage.getItem("tt_name")||"";em.value=localStorage.getItem("tt_email")||""}}catch(e){{}}
   function say(t,bad){{m.textContent=t;m.className="msg"+(bad?" bad":" ok")}}
   function ping(e,os){{try{{navigator.sendBeacon("/api/track",new Blob([JSON.stringify({{e:e,os:os}})],{{type:"application/json"}}))}}catch(x){{}}}}
@@ -166,7 +130,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     if(d.showModal){{d.showModal()}}else{{d.setAttribute("open","")}}
     (nm.value?em:nm).focus();
   }}
-  document.querySelectorAll(".dl").forEach(function(b){{b.addEventListener("click",function(){{open(b.dataset.os)}})}});
+  document.querySelectorAll("a.dl").forEach(function(b){{b.addEventListener("click",function(e){{e.preventDefault();open(b.dataset.os)}})}});
   d.addEventListener("close",function(){{if(!done)ping("close",osf.value)}});
   document.getElementById("dx").addEventListener("click",function(){{d.close()}});
   d.addEventListener("click",function(e){{if(e.target===d)d.close()}});
@@ -174,7 +138,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
   f.addEventListener("submit",function(e){{
     if(!window.fetch)return;e.preventDefault();
     if(!nm.value.trim()){{say("Please tell us your name.",1);nm.focus();return}}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{{2,}}$/.test(em.value.trim())){{say("That email address does not look right.",1);em.focus();return}}
+    if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{{2,}}$/.test(em.value.trim())){{say("That email address does not look right.",1);em.focus();return}}
     go.disabled=true;say("One moment…");
     fetch("/api/subscribe",{{method:"POST",headers:{{"Content-Type":"application/json",Accept:"application/json"}},
       body:JSON.stringify({{name:nm.value,email:em.value,os:osf.value,company:f.company.value}})}})
@@ -186,8 +150,6 @@ index = head("AquaAww – a water reminder that comes as someone you love",
       location.href=r.url;setTimeout(function(){{d.close()}},2500);
     }}).catch(function(){{go.disabled=false;say("No connection. Please try again.",1)}});
   }});
-  var s=document.getElementById("stamp"),n=document.getElementById("n"),c=0;
-  s.addEventListener("click",function(){{c=(c+1)%100;n.textContent=(c<10?"0":"")+c}});
 }})();
 </script>
 </body></html>'''

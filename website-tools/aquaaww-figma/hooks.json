@@ -1,0 +1,118 @@
+{
+ "retag": [
+  {
+   "id": "2915:1749",
+   "tag": "a",
+   "attrs": {
+    "href": "/",
+    "aria-label": "Back to Dusktillus home"
+   }
+  },
+  {
+   "id": "2925:3564",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-android/",
+    "data-os": "android",
+    "aria-label": "Download AquaAww for Android",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2925:3569",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-windows/",
+    "data-os": "windows",
+    "aria-label": "Download AquaAww for Windows",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2925:3574",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-mac/",
+    "data-os": "mac",
+    "aria-label": "Download AquaAww for Mac",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2925:3531",
+   "tag": "a",
+   "attrs": {
+    "href": "#how",
+    "aria-label": "Show how AquaAww works"
+   }
+  },
+  {
+   "id": "2925:3617",
+   "tag": "section",
+   "attrs": {
+    "id": "how",
+    "aria-labelledby": "how-h"
+   }
+  }
+ ],
+ "retagText": [
+  {
+   "text": "AquaAww is a water reminder that comes as a person you love",
+   "tag": "h1"
+  },
+  {
+   "text": "what makes AquaAww special?",
+   "tag": "h2",
+   "attrs": {
+    "id": "how-h"
+   }
+  }
+ ],
+ "html": [
+  {
+   "id": "2925:3638",
+   "file": "/private/tmp/site_work/tw/faq.html"
+  }
+ ],
+ "alts": {
+  "/iphone.webp": "AquaAww water reminder app on an iPhone",
+  "/screen.webp": "AquaAww pop-up on a Mac screen",
+  "/phone-shot.webp": "AquaAww Android notification and reminder",
+  "/widget.webp": "AquaAww Drink water widget",
+  "/lucky.webp": "Feeling lucky"
+ },
+ "lazyAfterNode": "2915:1862",
+ "attrs": [
+  {
+   "id": "2925:3554",
+   "set": {
+    "id": "download",
+    "class": "c2"
+   }
+  },
+  {
+   "id": "2925:3513",
+   "set": {
+    "class": "lap"
+   }
+  },
+  {
+   "id": "2925:3536",
+   "set": {
+    "class": "smile"
+   }
+  },
+  {
+   "id": "2925:3555",
+   "set": {
+    "class": "ph"
+   }
+  },
+  {
+   "id": "2925:3511",
+   "set": {
+    "class": "c1"
+   }
+  }
+ ]
+}
