@@ -61,6 +61,16 @@
     "id": "m-how",
     "aria-labelledby": "m-how-h"
    }
+  },
+  {
+   "id": "2928:4687",
+   "tag": "button",
+   "attrs": {
+    "type": "button",
+    "data-fund": "1",
+    "aria-label": "Feeling lucky? Chip in toward the Google Play fee",
+    "class": "lk"
+   }
   }
  ],
  "retagText": [
@@ -118,6 +128,30 @@
    "id": "2928:4702",
    "set": {
     "class": "sfeat"
+   }
+  },
+  {
+   "id": "2928:4688",
+   "set": {
+    "class": "sp"
+   }
+  },
+  {
+   "id": "2928:4692",
+   "set": {
+    "class": "sp"
+   }
+  },
+  {
+   "id": "2928:4697",
+   "set": {
+    "class": "pbl"
+   }
+  },
+  {
+   "id": "2928:4698",
+   "set": {
+    "class": "pbm"
    }
   }
  ]

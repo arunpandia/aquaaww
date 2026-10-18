@@ -171,7 +171,7 @@ for (const h of hooks.group || []) { // wrap several sibling elements in one tag
 
 // ---- serialise ---------------------------------------------------------------------
 const VOID = new Set(["img", "br"]);
-const KEEP = new Set(["href", "id", "type", "role", "alt", "aria-label", "aria-hidden", "src", "style", "class", "data-os", "loading", "decoding", "target", "rel", "open", "title", "width", "height", "data-open", "data-demo"]);
+const KEEP = new Set(["href", "id", "type", "role", "alt", "aria-label", "aria-hidden", "src", "style", "class", "data-os", "loading", "decoding", "target", "rel", "open", "title", "width", "height", "data-open", "data-demo", "data-fund"]);
 let lazy = hooks.lazyAfterNode || null;
 let lazyOn = false;
 function ser(n) {

@@ -91,6 +91,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
 <main id="stage">{AQ_BODY}</main>
 {aquaaww_m.build(D, FAQ, GH)}
 {aquaaww_m.DEMO_HTML}
+{aquaaww_m.FUND_HTML}
 <dialog id="dlg" aria-labelledby="dt">
   <form id="signup" method="post" action="/api/subscribe" novalidate>
     <button class="x" type="button" id="dx" aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button>
@@ -118,7 +119,7 @@ index = head("AquaAww – a water reminder that comes as someone you love",
     bg.style.transform="translate("+(-640*c)+"px,"+(-416*c)+"px) scale("+c+")";
   }}
   size();addEventListener("resize",size);
-{aquaaww_m.DEMO_JS}{aquaaww_m.GOAL_JS}
+{aquaaww_m.DEMO_JS}{aquaaww_m.GOAL_JS}{aquaaww_m.FUND_JS}
   var d=document.getElementById("dlg"),f=document.getElementById("signup"),m=document.getElementById("msg"),nm=document.getElementById("nm"),em=document.getElementById("em"),go=document.getElementById("go"),osf=document.getElementById("os"),osn=document.getElementById("osn");
   var NAMES={{android:"Android",windows:"Windows",mac:"Mac"}};
   var u=navigator.userAgent,my=/Android/i.test(u)?"android":/Win/i.test(u)?"windows":/Mac/i.test(u)&&!/iPhone|iPad/.test(u)?"mac":"";

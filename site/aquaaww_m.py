@@ -54,6 +54,28 @@ def faq_desktop(FAQ, GH):
     return (f'<section id="faq" class="faq" aria-labelledby="faq-h"><h2 id="faq-h" class="fq-l ff-jb">Questions</h2><div class="fq-list">{faq_items(FAQ, "ff-ad")}</div>{nav(GH)}</section>')
 
 EXTRA_CSS = """
+.lk{cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.lk::after{content:"";position:absolute;inset:-8px -36px -8px -26px}
+.lk:hover,.lk:focus-visible,.lk:active{color:#e83328;text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
+.sp img{transition:filter .15s}
+#goal:has(.lk:hover) .sp img,#goal:has(.lk:focus-visible) .sp img,#goal:has(.lk:active) .sp img,.s38:has(.lk:hover) .sp img,.s38:has(.lk:focus-visible) .sp img,.s38:has(.lk:active) .sp img{filter:invert(24%) sepia(87%) saturate(3563%) hue-rotate(350deg) brightness(93%) contrast(92%)}
+#stage .pbm{--pb0:354px}
+#mstage .pbm{--pb0:21px}
+.pbm{left:calc(var(--pb0) + var(--p,0) * 123px)!important;transition:left .8s ease}
+.pbl::after{content:"";position:absolute;left:0;top:-3px;height:3px;width:calc(var(--p,0) * 100%);background:#e83328;opacity:.9;transition:width .8s ease}
+.pbar{position:relative;height:16px}
+.pbar i{position:absolute;display:block;top:6.5px;height:3px;left:0}
+.pbar .t{right:0;background:rgba(0,0,0,.1)}
+.pbar .f{width:calc(var(--p,0) * 100%);background:#e83328;opacity:.9;transition:width .8s ease}
+.pbar b{position:absolute;top:0;height:16px;width:1px;background:#e83328;left:calc(var(--p,0) * 100%);transition:left .8s ease}
+.pnum{margin:0;font:12px/1.3 "JetBrains Mono",ui-monospace,monospace;color:rgba(0,0,0,.55)}
+dialog .amt{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border:1px solid #000;border-radius:12px;background:#fff}
+dialog .amt span{font:400 18px "Permanent Marker",cursive}
+dialog .amt input:not(.hp):not([type=hidden]){flex:1;min-width:0;width:auto;height:100%;padding:0;border:0;border-radius:0;background:transparent;font:18px "Architects Daughter",cursive;-moz-appearance:textfield}
+dialog .amt input::-webkit-outer-spin-button,dialog .amt input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+dialog .amt:focus-within{outline:2px solid #e83328;outline-offset:1px}
+dialog .amt input:focus-visible{outline:none}
+
 dialog a:hover,dialog a:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 .fq-nav a:active,.fq summary:active h3{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 @keyframes aqb{0%,100%{opacity:1}50%{opacity:.12}}
@@ -119,6 +141,71 @@ GOAL_JS = """
   }
   if(location.hash==="#goal")addEventListener("load",function(){setTimeout(goal,250)});
   addEventListener("hashchange",function(){if(location.hash==="#goal")goal()});
+"""
+
+FUND_HTML = """<dialog id="fund" aria-labelledby="ft"><form id="payf" novalidate>
+<button class="x" type="button" id="fx" aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+<h2 id="ft">Feeling lucky?</h2>
+<p class="sub">Google Play charges a one-time $25 fee to list AquaAww. Chip in and the bar moves.</p>
+<div class="pbar" role="img" aria-label="Progress toward the Google Play fee"><i class="t"></i><i class="f"></i><b></b></div>
+<p class="pnum" id="pnum">&nbsp;</p>
+<label class="sr" for="amt">Amount</label>
+<div class="amt"><span id="cur">&#8377;</span><input id="amt" type="number" inputmode="decimal" step="any" min="1" value="50"></div>
+<p class="msg" id="pmsg" role="status" aria-live="polite"></p>
+<button class="go" type="submit" id="pgo">Chip in</button>
+<p class="terms">Paid securely with Razorpay.</p>
+</form></dialog>"""
+
+FUND_JS = """
+  var fd=document.getElementById("fund"),fa=document.getElementById("amt"),fcur=document.getElementById("cur"),fmsg=document.getElementById("pmsg"),fgo=document.getElementById("pgo"),fnum=document.getElementById("pnum"),cfg=null,fbusy=false,fdone=false;
+  function fsay(t,bad){fmsg.textContent=t;fmsg.className="msg"+(t?(bad?" bad":" ok"):"")}
+  function fmoney(n){try{return new Intl.NumberFormat(undefined,{style:"currency",currency:cfg.currency,minimumFractionDigits:0,maximumFractionDigits:2}).format(n)}catch(e){return cfg.symbol+n}}
+  function fbar(d){
+    document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)));
+    fnum.textContent="$"+(+d.raised).toFixed(2).replace(/\.00$/,"")+" of $"+d.goal+" raised";
+  }
+  function fload(){return fetch("/api/fund").then(function(r){return r.json()}).then(function(d){fbar(d);return d}).catch(function(){})}
+  fload();
+  function flabel(){var v=parseFloat(fa.value);fgo.textContent=fdone?"Thank you":"Chip in"+(cfg&&v>0?" "+fmoney(v):"")}
+  function fopen(){
+    fdone=false;fsay("");fgo.disabled=false;
+    fetch("/api/pay").then(function(r){return r.json()}).then(function(c){
+      cfg=c;fcur.textContent=c.symbol;fa.min=c.min;fa.max=c.max;fa.value=c.amount;flabel();
+      if(!c.ready){fsay("Payments are not switched on yet. Soon!",1);fgo.disabled=true}
+    }).catch(function(){fsay("Could not load. Please try again.",1)});
+    fload();
+    if(fd.showModal){fd.showModal()}else{fd.setAttribute("open","")}
+    fa.focus();
+  }
+  function frzp(){return window.Razorpay?Promise.resolve():new Promise(function(ok,no){var s=document.createElement("script");s.src="https://checkout.razorpay.com/v1/checkout.js";s.onload=ok;s.onerror=function(){no(new Error("load"))};document.head.appendChild(s)})}
+  function fpost(u,b){return fetch(u,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json().catch(function(){return{ok:false}})})}
+  document.querySelectorAll("[data-fund]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();fopen()})});
+  document.getElementById("fx").addEventListener("click",function(){fd.close()});
+  fd.addEventListener("click",function(e){if(e.target===fd)fd.close()});
+  fa.addEventListener("input",flabel);
+  document.getElementById("payf").addEventListener("submit",function(e){
+    e.preventDefault();if(fbusy||fdone||!cfg||!cfg.ready)return;
+    var v=parseFloat(fa.value);
+    if(!(v>=cfg.min&&v<=cfg.max)){fsay("Please enter between "+cfg.symbol+cfg.min+" and "+cfg.symbol+cfg.max+".",1);fa.focus();return}
+    fbusy=true;fgo.disabled=true;fsay("One moment…");
+    fpost("/api/pay",{amount:v}).then(function(o){
+      if(!o.ok)throw new Error(o.error||"Could not start the payment.");
+      return frzp().then(function(){
+        var z=new Razorpay({key:o.keyId,order_id:o.orderId,amount:o.amount,currency:o.currency,name:"Dusktillus",description:"AquaAww: Google Play fee",theme:{color:"#e83328"},
+          handler:function(r){
+            fsay("Checking your payment…");
+            fpost("/api/pay-verify",r).then(function(d){
+              fbusy=false;
+              if(!d.ok){fgo.disabled=false;fsay(d.error||"Could not verify the payment.",1);return}
+              fdone=true;fbar(d);fsay("Thank you! The bar just moved.");flabel();fgo.disabled=true;
+            }).catch(function(){fbusy=false;fgo.disabled=false;fsay("Could not verify. Please write to us with your payment id: "+r.razorpay_payment_id,1)});
+          },
+          modal:{ondismiss:function(){fbusy=false;fgo.disabled=false;fsay("")}}});
+        z.on("payment.failed",function(x){fbusy=false;fgo.disabled=false;fsay((x.error&&x.error.description)||"The payment did not go through.",1)});
+        z.open();
+      });
+    }).catch(function(err){fbusy=false;fgo.disabled=false;fsay(err.message||"Something went wrong. Please try again.",1)});
+  });
 """
 
 def build(D, FAQ, GH):

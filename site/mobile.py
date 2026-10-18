@@ -40,7 +40,7 @@ def build(D, hub_ld, GH):
     top.append(fx(39.08, 217.74, 116.072, 17.163, '<p class="ad" style="width:116.049px;font-size:12.417px">*wipes tear*</p>', rot=-0.08))
     top.append(fx(179.46, 308.67, 100.192, 80.141, '<p class="ad" style="width:100.08px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p>', rot=-0.08))
     top.append('<div class="a" style="left:179.46px;top:318.21px;width:54.236px;height:20.737px"><img alt="" src="' + M + 'highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>')
-    top.append('<div class="a" style="left:179.46px;top:401.99px;width:98.104px;height:12.761px"><img alt="" src="' + M + 'slider.svg" style="position:absolute;inset:0;width:100%;height:100%"></div>')
+    top.append('<div class="a gbar" style="left:179.46px;top:401.99px;width:98.104px;height:12.761px" role="img" aria-label="Progress toward the Google Play fee"><i class="gl"></i><i class="gf"></i><i class="gm"></i></div>')
         # strip of paper on the inner (right) edge, drawn flipped as in the design
     top.append('<div class="a" style="right:0;top:0;width:51.046px;height:501.684px;transform:scaleX(-1);border-top-right-radius:22.33px;overflow:hidden"><div class="tex" style="border-top-right-radius:22.33px"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div></div>')
     # torn paper along the bottom of the page
@@ -122,6 +122,7 @@ a{color:inherit;text-decoration:none}
 .link:active{opacity:.7}
 .ig{color:inherit;text-decoration:underline wavy transparent;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px;transition:text-decoration-color .15s}
 .ig:hover,.ig:active,.ig:focus-visible{text-decoration-color:#e83328}
+.gbar i{position:absolute;display:block}.gbar .gl{left:0;right:0;top:4.8px;height:2.4px;background:rgba(0,0,0,.1)}.gbar .gf{left:0;top:4.8px;height:2.4px;width:calc(var(--p,0)*100%);background:#e83328;opacity:.9;transition:width .8s ease}.gbar .gm{top:0;bottom:0;width:.8px;background:#e83328;left:calc(var(--p,0)*100%);transition:left .8s ease}
 """
     # px -> calc(var(--u) * n)  (Figma pixels become fractions of the page width)
     def conv(s):
@@ -160,4 +161,4 @@ a{color:inherit;text-decoration:none}
 <script type="application/ld+json">{json.dumps(hub_ld, separators=(",", ":"))}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 {guard}
-</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script></body></html>'''
+</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{document.documentElement.style.setProperty("--p",Math.max(0,Math.min(1,d.percent/100)))}}).catch(function(){{}})</script></body></html>'''
