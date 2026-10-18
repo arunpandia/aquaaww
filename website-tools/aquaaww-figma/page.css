@@ -23,8 +23,9 @@ img{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 a{color:inherit;text-decoration:none}
 a[href="/"]:hover,a[href="/"]:focus-visible{text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
 a.dl{cursor:pointer;-webkit-tap-highlight-color:transparent}
-a.dl:hover>*{filter:brightness(1.06)}
-a.dl:focus-visible>*{outline:2px solid #e83328;outline-offset:2px}
+a.dl>*,a[data-demo]>*{transition:transform .12s}
+a.dl:hover>*,a[data-demo]:hover>*,a.dl:focus-visible>*,a[data-demo]:focus-visible>*{transform:translate(-2px,2px)}
+a.dl:active>*,a[data-demo]:active>*{transform:translate(-4px,4px)}
 /* FAQ card (the one card laid out upright so the answers can open) */
 .faq{position:relative;display:flex;flex-direction:column;width:830px;min-height:415px;padding:31px 44px 24px;border:1px solid #000;border-radius:0 0 28px 28px;background:#fcfbf6;overflow:hidden}
 .faq::before{content:"";position:absolute;inset:0;background:url(/flipbook/img/bg.webp) center/cover;opacity:.5;pointer-events:none}
