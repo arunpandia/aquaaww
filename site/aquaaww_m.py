@@ -170,7 +170,7 @@ FUND_JS = """
     fetch("/api/pay").then(function(r){return r.json()}).then(function(c){
       cfg=c;
       if(c.ready&&c.url){fgo.href=c.url;fgo.textContent="Chip in "+c.symbol+c.amount}
-      else{fgo.setAttribute("aria-disabled","true");fsay("Payments are not switched on yet. Soon!",1)}
+      else{fgo.setAttribute("aria-disabled","true");fsay(c.reason==="region"?"Payments from outside India are coming soon.":"Payments are not switched on yet. Soon!",1)}
     }).catch(function(){fsay("Could not load. Please try again.",1)});
     fload().then(function(d){fbase=d?d.raised:0});
     if(fd.showModal){fd.showModal()}else{fd.setAttribute("open","")}

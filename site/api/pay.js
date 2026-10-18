@@ -10,5 +10,5 @@ module.exports = (req, res) => {
   const url = inr ? LINKS().INR : LINKS().USD;
   const plan = inr ? { currency: 'INR', symbol: '\u20b9', amount: 50 } : { currency: 'USD', symbol: '$', amount: 1 };
   const ok = /^https:\/\/(rzp\.io|razorpay\.com)\//.test(url);
-  return res.status(200).json({ ...plan, url: ok ? url : '', ready: ok });
+  return res.status(200).json({ ...plan, url: ok ? url : '', ready: ok, reason: ok ? '' : inr ? 'off' : 'region' });
 };
