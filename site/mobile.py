@@ -84,7 +84,7 @@ def build(D, hub_ld, GH):
     b.append('<img class="a" alt="" src="' + M + 'bottom.svg" loading="lazy" style="left:-73.14px;top:456.66px;width:326.775px;height:5.836px">')
     b.append('<img class="a" alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="left:153.49px;top:329.95px;width:60.789px;height:117.922px;object-fit:cover">')
     b.append('<div class="fx" style="left:155.06px;top:329.95px;width:60.803px;height:56.197px"><div class="in flip" style="width:60.803px;height:56.197px;overflow:hidden"><img alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:-.02%;width:100%;height:209.89%"></div></div>')
-    b.append('<div class="fx" style="left:173.08px;top:165.9px;width:79.759px;height:79.759px"><div class="in flip" style="width:79.759px;height:79.759px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="' + M + 'smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>')
+    b.append('<div class="fx" style="left:216.08px;top:204.9px;width:79.759px;height:79.759px"><div class="in flip" style="width:79.759px;height:79.759px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="' + M + 'smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>')
     b.append('<div class="fx" style="left:24.27px;top:24.72px"><div class="in flip"><a class="pm nw link ig" href="/aquaaww/" style="font-size:11.47px;color:#e83328">Learn more -&gt;</a></div></div>')
     b = [b[0], '<div class="pi">' + "".join(b[1:]) + '</div>', '<div class="bd br"></div>']
 
