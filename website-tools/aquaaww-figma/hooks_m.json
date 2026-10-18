@@ -1,23 +1,105 @@
 {
-  "retag": [
-    {"id":"2928:3902","tag":"a","attrs":{"href":"/","aria-label":"Back to Dusktillus home"}},
-    {"id":"2928:4594","tag":"a","attrs":{"href":"#m-how","data-demo":"1","aria-label":"Show how AquaAww works"}},
-    {"id":"2928:4645","tag":"a","attrs":{"href":"/aquaaww/water-reminder-app-for-android/","data-os":"android","aria-label":"Download AquaAww for Android","class":"dl"}},
-    {"id":"2928:4650","tag":"a","attrs":{"href":"/aquaaww/water-reminder-app-for-windows/","data-os":"windows","aria-label":"Download AquaAww for Windows","class":"dl"}},
-    {"id":"2928:4655","tag":"a","attrs":{"href":"/aquaaww/water-reminder-app-for-mac/","data-os":"mac","aria-label":"Download AquaAww for Mac","class":"dl"}},
-    {"id":"2928:4635","tag":"section","attrs":{"id":"m-download"}},
-    {"id":"2928:4702","tag":"section","attrs":{"id":"m-how","aria-labelledby":"m-how-h"}}
-  ],
-  "retagText": [
-    {"text":"AquaAww is a water reminder that comes as a person you love","tag":"h1"},
-    {"text":"what makes AquaAww special?","tag":"h2","attrs":{"id":"m-how-h"}}
-  ],
-  "append": [ {"file":"/private/tmp/site_work/tw/faq_m.html"} ],
-  "alts": {
-    "/iphone.webp":"AquaAww water reminder app on an iPhone",
-    "/screen.webp":"AquaAww pop-up on a Mac screen",
-    "/phone-shot.webp":"AquaAww reminder note and buddy",
-    "/lucky.webp":"Feeling lucky"
+ "retag": [
+  {
+   "id": "2928:3902",
+   "tag": "a",
+   "attrs": {
+    "href": "/",
+    "aria-label": "Back to Dusktillus home"
+   }
   },
-  "lazyAfterNode": "2928:4581"
+  {
+   "id": "2928:4594",
+   "tag": "a",
+   "attrs": {
+    "href": "#m-how",
+    "data-demo": "1",
+    "aria-label": "Show how AquaAww works"
+   }
+  },
+  {
+   "id": "2928:4645",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-android/",
+    "data-os": "android",
+    "aria-label": "Download AquaAww for Android",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2928:4650",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-windows/",
+    "data-os": "windows",
+    "aria-label": "Download AquaAww for Windows",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2928:4655",
+   "tag": "a",
+   "attrs": {
+    "href": "/aquaaww/water-reminder-app-for-mac/",
+    "data-os": "mac",
+    "aria-label": "Download AquaAww for Mac",
+    "class": "dl"
+   }
+  },
+  {
+   "id": "2928:4635",
+   "tag": "section",
+   "attrs": {
+    "id": "m-download"
+   }
+  },
+  {
+   "id": "2928:4702",
+   "tag": "section",
+   "attrs": {
+    "id": "m-how",
+    "aria-labelledby": "m-how-h"
+   }
+  }
+ ],
+ "retagText": [
+  {
+   "text": "AquaAww is a water reminder that comes as a person you love",
+   "tag": "h1"
+  },
+  {
+   "text": "what makes AquaAww special?",
+   "tag": "h2",
+   "attrs": {
+    "id": "m-how-h"
+   }
+  }
+ ],
+ "append": [
+  {
+   "file": "/private/tmp/site_work/tw/faq_m.html"
+  }
+ ],
+ "alts": {
+  "/iphone.webp": "AquaAww water reminder app on an iPhone",
+  "/screen.webp": "AquaAww pop-up on a Mac screen",
+  "/phone-shot.webp": "AquaAww reminder note and buddy",
+  "/lucky.webp": "Feeling lucky"
+ },
+ "lazyAfterNode": "2928:4581",
+ "attrs": [
+  {
+   "id": "2928:4685",
+   "set": {
+    "class": "s38"
+   }
+  },
+  {
+   "id": "2928:4699",
+   "set": {
+    "class": "s36"
+   }
+  }
+ ]
 }

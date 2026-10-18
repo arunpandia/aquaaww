@@ -16,6 +16,8 @@ html,body{background:#fff;min-height:0}
 #bgl img{position:absolute;display:block;max-width:none}
 #mstage{position:relative;z-index:1;width:402PX;margin:0 auto;padding:117PX 36PX 40PX;overflow-x:clip}
 #mstage .col{height:auto}
+#mstage .s38{margin-top:-29PX}
+#mstage .s36{margin-top:-34PX}
 .mfaq{position:relative;isolation:isolate;width:331PX;border:1PX solid #000;border-radius:0 0 28PX 28PX;background:#fcfbf6;padding:26PX 22PX 22PX;overflow:hidden}
 .mfaq::before{content:"";position:absolute;inset:0;background:url(/flipbook/img/bg.webp) center/cover;opacity:.5;z-index:-1}
 .mfaq h2{font:400 14PX/18PX "JetBrains Mono",ui-monospace,monospace}
