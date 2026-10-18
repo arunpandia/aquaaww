@@ -89,7 +89,7 @@ To rank: get links from other sites (Product Hunt, Reddit, Hacker News Show, a b
 
 ## "Feeling lucky" fund (Razorpay Payment Links)
 
-The "feeling lucky" strip on /aquaaww/ opens a pop-up with a button to a Razorpay Payment Link: ₹50 for visitors in India, $1 for everyone else.
+The "feeling lucky" strip on /aquaaww/ opens a pop-up with a button to a Razorpay Payment Link: ₹48 for visitors in India, $1 for everyone else.
 The progress bars (AquaAww page and the home page) read `/api/fund`. They move only when Razorpay calls `/api/razorpay-webhook` after a successful payment.
 
 1. Razorpay > Payment Links: create one link for ₹50 and one for $1 (the dollar one needs International Payments enabled). Copy the two links (`https://rzp.io/...`).
@@ -98,8 +98,9 @@ The progress bars (AquaAww page and the home page) read `/api/fund`. They move o
 
 | Name | Required | Meaning |
 |---|---|---|
-| `PAYLINK_INR` | yes | the ₹50 Payment Link url |
+| `PAYLINK_INR` | yes | the ₹48 Payment Link url |
 | `PAYLINK_USD` | yes | the $1 Payment Link url |
+| `PAYLINK_INR_AMOUNT` / `PAYLINK_USD_AMOUNT` | no | the amounts the two links charge, shown on the button (defaults 48 and 1) |
 | `RAZORPAY_WEBHOOK_SECRET` | yes | the webhook secret from step 2 |
 | `FUND_GOAL_USD` | no | goal in dollars, default 25 |
 | `FUND_SEED_USD` | no | dollars already raised before this went live, default 0 |
