@@ -1,5 +1,6 @@
-// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, event "payment_link.paid")
-// Verifies Razorpay's signature over the raw body, keeps only payments made through our own Payment Links, and moves the progress bar.
+// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, events "payment_page.paid" and "payment_link.paid")
+// Verifies Razorpay's signature over the raw body, keeps only payments made through our own Payment Page or Link, and moves the progress bar.
+// A Payment Page can be paid again and again; a single Payment Link can only be paid once.
 const crypto = require('crypto');
 const { redis } = require('./_lib');
 const { LINKS, toUsdCents } = require('./_fund');
@@ -18,12 +19,15 @@ module.exports = async (req, res) => {
   if (got.length !== want.length || !crypto.timingSafeEqual(Buffer.from(got), Buffer.from(want))) return res.status(400).end();
 
   let body; try { body = JSON.parse(raw.toString('utf8')); } catch { return res.status(400).end(); }
-  if (body.event !== 'payment_link.paid') return res.status(200).json({ ignored: true });
-  const pl = body.payload && body.payload.payment_link && body.payload.payment_link.entity;
-  const pay = body.payload && body.payload.payment && body.payload.payment.entity;
-  if (!pl || !pay || !/^pay_[A-Za-z0-9]+$/.test(pay.id || '')) return res.status(200).json({ ignored: true });
+  if (body.event !== 'payment_page.paid' && body.event !== 'payment_link.paid') return res.status(200).json({ ignored: true });
+  const p = body.payload || {};
+  const src = (p.payment_page && p.payment_page.entity) || (p.payment_link && p.payment_link.entity);
+  const pay = p.payment && p.payment.entity;
+  if (!src || !pay || !/^pay_[A-Za-z0-9]+$/.test(pay.id || '')) return res.status(200).json({ ignored: true });
   const ours = [LINKS().INR, LINKS().USD].filter(Boolean).map(norm);
-  if (!ours.includes(norm(pl.short_url))) return res.status(200).json({ ignored: true });   // payments on your other Razorpay products are not ours
+  const seen = [src.url, src.short_url].filter(Boolean).map(norm);
+  const mine = ours.some(o => seen.includes(o) || (src.id && o.includes(String(src.id).toLowerCase())) || (src.slug && o.endsWith('/' + String(src.slug).toLowerCase())));
+  if (!mine) return res.status(200).json({ ignored: true });   // payments on your other Razorpay products are not ours
   if (!['INR', 'USD'].includes(pay.currency) || !(pay.amount > 0)) return res.status(200).json({ ignored: true });
 
   try {

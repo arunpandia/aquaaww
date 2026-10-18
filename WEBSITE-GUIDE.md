@@ -87,13 +87,13 @@ To rank: get links from other sites (Product Hunt, Reddit, Hacker News Show, a b
 - New app version: publish a new GitHub release with the same three file names. The buttons always serve the latest.
 - The CI release workflow was kept as `docs/release.yml.example` (pushing workflow files needs extra GitHub permission). Copy it to `.github/workflows/release.yml` in the GitHub web editor if you want automatic builds.
 
-## "Feeling lucky" fund (Razorpay Payment Links)
+## "Feeling lucky" fund (Razorpay Payment Page)
 
 The "feeling lucky" strip on /aquaaww/ opens a pop-up with a button to a Razorpay Payment Link: ₹48 for visitors in India, $1 for everyone else.
 The progress bars (AquaAww page and the home page) read `/api/fund`. They move only when Razorpay calls `/api/razorpay-webhook` after a successful payment.
 
 1. Razorpay > Payment Links: create one link for ₹50 and one for $1 (the dollar one needs International Payments enabled). Copy the two links (`https://rzp.io/...`).
-2. Razorpay > Account & Settings > Webhooks > Add: url `https://dusktillus.store/api/razorpay-webhook`, event `payment_link.paid`, and a secret you invent.
+2. Razorpay > Account & Settings > Webhooks > Add: url `https://dusktillus.store/api/razorpay-webhook`, events `payment_page.paid` (and `payment_link.paid`), and a secret you invent.
 3. Vercel environment variables, then redeploy:
 
 | Name | Required | Meaning |
