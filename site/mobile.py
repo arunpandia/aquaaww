@@ -51,7 +51,8 @@ def build(D, hub_ld, GH):
 
     # ---------- things that sit over the top page ----------
     ex = []
-    ex.append('<a class="a pm nw ig" href="/aquaaww/#goal" style="left:180.26px;top:423.52px;font-size:8.758px;color:#000;padding:6px 8px 6px 0">Learn more -&gt;</a>')
+    ex.append('<a class="a cb" id="cb" href="#" target="_blank" rel="noopener" style="left:180.26px;top:419.6px"></a>')
+    ex.append('<a class="a pm nw ig" id="lm" href="/aquaaww/#goal" style="left:180.26px;top:423.52px;font-size:8.758px;color:#000;padding:6px 8px 6px 0">Learn more -&gt;</a>')
     ex.append('<p class="a jb nw" style="left:25.52px;top:264px;font-size:11.166px;color:#000">Cardboard box:</p>')
     ex.append(fx(20.107, 283.94, 136.243, 203.137, img(F + "box.webp", style="border-top-right-radius:22.33px"), 135.423, 202.588, rot=179.77))
     ex.append(fx(43.067, 356.52, 90.273, 43.238, img(F + "gplay.webp", style="border-top-right-radius:22.33px"), 86.688, 27.032, rot=-11.12))
@@ -122,6 +123,7 @@ a{color:inherit;text-decoration:none}
 .link:active{opacity:.7}
 .ig{color:inherit;text-decoration:underline wavy transparent;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px;transition:text-decoration-color .15s}
 .ig:hover,.ig:active,.ig:focus-visible{text-decoration-color:#e83328}
+.cb{display:none;height:23.44px;padding:0 14.3px 3.2px 23.9px;font:400 11.16px/20.21px "Permanent Marker",cursive;color:#000;white-space:nowrap;text-decoration:none;background:url(/aquaaww/img/b90a5.svg) 9.31px 0/calc(100% - 9.31px) 20.21px no-repeat,url(/aquaaww/img/d6503.svg) 0 17.57px/100% 5.87px no-repeat,url(/aquaaww/img/e5a21.svg) 0 0/9.86px 23.44px no-repeat}.cb.on{display:block}.cb:active{transform:translate(3px,3px)}
 .gbar i{position:absolute;display:block}.gbar .gl{left:0;right:0;top:4.8px;height:2.4px;background:rgba(0,0,0,.1)}.gbar .gf{left:0;top:4.8px;height:2.4px;width:calc(var(--p,0)*100%);background:#e83328;opacity:.9;transition:width .8s ease}.gbar .gm{top:0;bottom:0;width:.8px;background:#e83328;left:calc(var(--p,0)*100%);transition:left .8s ease}
 """
     # px -> calc(var(--u) * n)  (Figma pixels become fractions of the page width)
@@ -162,4 +164,4 @@ a{color:inherit;text-decoration:none}
 <script defer src="/_vercel/insights/script.js"></script>
 {guard}
 <script>try{{var _p=localStorage.getItem("aq_p");if(_p!==null)document.documentElement.style.setProperty("--p",_p)}}catch(e){{}}</script>
-</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{{localStorage.setItem("aq_p",String(v))}}catch(e){{}}}}).catch(function(){{}})</script></body></html>'''
+</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{{localStorage.setItem("aq_p",String(v))}}catch(e){{}}}}).catch(function(){{}});fetch("/api/pay").then(function(r){{return r.json()}}).then(function(c){{if(!c.ready||!c.url)return;var b=document.getElementById("cb");b.href=c.url;b.textContent="Chip in "+c.symbol+c.amount;b.className+=" on";document.getElementById("lm").style.top="calc(var(--u)*448.3)"}}).catch(function(){{}})</script></body></html>'''
