@@ -113,6 +113,7 @@ GOAL_JS = """
     var m=innerWidth<700,els=m?[].slice.call(document.querySelectorAll("#mstage .s40,#mstage .s38,#mstage .s36")):[document.getElementById("goal")];
     var mid=els[Math.floor(els.length/2)];if(!mid)return;
     mid.scrollIntoView({block:"center",behavior:"smooth"});
+    try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
     setTimeout(function(){els.forEach(function(e){e.classList.remove("aq-blink");void e.offsetWidth;e.classList.add("aq-blink")})},550);
   }
   if(location.hash==="#goal")addEventListener("load",function(){setTimeout(goal,250)});
