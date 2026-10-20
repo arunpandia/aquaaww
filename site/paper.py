@@ -6,7 +6,7 @@ CSS = """
 @font-face{font-family:"Architects Daughter";src:url(/flipbook/fonts/ArchitectsDaughter.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"Permanent Marker";src:url(/flipbook/fonts/PermanentMarker-Regular.woff2) format("woff2");font-display:swap}
 *,*::before,*::after{box-sizing:border-box}
-html{background:#d2d2d2;-webkit-text-size-adjust:100%}
+html{background:#d2d2d2;-webkit-text-size-adjust:100%;overscroll-behavior:none}
 body{margin:0;background:#fff;color:#000;font:17px/1.6 "Architects Daughter",cursive;min-height:100vh;overflow-x:hidden}
 img{display:block;max-width:100%;-webkit-user-drag:none}
 a{color:inherit}

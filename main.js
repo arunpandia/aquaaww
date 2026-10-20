@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, screen, nativeImage, shell, powerMonitor, net } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, screen, nativeImage, shell, powerMonitor, powerSaveBlocker, net } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { spawn } = require('child_process');
@@ -138,15 +138,35 @@ function createOverlay() {
   });
   floatOverEverything(overlayWin);
   overlayWin.loadFile('renderer/overlay.html');
-  overlayWin.webContents.on('render-process-gone', () => { try { overlayWin.destroy(); } catch {} overlayWin = null; });   // rebuilt on next show
+  overlayWin.webContents.on('render-process-gone', () => {
+    try { overlayWin.destroy(); } catch {} overlayWin = null;                         // rebuilt on next show
+    const again = pendingShow; pendingShow = null;
+    if (again) setTimeout(() => showOverlay(again[0], again[1]), 500);                 // the reminder that was just starting is not lost
+  });
+  overlayWin.webContents.on('unresponsive', () => { try { overlayWin.webContents.reload(); } catch {} });
   overlayWin.on('closed', () => { overlayWin = null; });
   return overlayWin;
+}
+let readyTimer = null, pendingShow = null;
+function placeAndReveal(aspect = 1) {
+  if (!overlayWin || overlayWin.isDestroyed()) return;
+  clearTimeout(readyTimer); pendingShow = null;
+  const { w, h } = overlaySize(aspect);
+  const { x, y } = overlayPos(w, h);
+  overlayWin.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
+  floatOverEverything(overlayWin);               // re-assert every time: Spaces/fullscreen changes can drop the level
+  overlayWin.showInactive();
+  overlayWin.moveTop();
+  floatOverEverything(overlayWin);               // and once more after it is on screen (macOS can reset the level while ordering in)
 }
 function showOverlay(edit = false, preview = false) {
   if (settings.videoPath && !fs.existsSync(settings.videoPath)) {   // video went missing: fall back to a preset
     const p = listPresets()[0]; if (p) set({ videoPath: path.join(PRESET_DIR, p + '.mp4'), keyed: true, preset: p }, false);
   }
   const win = createOverlay();
+  pendingShow = [edit, preview];
+  clearTimeout(readyTimer);
+  readyTimer = setTimeout(() => placeAndReveal(1), 4500);   // watchdog: if the video never reports a frame, still show the note and buttons
   const payload = {
     video: settings.videoPath ? pathToFileURL(settings.videoPath).href : '',
     message: edit ? 'Drag me where you want me, then press Save position.' : settings.message,
@@ -156,18 +176,16 @@ function showOverlay(edit = false, preview = false) {
   const send = () => win.webContents.send('overlay:show', payload);
   if (win.webContents.isLoading()) win.webContents.once('did-finish-load', send); else send();
 }
-ipcMain.on('overlay:ready', (_e, aspect) => {   // renderer has a real frame: size + place + reveal
-  if (!overlayWin || overlayWin.isDestroyed()) return;
-  const { w, h } = overlaySize(aspect);
-  const { x, y } = overlayPos(w, h);
-  overlayWin.setBounds({ x: Math.round(x), y: Math.round(y), width: w, height: h });
-  floatOverEverything(overlayWin);               // re-assert every time: Spaces/fullscreen changes can drop the level
-  overlayWin.showInactive();
-  overlayWin.moveTop();
-});
+ipcMain.on('overlay:ready', (_e, aspect) => placeAndReveal(aspect));   // renderer has a real frame: size + place + reveal
 function hideOverlay() {
-  if (overlayWin && !overlayWin.isDestroyed()) { overlayWin.webContents.send('overlay:stop'); overlayWin.hide(); }
+  clearTimeout(readyTimer); pendingShow = null;
+  if (overlayWin && !overlayWin.isDestroyed()) { overlayWin.setIgnoreMouseEvents(false); overlayWin.webContents.send('overlay:stop'); overlayWin.hide(); }
 }
+// transparent corners of the overlay let clicks fall through to the app underneath; only the note, buttons (and edit mode) take clicks
+ipcMain.on('overlay:interactive', (_e, on) => {
+  if (!overlayWin || overlayWin.isDestroyed() || !overlayWin.isVisible()) return;
+  try { on ? overlayWin.setIgnoreMouseEvents(false) : overlayWin.setIgnoreMouseEvents(true, { forward: true }); } catch {}
+});
 ipcMain.on('overlay:previewDone', hideOverlay);
 ipcMain.on('overlay:drank', () => {
   hideOverlay();
@@ -330,6 +348,8 @@ else {
   app.on('second-instance', () => {});
   app.whenReady().then(() => {
     if (IS_MAC) { app.setActivationPolicy('accessory'); app.dock.hide(); }   // menu-bar agent: needed to float over full-screen apps
+    if (IS_WIN) app.setAppUserModelId('com.aquaaww.app');
+    powerSaveBlocker.start('prevent-app-suspension');                          // stops macOS App Nap from delaying the reminder clock of a window-less menu-bar app
     load();
     if (app.isPackaged && !settings.loginAsked) { app.setLoginItemSettings({ openAtLogin: true }); settings.loginAsked = true; save(); }   // default on, user can switch it off in the menu
     try { for (const f of fs.readdirSync(app.getPath('userData'))) if (/^buddy-.*\.(mp4|mov)$/.test(f) && path.join(app.getPath('userData'), f) !== settings.videoPath) fs.unlinkSync(path.join(app.getPath('userData'), f)); } catch {}
@@ -338,6 +358,7 @@ else {
     else schedule(settings.intervalMin);
     setInterval(heartbeat, 5000);
     for (const ev of ['resume', 'unlock-screen']) powerMonitor.on(ev, () => setTimeout(fireIfDue, 1500));   // laptop woke up: catch up on anything that came due
+    screen.on('display-metrics-changed', () => { if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) { const b = overlayWin.getBounds(); const { x, y } = overlayPos(b.width, b.height); overlayWin.setBounds({ x: Math.round(x), y: Math.round(y), width: b.width, height: b.height }); floatOverEverything(overlayWin); } });
     screen.on('display-removed', () => { if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) showOverlay(); });   // keep it on a screen that still exists
   });
   app.on('window-all-closed', e => e.preventDefault()); // stay alive in the tray

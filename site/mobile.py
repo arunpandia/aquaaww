@@ -89,10 +89,10 @@ def build(D, hub_ld, GH):
     b = [b[0], '<div class="pi">' + "".join(b[1:]) + '</div>', '<div class="bd br"></div>']
 
     css = """
-:root{--u:calc(min(100vw,560px) / 402)}
+:root{--u:calc(min(100vw,700px) / 402)}
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{background:#fff;color:#000;font-family:"JetBrains Mono",ui-monospace,monospace;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%;overscroll-behavior:none;background:#fff}
+body{background:#fff;color:#000;font-family:"JetBrains Mono",ui-monospace,monospace;overflow-x:hidden;overscroll-behavior:none}
 img{display:block;max-width:none;-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -129,7 +129,7 @@ a{color:inherit;text-decoration:none}
     # px -> calc(var(--u) * n)  (Figma pixels become fractions of the page width)
     def conv(s):
         return re.sub(r'(?<![\w.#-])(-?\d*\.?\d+)px', lambda m: f'calc(var(--u)*{m.group(1)})', s)
-    css_c = conv(css.replace(":root{--u:calc(min(100vw,560px) / 402)}", "@@ROOT@@")).replace("@@ROOT@@", ":root{--u:calc(min(100vw,560px) / 402)}")
+    css_c = conv(css.replace(":root{--u:calc(min(100vw,700px) / 402)}", "@@ROOT@@")).replace("@@ROOT@@", ":root{--u:calc(min(100vw,700px) / 402)}")
     body = (sr + '<div id="bgl">'
             '<div class="a" style="left:132px;top:194px;width:970px;height:851px;transform:scaleX(-1)"><img class="cover" alt="" src="' + F + 'torn14.webp" decoding="async"></div>'
             '<img class="a" alt="" src="' + F + 'torn13.webp" decoding="async" style="left:-443px;top:63px;width:720px;height:888px;object-fit:cover">'

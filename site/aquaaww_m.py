@@ -7,9 +7,9 @@ I = "/aquaaww/img/"
 CSS_RAW = """
 #mob{display:none}
 @media (max-width:699PX){
-:root{--u:calc(min(100vw,560PX) / 402)}
+:root{--u:calc(min(100vw,700PX) / 402)}
 #stage,#sun,#bgfit{display:none}
-html,body{background:#fff;min-height:0}
+html,body{background:#fff;min-height:0;overscroll-behavior:none}
 #mob{display:block;position:relative}
 #bgl{position:fixed;left:50%;top:0;width:402px;margin-left:-201px;height:100%;overflow:hidden;z-index:0;pointer-events:none}
 #bgl i{position:absolute;display:block;background-size:cover;background-position:center}

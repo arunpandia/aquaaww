@@ -383,9 +383,11 @@ public class OverlayService extends Service {
     }
 
     private void goForeground() {
-        Notification n = buildNotification();
-        if (Build.VERSION.SDK_INT >= 34) startForeground(NOTIF_ID, n, 0x40000000 /* FOREGROUND_SERVICE_TYPE_SPECIAL_USE */);
-        else startForeground(NOTIF_ID, n);
+        try {
+            Notification n = buildNotification();
+            if (Build.VERSION.SDK_INT >= 34) startForeground(NOTIF_ID, n, 0x40000000 /* FOREGROUND_SERVICE_TYPE_SPECIAL_USE */);
+            else startForeground(NOTIF_ID, n);
+        } catch (Exception e) { /* the system refused (background start limits): keep running, the alarm will try again */ }
     }
 
     private void updateNotification() {

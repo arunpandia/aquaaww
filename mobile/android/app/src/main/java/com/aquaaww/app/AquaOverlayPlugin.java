@@ -64,8 +64,8 @@ public class AquaOverlayPlugin extends Plugin {
         boolean enabled = Boolean.TRUE.equals(call.getBoolean("enabled", false));
         SharedPreferences.Editor e = p.edit();
         e.putBoolean("enabled", enabled);
-        e.putInt("interval", call.getInt("interval", 45));
-        e.putInt("snooze", call.getInt("snooze", 15));
+        e.putInt("interval", Math.max(1, call.getInt("interval", 45)));
+        e.putInt("snooze", Math.max(1, call.getInt("snooze", 15)));
         e.putString("from", call.getString("from", "09:00"));
         e.putString("to", call.getString("to", "21:00"));
         e.putBoolean("paused", Boolean.TRUE.equals(call.getBoolean("paused", false)));
@@ -131,7 +131,7 @@ public class AquaOverlayPlugin extends Plugin {
             String name = call.getString("name", "buddy.mp4");
             boolean append = Boolean.TRUE.equals(call.getBoolean("append", false));
             byte[] bytes = Base64.decode(call.getString("data", ""), Base64.DEFAULT);
-            File f = new File(getContext().getFilesDir(), name);
+            File f = new File(getContext().getFilesDir(), new File(name).getName());   // a bare file name only: never a path
             try (FileOutputStream out = new FileOutputStream(f, append)) { out.write(bytes); }
             JSObject o = new JSObject();
             o.put("path", f.getAbsolutePath());

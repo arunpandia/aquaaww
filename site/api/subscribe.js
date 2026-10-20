@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   const wantsJson = (req.headers.accept || '').includes('application/json');
   const fail = (code, msg) => {
     if (wantsJson) return res.status(code).json({ ok: false, error: msg });
-    res.setHeader('Location', '/?error=' + encodeURIComponent(msg) + '#download');
+    res.setHeader('Location', '/aquaaww/?error=' + encodeURIComponent(msg));
     return res.status(303).end();
   };
   const done = (url) => {
@@ -51,8 +51,8 @@ module.exports = async (req, res) => {
     const day = now.slice(0, 10);
     await redis([['HSET', 'leads', email, JSON.stringify(rec)], ['HINCRBY', 'stats:downloads', os, 1], ['HINCRBY', 'stats:funnel', 'done:' + os, 1], ['HINCRBY', 'stats:day:' + day, 'done:' + os, 1]]);
   } catch (e) {
-    console.error('subscribe failed:', e.message);
-    return fail(503, 'We could not save that just now. Please try again in a minute.');
+    // the database is down: never keep someone from the app they asked for. The lead is lost, the log says so.
+    console.error('subscribe failed (download still given):', e.message, email);
   }
   return done(DL[os]);
 };

@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('wb', {
   onStop: cb => ipcRenderer.on('overlay:stop', () => cb()),
   previewDone: () => ipcRenderer.send('overlay:previewDone'),
   ready: aspect => ipcRenderer.send('overlay:ready', aspect),
+  interactive: on => ipcRenderer.send('overlay:interactive', !!on),
   drank: () => ipcRenderer.send('overlay:drank'),
   snooze: () => ipcRenderer.send('overlay:snooze'),
   savePos: () => ipcRenderer.send('overlay:savePos')

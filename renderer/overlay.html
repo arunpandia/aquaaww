@@ -54,6 +54,7 @@ wb.onStop(() => { session++; stop(); });
 
 wb.onShow(p => {
   const my = ++session, alive = () => my === session;
+  interactive = true;
   cfg = p;
   document.body.classList.toggle('edit', !!p.edit);
   setMsg(p.message, p.edit);
@@ -96,10 +97,20 @@ wb.onShow(p => {
         else setTimeout(wait, 30);                           // timers, not rAF: a hidden window never fires rAF
       };
       wait();
-    }).catch(() => {});
+    }).catch(() => { reveal(); });                           // could not play at all: still show the note and the buttons
   };
   v.src = p.video;
+  if (!p.video) reveal();
 });
+
+/* click-through: transparent corners must not block the app underneath */
+let interactive = true;
+function setInteractive(on) { if (on !== interactive) { interactive = on; wb.interactive(on); } }
+addEventListener('mousemove', e => {
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  setInteractive(document.body.classList.contains('edit') || !!(el && el.closest('.bubble')));
+});
+document.addEventListener('mouseleave', () => setInteractive(false));
 
 function setMsg(text, plain) {
   const el = document.getElementById('msg');

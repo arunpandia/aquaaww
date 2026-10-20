@@ -39,8 +39,8 @@
   #scrim{position:fixed;inset:0;background:rgba(52,39,37,.38);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
   #scrim.on{opacity:1;pointer-events:auto}
   .sheet{position:fixed;left:0;right:0;bottom:0;max-height:86vh;overflow:auto;background:#FDF8EF;border-radius:20px 20px 0 0;padding:26px 20px calc(24px + env(safe-area-inset-bottom));
-    transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.9,.3,1);z-index:41;box-shadow:0 -6px 24px rgba(52,39,37,.25)}
-  .sheet.on{transform:none}
+    transform:translateY(calc(100% + 60px));visibility:hidden;box-shadow:none;transition:transform .3s cubic-bezier(.2,.9,.3,1),visibility 0s linear .3s,box-shadow 0s linear .3s;z-index:41}
+  .sheet.on{transform:none;visibility:visible;box-shadow:0 -6px 24px rgba(52,39,37,.25);transition:transform .3s cubic-bezier(.2,.9,.3,1),visibility 0s,box-shadow 0s}   /* closed sheets are fully hidden: their shadow used to bleed in above the gesture bar */
   .sheet::before{content:"";position:absolute;left:50%;top:-8px;width:84px;height:22px;transform:translateX(-50%) rotate(-2deg);background:linear-gradient(#dcc496,#d3b987);opacity:.95;
     clip-path:polygon(0 8%,3% 0,6% 10%,9% 0,91% 0,94% 10%,97% 0,100% 8%,100% 92%,97% 100%,94% 90%,91% 100%,9% 100%,6% 90%,3% 100%,0 92%)}
   .sheet h2{font-family:"Permanent Marker",cursive;font-weight:400;font-size:24px;margin:4px 0 14px;color:var(--ink)}
@@ -260,7 +260,7 @@ const WO = P.AquaOverlay || (Cap && Cap.registerPlugin ? Cap.registerPlugin('Aqu
 /* ---------------- fit the 402 x 874 design to the screen ---------------- */
 let scale = 1;
 function fit() { scale = Math.min(innerWidth / 402, innerHeight / 874); $('stage').style.transform = `translate(-50%,-50%) scale(${scale})`; }
-addEventListener('resize', fit); fit();
+addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 200)); if (window.visualViewport) visualViewport.addEventListener('resize', fit); fit();
 
 /* ---------------- settings ---------------- */
 const PRESET_MODES = { 'yours truly': 'green' };                                  // presets filmed on a green screen
