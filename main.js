@@ -87,7 +87,7 @@ function schedule(minutes) {
 function fireIfDue() {
   if (!nextAt || settings.paused || Date.now() < nextAt) return;
   nextAt = Date.now() + settings.intervalMin * 60000;           // re-arm first: an ignored reminder never stalls the schedule
-  if (inActiveHours() && settings.videoPath) showOverlay();
+  if (inActiveHours() && settings.videoPath && !mustUpdate()) showOverlay();
   updateTray();
 }
 let beats = 0;
@@ -160,6 +160,7 @@ function placeAndReveal(aspect = 1) {
   floatOverEverything(overlayWin);               // and once more after it is on screen (macOS can reset the level while ordering in)
 }
 function showOverlay(edit = false, preview = false) {
+  if (mustUpdate()) return applyForce();
   if (settings.videoPath && !fs.existsSync(settings.videoPath)) {   // video went missing: fall back to a preset
     const p = listPresets()[0]; if (p) set({ videoPath: path.join(PRESET_DIR, p + '.mp4'), keyed: true, preset: p }, false);
   }
@@ -229,6 +230,35 @@ async function checkForUpdates() {
   }
 }
 
+/* ---------- force update (remote switch) ----------
+   Reads https://dusktillus.store/app-config.json. If this version is older than "min", reminders stop and the app asks for the update
+   on every start (and every few hours) until it is installed. If the file cannot be reached, the last known answer is used. */
+const CONFIG_URL = 'https://dusktillus.store/app-config.json';
+const PLATFORM = IS_MAC ? 'mac' : 'windows';
+let updInfo = null;                                        // { min, latest, url, message } from the last good answer
+function verLess(a, b) { return newer(b, a); }
+async function checkRemote() {
+  try {
+    const res = await net.fetch(CONFIG_URL + '?t=' + Date.now(), { headers: { 'Cache-Control': 'no-cache' } , signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error(String(res.status));
+    const j = await res.json(), p = j && j[PLATFORM];
+    if (p && /^\d+\.\d+\.\d+/.test(p.min || '')) { updInfo = { min: p.min, latest: p.latest || p.min, url: String(p.url || ''), message: String(j.message || '') }; settings.updInfo = updInfo; save(); }
+  } catch { updInfo = updInfo || settings.updInfo || null; }   // offline: keep the last answer
+  applyForce();
+}
+function mustUpdate() { return !!(updInfo && verLess(app.getVersion(), updInfo.min)); }
+let forceShown = 0;
+function applyForce() {
+  updateTray();
+  if (!mustUpdate()) return;
+  hideOverlay();
+  if (Date.now() - forceShown < 30 * 60000) return;           // ask again at most every 30 minutes, not in a loop
+  forceShown = Date.now();
+  app.focus({ steal: true });
+  alertBox('Please update AquaAww', `This version (${app.getVersion()}) is too old to keep running. Install version ${updInfo.latest} to continue.` + (updInfo.message ? `\n\n${updInfo.message}` : ''), ['Download update', 'Quit'], 'warning')
+    .then(r => { if (r.response === 0 && /^https:\/\//.test(updInfo.url)) shell.openExternal(updInfo.url); else if (r.response === 1) app.quit(); });
+}
+
 /* ---------- video import ---------- */
 const ffmpegPath = () => path.join(path.dirname(require.resolve('ffmpeg-static')), IS_WIN ? 'ffmpeg.exe' : 'ffmpeg').replace('app.asar', 'app.asar.unpacked');
 
@@ -295,7 +325,18 @@ function updateTray() {
   const radio = (label, key, val, resched) => ({ label, type: 'radio', checked: settings[key] === val, click: () => set({ [key]: val }, resched) });
   const hoursChecked = h => h ? settings.limitHours && settings.activeFrom === h[0] && settings.activeTo === h[1] : !settings.limitHours;
   tray.setToolTip(`AquaAww - next: ${when}`);
+  if (mustUpdate()) {
+    tray.setToolTip('AquaAww - update required');
+    return tray.setContextMenu(Menu.buildFromTemplate([
+      { label: `Update required (you have ${app.getVersion()})`, enabled: false },
+      { label: 'Download update…', click: () => updInfo && /^https:\/\//.test(updInfo.url) && shell.openExternal(updInfo.url) },
+      { type: 'separator' },
+      { label: 'Quit', click: () => app.quit() }
+    ]));
+  }
+  const soft = updInfo && verLess(app.getVersion(), updInfo.latest) ? [{ label: `Update available: ${updInfo.latest}…`, click: () => /^https:\/\//.test(updInfo.url) && shell.openExternal(updInfo.url) }, { type: 'separator' }] : [];
   tray.setContextMenu(Menu.buildFromTemplate([
+    ...soft,
     { label: `Next: ${when}`, enabled: false },
     { label: `Done today: ${settings.stats[today()] || 0}`, enabled: false },
     { type: 'separator' },
@@ -353,11 +394,13 @@ else {
     load();
     if (app.isPackaged && !settings.loginAsked) { app.setLoginItemSettings({ openAtLogin: true }); settings.loginAsked = true; save(); }   // default on, user can switch it off in the menu
     try { for (const f of fs.readdirSync(app.getPath('userData'))) if (/^buddy-.*\.(mp4|mov)$/.test(f) && path.join(app.getPath('userData'), f) !== settings.videoPath) fs.unlinkSync(path.join(app.getPath('userData'), f)); } catch {}
+    updInfo = settings.updInfo || null;
     createTray();
+    checkRemote(); setInterval(checkRemote, 3 * 3600000);
     if (!settings.videoPath && defaultPreset()) usePreset(defaultPreset(), false);
     else schedule(settings.intervalMin);
     setInterval(heartbeat, 5000);
-    for (const ev of ['resume', 'unlock-screen']) powerMonitor.on(ev, () => setTimeout(fireIfDue, 1500));   // laptop woke up: catch up on anything that came due
+    for (const ev of ['resume', 'unlock-screen']) powerMonitor.on(ev, () => setTimeout(() => { checkRemote(); fireIfDue(); }, 1500));   // laptop woke up: catch up on anything that came due
     screen.on('display-metrics-changed', () => { if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) { const b = overlayWin.getBounds(); const { x, y } = overlayPos(b.width, b.height); overlayWin.setBounds({ x: Math.round(x), y: Math.round(y), width: b.width, height: b.height }); floatOverEverything(overlayWin); } });
     screen.on('display-removed', () => { if (overlayWin && !overlayWin.isDestroyed() && overlayWin.isVisible()) showOverlay(); });   // keep it on a screen that still exists
   });

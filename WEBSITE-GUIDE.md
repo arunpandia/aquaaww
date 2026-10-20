@@ -109,3 +109,11 @@ The progress bars (AquaAww page and the home page) read `/api/fund`. They move o
 
 Payments from your other Razorpay products are ignored (only the two links above are counted). Each payment is counted once.
 The last 500 payments are kept in Redis under `fund:log`.
+
+## Force update (remote switch)
+
+Installed apps read `https://dusktillus.store/app-config.json` (file: `site/app-config.json`) on start, every 3 hours and when the computer wakes.
+- `min` = oldest version still allowed. An older app stops reminders and shows "Please update" (desktop: Download update / Quit; Android: a full-screen block) until the new version is installed.
+- `latest` = newest version. Apps older than this but at least `min` just get a gentle "Update available" item in the menu.
+- `url` = where Update takes people. `message` = optional extra line.
+To force everyone to update: publish the new release, set `min` to its version (for example "1.1.4"), commit and push. It takes effect within a minute of the deploy. If the phone/computer is offline, the last known answer is used. Apps released before 1.1.4 do not read this file.

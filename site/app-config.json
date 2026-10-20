@@ -1,0 +1,7 @@
+{
+  "_help": "Edit and push to change what installed apps do. min = oldest version still allowed (older apps are blocked until updated). latest = newest version (older apps get a gentle 'update available'). url = where Update takes them. message = optional extra line shown in the block screen.",
+  "mac":     { "min": "1.0.0", "latest": "1.1.4", "url": "https://dusktillus.store/aquaaww/water-reminder-app-for-mac/" },
+  "windows": { "min": "1.0.0", "latest": "1.1.4", "url": "https://dusktillus.store/aquaaww/water-reminder-app-for-windows/" },
+  "android": { "min": "1.0.0", "latest": "1.1.4", "url": "https://dusktillus.store/aquaaww/water-reminder-app-for-android/" },
+  "message": ""
+}

@@ -30,6 +30,12 @@
   .ring{animation:ring 1s ease-in-out 3}
   @keyframes ring{50%{transform:scale(1.06)}}
 
+  /* ===== forced update screen ===== */
+  #force{position:fixed;inset:0;z-index:200;background:var(--cream);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center}
+  #force.on{display:flex}
+  #force h2{font:400 26px "Permanent Marker",cursive;margin:0}
+  #force p{font:15px/1.5 "Special Elite",monospace;color:#7a6a64;margin:0;max-width:320px}
+  #force button{margin-top:10px;padding:12px 22px;border:2px solid var(--ink);border-radius:10px;background:var(--tape);color:var(--ink);font:400 16px "Permanent Marker",cursive}
   /* ===== loading: the drop fills with water layer by layer ===== */
   #loader{position:absolute;inset:0;background:var(--cream);z-index:30;transition:opacity .4s}
   #loader.out{opacity:0;pointer-events:none}
@@ -250,6 +256,7 @@
 <script src="mp/person.js"></script>
 <video id="v" playsinline muted loop></video>
 <div id="toast"></div>
+<div id="force" role="alertdialog" aria-labelledby="fh"><h2 id="fh">Please update AquaAww</h2><p id="fp"></p><button id="fb" type="button">Update now</button></div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -597,6 +604,26 @@ async function init() {
   setInterval(() => { if (!document.hidden) renderStatus(); }, 4000);                                  // pick up reminders answered from the overlay, refresh "in 28m"
   document.addEventListener('visibilitychange', async () => { if (!document.hidden) { startBuddy(); await refreshOverlayStatus(); await runOnboarding();  if (S.overlay && ovStatus.canDraw && !ovStatus.enabled) await syncOverlay(true); renderPerm(); renderHome(); } });
 }
+/* ---------------- force update (remote switch): https://dusktillus.store/app-config.json ---------------- */
+let upd = null;
+try { upd = JSON.parse(localStorage.getItem('aq_upd') || 'null'); } catch {}
+const verLess = (a, b) => { const p = v => String(v).split('.').map(n => parseInt(n, 10) || 0); const x = p(a), y = p(b); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) < (y[i] || 0); return false; };
+let appVer = '';
+async function checkUpdate() {
+  try {
+    if (!appVer && AppP && AppP.getInfo) appVer = (await AppP.getInfo()).version || '';
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 8000);
+    const r = await fetch('https://dusktillus.store/app-config.json?t=' + Date.now(), { cache: 'no-store', signal: ctl.signal }); clearTimeout(t);
+    if (r.ok) { const j = await r.json(), a = j && j.android; if (a && /^\d+\.\d+\.\d+/.test(a.min || '')) { upd = { min: a.min, latest: a.latest || a.min, url: String(a.url || ''), message: String(j.message || '') }; try { localStorage.setItem('aq_upd', JSON.stringify(upd)); } catch {} } }
+  } catch {}                                                                     // offline: the last known answer still applies
+  const must = !!(upd && appVer && verLess(appVer, upd.min));
+  $('force').classList.toggle('on', must);
+  if (must) $('fp').textContent = 'This version (' + appVer + ') is too old to keep running. Install version ' + upd.latest + ' to continue.' + (upd.message ? ' ' + upd.message : '');
+}
+$('fb').onclick = () => { if (upd && /^https:\/\//.test(upd.url)) window.open(upd.url, '_blank'); };
+
 init();
+checkUpdate(); setInterval(checkUpdate, 3 * 3600000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkUpdate(); });
 </script>
 </body></html>
