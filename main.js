@@ -1,7 +1,9 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, screen, nativeImage, shell, powerMonitor, powerSaveBlocker, net } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { spawn } = require('child_process');
+const { spawn, execFile } = require('child_process');
+const crypto = require('crypto');
+const os = require('os');
 const { pathToFileURL } = require('url');
 
 app.commandLine.appendSwitch('log-level', '3');   // silence harmless Chromium decoder notices ("Unsupported pixel format: -1")
@@ -223,10 +225,70 @@ async function checkForUpdates() {
     if (!res.ok) throw new Error('GitHub answered ' + res.status);
     const rel = await res.json(), latest = rel.tag_name || '';
     if (!newer(latest, app.getVersion())) return alertBox('You are up to date', `AquaAww ${app.getVersion()} is the latest version.`);
-    const r = await alertBox(`AquaAww ${latest.replace(/^v/, '')} is available`, `You have ${app.getVersion()}.` + (rel.name ? `\n\n${rel.name}` : ''), ['Download', 'Later']);
-    if (r.response === 0) shell.openExternal(rel.html_url);
+    const r = await alertBox(`AquaAww ${latest.replace(/^v/, '')} is available`, `You have ${app.getVersion()}.` + (rel.name ? `\n\n${rel.name}` : ''), ['Update now', 'Later']);
+    if (r.response === 0) installUpdate();
   } catch (e) {
     alertBox('Could not check for updates', String(e && e.message || e), ['OK'], 'error');
+  }
+}
+
+/* ---------- in-app update: download, check, install, relaunch ---------- */
+let updating = false;
+function sh(cmd, args) { return new Promise((res, rej) => execFile(cmd, args, (e, out, err) => e ? rej(new Error(String(err || e.message).slice(0, 300))) : res(out))); }
+async function download(url, dest, label) {
+  const res = await net.fetch(url, { signal: AbortSignal.timeout(20 * 60000) });
+  if (!res.ok || !res.body) throw new Error('Download failed (' + res.status + ')');
+  const total = +res.headers.get('content-length') || 0, hash = crypto.createHash('sha256');
+  const out = fs.createWriteStream(dest); let got = 0, last = 0;
+  for await (const chunk of res.body) {
+    hash.update(chunk); got += chunk.length;
+    if (!out.write(chunk)) await new Promise(r => out.once('drain', r));
+    const pct = total ? Math.floor(100 * got / total) : 0;
+    if (pct !== last) { last = pct; const t = `${label} ${pct}%`; if (tray) { tray.setToolTip('AquaAww - ' + t); if (IS_MAC) tray.setTitle(' ' + t); } }
+  }
+  await new Promise((r, j) => out.end(e => e ? j(e) : r()));
+  return hash.digest('hex');
+}
+async function installUpdate() {
+  if (updating) { alertBox('Already updating', 'AquaAww is downloading the update. It will restart by itself.'); return; }
+  if (!app.isPackaged && !process.env.AQ_UPDATE_DEST) { alertBox('Update', 'Updates install only in the packaged app.'); return; }
+  updating = true;
+  const dir = path.join(app.getPath('userData'), 'update'); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
+  const base = `https://github.com/${REPO}/releases/latest/download/`, file = IS_MAC ? 'AquaAww-arm64.dmg' : 'AquaAww-Setup.exe', local = path.join(dir, file);
+  try {
+    const sums = await (await net.fetch(base + 'SHA256SUMS.txt', { signal: AbortSignal.timeout(20000) })).text();
+    const want = (sums.split('\n').map(l => l.trim().split(/\s+/)).find(p => p[1] === file || p[1] === '*' + file) || [])[0];
+    if (!/^[a-f0-9]{64}$/.test(want || '')) throw new Error('Could not read the checksum for this release.');
+    if (tray) { tray.setToolTip('AquaAww - downloading update'); if (IS_MAC) tray.setTitle(' Updating…'); }
+    const got = await download(base + file, local, 'Updating');
+    if (got !== want) throw new Error('The downloaded file did not match its checksum, so it was not installed.');
+    if (IS_WIN) {
+      spawn(local, [], { detached: true, stdio: 'ignore' }).unref();      // the installer replaces the app and starts it again
+      setTimeout(() => app.quit(), 800); return;
+    }
+    // macOS: mount the disk image, stage the new app, then swap it in after this app quits
+    const exe = app.getPath('exe'), cur = path.resolve(exe, '../../..');
+    const dest = process.env.AQ_UPDATE_DEST || (cur.endsWith('.app') && !cur.startsWith('/Volumes/') && !cur.includes('AppTranslocation') ? cur : '/Applications/AquaAww.app');
+    const mnt = path.join(dir, 'mnt'); fs.mkdirSync(mnt);
+    await sh('/usr/bin/hdiutil', ['attach', '-nobrowse', '-readonly', '-noverify', '-mountpoint', mnt, local]);
+    const stage = path.join(dir, 'AquaAww.app');
+    try {
+      const appName = fs.readdirSync(mnt).find(n => n.endsWith('.app'));
+      if (!appName) throw new Error('The update did not contain the app.');
+      await sh('/usr/bin/ditto', [path.join(mnt, appName), stage]);
+      await sh('/usr/bin/xattr', ['-cr', stage]);
+    } finally { await sh('/usr/bin/hdiutil', ['detach', mnt, '-quiet', '-force']).catch(() => {}); }
+    try { fs.accessSync(path.dirname(dest), fs.constants.W_OK); }
+    catch { shell.openPath(local); throw new Error('AquaAww could not replace itself here, so the update was opened for you. Drag AquaAww into Applications.'); }
+    const script = path.join(dir, 'swap.sh');
+    fs.writeFileSync(script, `#!/bin/bash\nwhile kill -0 ${process.pid} 2>/dev/null; do sleep 0.4; done\nrm -rf "${dest}.old"; mv "${dest}" "${dest}.old" 2>/dev/null\nif ditto "${stage}" "${dest}"; then rm -rf "${dest}.old"; xattr -cr "${dest}"; else rm -rf "${dest}"; mv "${dest}.old" "${dest}"; fi\nopen "${dest}"\n`, { mode: 0o755 });
+    spawn('/bin/bash', [script], { detached: true, stdio: 'ignore' }).unref();
+    setTimeout(() => app.quit(), 500);
+  } catch (e) {
+    updating = false; if (tray && IS_MAC) tray.setTitle(''); updateTray();
+    app.focus({ steal: true });
+    const r = await alertBox('Could not update automatically', String(e && e.message || e), ['Open download page', 'Close'], 'warning');
+    if (r.response === 0) shell.openExternal(`https://github.com/${REPO}/releases/latest`);
   }
 }
 
@@ -255,8 +317,8 @@ function applyForce() {
   if (Date.now() - forceShown < 30 * 60000) return;           // ask again at most every 30 minutes, not in a loop
   forceShown = Date.now();
   app.focus({ steal: true });
-  alertBox('Please update AquaAww', `This version (${app.getVersion()}) is too old to keep running. Install version ${updInfo.latest} to continue.` + (updInfo.message ? `\n\n${updInfo.message}` : ''), ['Download update', 'Quit'], 'warning')
-    .then(r => { if (r.response === 0 && /^https:\/\//.test(updInfo.url)) shell.openExternal(updInfo.url); else if (r.response === 1) app.quit(); });
+  alertBox('Please update AquaAww', `This version (${app.getVersion()}) is too old to keep running. Install version ${updInfo.latest} to continue.` + (updInfo.message ? `\n\n${updInfo.message}` : ''), ['Update now', 'Quit'], 'warning')
+    .then(r => { if (r.response === 0) installUpdate(); else if (r.response === 1) app.quit(); });
 }
 
 /* ---------- video import ---------- */
@@ -329,12 +391,12 @@ function updateTray() {
     tray.setToolTip('AquaAww - update required');
     return tray.setContextMenu(Menu.buildFromTemplate([
       { label: `Update required (you have ${app.getVersion()})`, enabled: false },
-      { label: 'Download update…', click: () => updInfo && /^https:\/\//.test(updInfo.url) && shell.openExternal(updInfo.url) },
+      { label: 'Update now…', click: installUpdate },
       { type: 'separator' },
       { label: 'Quit', click: () => app.quit() }
     ]));
   }
-  const soft = updInfo && verLess(app.getVersion(), updInfo.latest) ? [{ label: `Update available: ${updInfo.latest}…`, click: () => /^https:\/\//.test(updInfo.url) && shell.openExternal(updInfo.url) }, { type: 'separator' }] : [];
+  const soft = updInfo && verLess(app.getVersion(), updInfo.latest) ? [{ label: `Update available: ${updInfo.latest}…`, click: installUpdate }, { type: 'separator' }] : [];
   tray.setContextMenu(Menu.buildFromTemplate([
     ...soft,
     { label: `Next: ${when}`, enabled: false },

@@ -117,3 +117,5 @@ Installed apps read `https://dusktillus.store/app-config.json` (file: `site/app-
 - `latest` = newest version. Apps older than this but at least `min` just get a gentle "Update available" item in the menu.
 - `url` = where Update takes people. `message` = optional extra line.
 To force everyone to update: publish the new release, set `min` to its version (for example "1.1.4"), commit and push. It takes effect within a minute of the deploy. If the phone/computer is offline, the last known answer is used. Apps released before 1.1.4 do not read this file.
+
+Updates install inside the app: "Update now" downloads the new installer from the latest GitHub release, checks it against `SHA256SUMS.txt`, replaces the app and restarts it (Windows runs the installer). Every release must therefore include `AquaAww-arm64.dmg`, `AquaAww-Setup.exe` and `SHA256SUMS.txt`.
