@@ -1,15 +1,29 @@
 # Guide articles: real, useful pages people search for. Imported by build.py.
 ARTICLES = [
-dict(slug="how-much-water-should-you-drink-a-day", title="How Much Water Should You Drink a Day? A Simple Guide",
- desc="There is no single number for everyone. Here is what the research bodies say, what changes your needs, and an easy way to check you are drinking enough.",
- h1="How much water should you drink a day?", read="4 min",
- body="""<p class="lead">There is no one number that fits everyone. A useful rule: drink enough that you rarely feel thirsty and your urine is pale yellow, and spread it across the day.</p>
+dict(slug="how-much-water-should-you-drink-a-day", title="How Much Water Should You Drink a Day? Litres & Glasses",
+ desc="Official litre and glass figures, a body-weight rule of thumb, how much water food gives you, and an easy urine-colour check.",
+ h1="How much water should you drink a day?", read="6 min",
+ body="""<p class="lead">There is no one number that fits everyone. A useful rule: drink enough that you rarely feel thirsty and your urine is pale yellow, and spread it across the day. Below are the official figures, a quick way to work out your own range, and what changes it.</p>
 <h2>The numbers people quote</h2>
-<p>The US National Academies set an adequate daily intake of total water of about <strong>3.7 litres for men</strong> and <strong>2.7 litres for women</strong>. Total water includes everything: plain water, tea, coffee, milk, juice, and the water inside food. Food usually supplies about 20 percent, so most people need roughly 3 litres of drinks (men) and 2.2 litres (women). Treat these as a starting point, not a target to hit exactly.</p>
+<p>The US National Academies set an adequate daily intake of total water of about <strong>3.7 litres for men</strong> and <strong>2.7 litres for women</strong>. The European Food Safety Authority gives a similar but lower figure: about <strong>2.5 litres for men</strong> and <strong>2.0 litres for women</strong>. The UK NHS simply suggests <strong>6 to 8 glasses</strong> of fluid a day.</p>
+<p>Total water includes everything: plain water, tea, coffee, milk, juice, and the water inside food. Food usually supplies about 20 percent, so most people need roughly 3 litres of drinks (men) and 2.2 litres (women) on the higher US figures, or about 2 litres and 1.6 litres on the European ones. Treat all of these as a starting point, not a target to hit exactly.</p>
+<h2>Litres to glasses</h2>
+<p>If a glass is 250 ml:</p>
+<ul><li>1 litre is 4 glasses</li><li>1.5 litres is 6 glasses</li><li>2 litres is 8 glasses</li><li>2.5 litres is 10 glasses</li><li>3 litres is 12 glasses</li></ul>
+<p>The old "eight glasses a day" is a handy memory aid, not a scientific law. Some people need less, and many need more.</p>
+<h2>A rule of thumb by body weight</h2>
+<p>A commonly used estimate is <strong>30 to 35 ml of fluid per kilogram of body weight per day</strong>. It is a rule of thumb, not an official standard, but it gives a sensible range for a normal day:</p>
+<ul><li>50 kg: about 1.5 to 1.75 litres</li><li>60 kg: about 1.8 to 2.1 litres</li><li>70 kg: about 2.1 to 2.45 litres</li><li>80 kg: about 2.4 to 2.8 litres</li></ul>
+<p>Add more on hot days, after exercise, or when you are ill.</p>
+<h2>Food counts too</h2>
+<p>About a fifth of your water comes from food. Some foods are mostly water: cucumber (about 95 percent), watermelon (about 92 percent), oranges (about 87 percent) and curd or yoghurt (roughly 85 percent). Soups and cooked rice add a good amount as well. On a day with lots of fruit, vegetables and soup you need to drink a little less than on a day of dry snacks.</p>
+<h2>What counts as a drink</h2>
+<p>Water is best, but milk, buttermilk, coconut water, tea, coffee and lemon water all contribute. Coffee and tea do count, in moderate amounts. Sugary drinks add calories, and alcohol does not hydrate you.</p>
 <h2>What changes how much you need</h2>
-<ul><li><strong>Heat and humidity:</strong> you lose more through sweat.</li><li><strong>Exercise:</strong> drink before, during and after, especially over an hour.</li><li><strong>Pregnancy and breastfeeding:</strong> needs go up.</li><li><strong>Illness:</strong> fever, vomiting and diarrhoea cause fast fluid loss.</li><li><strong>Altitude and dry air-conditioned rooms:</strong> both increase loss.</li><li><strong>Age:</strong> older adults feel thirst less, so a schedule helps.</li></ul>
+<ul><li><strong>Heat and humidity:</strong> you lose more through sweat. In hot weather many people need an extra half to one litre.</li><li><strong>Exercise:</strong> drink before, during and after, especially over an hour.</li><li><strong>Pregnancy and breastfeeding:</strong> needs go up.</li><li><strong>Illness:</strong> fever, vomiting and diarrhoea cause fast fluid loss. For diarrhoea or vomiting, oral rehydration solution (ORS) is the standard advice.</li><li><strong>Altitude and dry air-conditioned rooms:</strong> both increase loss.</li><li><strong>Age:</strong> older adults feel thirst less, so a schedule helps. Children need less than adults and it varies by age, so ask a paediatrician if you are unsure.</li></ul>
 <h2>A simple way to check</h2>
-<p>Look at your urine colour. Pale straw yellow usually means you are well hydrated. Dark yellow suggests you need more. Headache, tiredness and dry lips are other common signs of being short on fluid.</p>
+<p>Look at your urine colour. Pale straw yellow usually means you are well hydrated. Dark yellow suggests you need more. You do not need it to be completely clear. Headache, tiredness, dry lips and constipation are other common signs of being short on fluid.</p>
+<p>Get medical help if you feel faint or confused, are very dizzy, or have passed little or no urine for many hours.</p>
 <h2>An easy daily pattern</h2>
 <ol><li>One glass when you wake up.</li><li>One glass with each meal.</li><li>One glass mid-morning and mid-afternoon.</li><li>A glass after any exercise.</li><li>Taper off an hour or two before bed so sleep is not broken.</li></ol>
 <p>That is about eight glasses without thinking about it. If you keep forgetting, a timed reminder works better than willpower. See <a href="/guides/how-to-remember-to-drink-water/">9 ways to remember to drink water</a>.</p>
@@ -17,7 +31,7 @@ dict(slug="how-much-water-should-you-drink-a-day", title="How Much Water Should 
 <p>It is uncommon, but drinking very large amounts in a short time can dilute blood sodium. Sip steadily instead of forcing litres at once.</p>
 <h2>When to follow your doctor instead</h2>
 <p>If you have kidney, heart or liver conditions, take diuretics, or have been told to limit fluids, follow your doctor's advice rather than general numbers. This guide is general information, not medical advice.</p>""",
- faq=[("How many glasses of water is 2 litres?","About eight glasses of 250 ml each."),("Does coffee or tea count?","Yes. They count toward total fluid, although water is the simplest choice.")]),
+ faq=[("How many glasses of water is 2 litres?","About eight glasses of 250 ml each."),("Is 3 litres of water a day too much?","Not necessarily. Total water for many men, including food, is around 3 to 3.7 litres a day, but what suits you depends on your size, climate and activity. Sip steadily through the day, and follow your doctor if you have been told to limit fluids."),("Does coffee or tea count?","Yes. They count toward total fluid in moderate amounts, although water is the simplest choice."),("Does water from food count?","Yes. About 20 percent of the water most people take in comes from food, especially fruit, vegetables, curd and soups."),("How much water should a 60 kg person drink?","A common rule of thumb of 30 to 35 ml per kg gives about 1.8 to 2.1 litres of fluid a day, and more in hot weather or after exercise.")]),
 dict(slug="how-to-remember-to-drink-water", title="9 Ways to Remember to Drink Water (That Actually Work)",
  desc="Nine practical tricks to drink more water every day: habit stacking, visible bottles, timed reminders, and why a reminder from someone you love works better than a beep.",
  h1="9 ways to remember to drink water", read="4 min",

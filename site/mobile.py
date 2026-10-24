@@ -24,7 +24,7 @@ def img(src, cls="cover", style="", alt="", lazy=True, w=None, h=None):
 def build(D, hub_ld, GH):
     sr = ('<div class="sr"><h1>Dusktillus, our digital garage</h1><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder '
           'that comes as someone you love, free for Android, Windows and Mac.</p><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> '
-          '<a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> '
+          '<a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> '
           '<a href="/unsubscribe/">Unsubscribe</a></nav></div>')
 
     # ---------- top page (331 x 503.28) ----------

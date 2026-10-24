@@ -363,7 +363,7 @@ PRODUCTS = [
        tags=["Android","Windows","Mac","Free"]),
 ]
 hub_ld = {"@context":"https://schema.org","@graph":[
-  {"@type":"Organization","@id":D+"/#org","name":"Dusktillus","url":D+"/","logo":D+"/assets/logo-512.png","sameAs":[GH.rsplit("/",1)[0]]},
+  {"@type":"Organization","@id":D+"/#org","name":"Dusktillus","url":D+"/","logo":D+"/assets/logo-512.png","sameAs":[GH.rsplit("/",1)[0],"https://www.instagram.com/dusktillus/"]},
   {"@type":"WebSite","@id":D+"/#site","url":D+"/","name":"Dusktillus","publisher":{"@id":D+"/#org"}},
   {"@type":"ItemList","name":"Dusktillus apps","itemListElement":[{"@type":"ListItem","position":i+1,"url":D+p["path"],"name":p["name"]} for i,p in enumerate(PRODUCTS)]}]}
 cards = "".join(f'<a class="card app" href="{p["path"]}"><img src="{p["img"]}" width="{p["w"]}" height="{p["h"]}" alt="" loading="lazy"><h3>{p["name"]}</h3><p>{html.escape(p["blurb"])}</p><div class="tags">{"".join(f"<span>{t}</span>" for t in p["tags"])}</div><span class="go">Get {p["name"]} &rarr;</span></a>' for p in PRODUCTS)
@@ -411,7 +411,7 @@ else:
           '<script defer src="/_vercel/insights/script.js"></script>')
     fb = fb.replace('</head>', og+'</head>',1)
     nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
-           '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+           '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
     open("index.html","w").write(fb)
 import mobile
