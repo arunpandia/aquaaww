@@ -27,6 +27,9 @@ async function limited(action, key, n, sec) {
   return r[0].result > n;
 }
 
+// give back one use when the email could not be sent (a failed send should not cost the visitor their hourly allowance)
+const unlimit = (action, key) => redis([['DECR', 'rl:' + action + ':' + sha(key).slice(0, 24)]]);
+
 // A cookie-carrying request that changes something must come from our own pages: same Origin, or a header a foreign site cannot add without our consent.
 const sameSite = req => {
   const sf = req.headers['sec-fetch-site'], o = req.headers.origin;
@@ -77,5 +80,5 @@ async function requireAdmin(req, res) {
 const getUser = async email => { const r = await first(['GET', 'user:' + email]); return r ? JSON.parse(r) : null; };
 const saveUser = u => first(['SET', 'user:' + u.email, JSON.stringify(u)]);
 
-module.exports = { redis, clean, secret, hmac, sha, same, adminEmails, isAdminEmail, normEmail, emailOk, ipOf, first, readBody, send, istDay, lastDays, limited, sameSite,
+module.exports = { redis, clean, secret, hmac, sha, same, adminEmails, isAdminEmail, normEmail, emailOk, ipOf, first, readBody, send, istDay, lastDays, limited, unlimit, sameSite,
   createSession, getSession, endSession, requireUser, requireAdmin, getUser, saveUser };

@@ -31,6 +31,7 @@ exports.request = async (req, res) => {
     return C.send(res, 200, generic);
   } catch (e) {
     console.error('otp request failed:', e.message);
+    await Promise.all([C.unlimit('otp-email', email), C.unlimit('otp-ip', C.ipOf(req))]).catch(() => {});
     return C.send(res, 503, { ok: false, error: 'Could not send the code right now. Please try again.' });
   }
 };
