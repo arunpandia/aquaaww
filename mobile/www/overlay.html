@@ -67,12 +67,7 @@ if (mode === 'poster') {
       }
       ctx.putImageData(img, 0, 0); return;
     }
-    for (let i = 0; i < d.length; i += 4) {
-      const dist = 255 - Math.min(d[i], d[i + 1], d[i + 2]);
-      let a = (dist - lo) / (hi - lo); a = a <= 0 ? 0 : a >= 1 ? 1 : a * a * (3 - 2 * a);
-      if (a > 0 && a < 1) for (let k = 0; k < 3; k++) { const x = 255 - (255 - d[i + k]) / a; d[i + k] = x < 0 ? 0 : x; }
-      d[i + 3] = a * 255;
-    }
+    PersonCut.keyBg(img, px, px);
     ctx.putImageData(img, 0, 0);
   }
   if (km === 'person') {                                                 // person cut-out on any background (MediaPipe, offline)
