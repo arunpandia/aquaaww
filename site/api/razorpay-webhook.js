@@ -1,4 +1,4 @@
-// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, events "payment_link.paid" and "payment_link.partially_paid"; "payment_page.paid" is also accepted)
+// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, events "payment_link.paid", "payment_link.partially_paid" and, for shop orders, "order.paid")
 // Verifies Razorpay's signature over the raw body, keeps only payments made through our own Payment Page or Link, and moves the progress bar.
 // A Payment Page can be paid again and again; a single Payment Link can only be paid once.
 const crypto = require('crypto');
@@ -30,6 +30,18 @@ module.exports = async (req, res) => {
   if (got.length !== want.length || !crypto.timingSafeEqual(Buffer.from(got), Buffer.from(want))) return res.status(400).end();
 
   let body; try { body = JSON.parse(raw.toString('utf8')); } catch { return res.status(400).end(); }
+  // shop orders: Razorpay tells us a payment on an order we created through /api/checkout went through (backup for the browser call to /api/checkout-verify)
+  if (body.event === 'order.paid' || body.event === 'payment.captured') {
+    const sp = body.payload && body.payload.payment && body.payload.payment.entity;
+    if (!sp || !/^pay_[A-Za-z0-9]+$/.test(sp.id || '') || !/^order_[A-Za-z0-9]+$/.test(sp.order_id || '')) return res.status(200).json({ ignored: true });
+    try {
+      const oid = (await redis([['GET', 'shop:rzp:' + sp.order_id]]))[0].result;
+      if (!oid) return res.status(200).json({ ignored: true });          // not one of our shop orders
+      const o = await require('./_shop').markPaid(oid, sp.id);
+      if (o && o.total !== sp.amount) console.error('shop order amount mismatch', oid, o.total, sp.amount);
+      return res.status(200).json({ ok: true });
+    } catch (e) { console.error('shop webhook failed:', e.message); return res.status(500).end(); }
+  }
   // a link with a goal (partial payments allowed) sends ...partially_paid for every payment until the goal is met, and ...paid on the last one; each payment is counted once (see fund:paid:<id> below)
   if (!['payment_page.paid', 'payment_link.paid', 'payment_link.partially_paid'].includes(body.event)) return res.status(200).json({ ignored: true });
   const p = body.payload || {};
