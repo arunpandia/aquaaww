@@ -4,7 +4,7 @@ import os, json, html, datetime
 CONFIG = dict(
     domain="https://dusktillus.store",         # your real domain, no trailing slash
     gh="https://github.com/arunpandia/aquaaww",
-    contact="hello@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
+    contact="contact@dusktillus.store",          # shown on the Terms and Privacy pages: set up forwarding for this address
     updated="October 2026",
     hub_live=False,                           # False: the domain root shows AquaAww. Set True (and remove the "/" rewrite in vercel.json) when the Dusktillus hub should go live
     google_verification="",                   # paste the token from Search Console if you verify with an HTML tag

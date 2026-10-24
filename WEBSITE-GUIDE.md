@@ -32,7 +32,7 @@ To add a second product: add an entry to `PRODUCTS` in `site/build.py` (it appea
 6. Later check Pages (indexing problems), Performance (searches), Core Web Vitals.
 Bing: https://www.bing.com/webmasters > Import from Google Search Console.
 
-## Email for hello@dusktillus.store
+## Email for contact@dusktillus.store
 The Terms and Privacy pages show this address, so make it real. Easiest free route: ImprovMX (improvmx.com), add `dusktillus.store`, forward to your inbox, then add the MX and SPF TXT records it shows in Vercel > Domains > DNS Records. For sending marketing mail later use Resend or Brevo, which will ask for DKIM/SPF records in the same place.
 
 ## Getting more downloads

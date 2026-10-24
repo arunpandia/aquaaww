@@ -106,7 +106,7 @@ export default function IPhone1617Pro5() {
                     <p className="leading-[normal] mb-0">​</p>
                     <p className="leading-[normal] mb-0">​</p>
                     <p className="leading-[normal] mb-0">​</p>
-                    <p className="leading-[normal] text-[#7199cc]">{`             _  for my loving wife`}</p>
+                    <p className="leading-[normal] text-[#7199cc]">{`             _  for my wife`}</p>
                   </div>
                 </div>
               </div>
