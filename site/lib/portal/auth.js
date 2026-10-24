@@ -8,6 +8,7 @@ const C = require('./core');
 const { sendMail, configured } = require('./mail');
 const { isDisposable } = require('../../api/_disposable');
 const stats = require('./stats');
+const { signInEmail } = require('./email-template');
 
 const OTP_TTL = 600, MAX_TRIES = 5;
 const otpKey = (email, portal) => 'otp:' + C.hmac(email + '|' + portal);
@@ -26,8 +27,7 @@ exports.request = async (req, res) => {
     if (!configured()) return C.send(res, 503, { ok: false, error: 'Email sign-in is not set up yet.' });
     const code = String(crypto.randomInt(0, 1000000)).padStart(6, '0');
     await C.redis([['SET', otpKey(email, portal), C.hmac(email + ':' + code), 'EX', OTP_TTL], ['DEL', otpKey(email, portal) + ':n']]);
-    await sendMail({ to: email, subject: 'Your Dusktillus sign-in code: ' + code,
-      text: `Your sign-in code is ${code}.\n\nIt works for 10 minutes and can be used once. If you did not ask for it, you can ignore this email; nobody can sign in without the code.` });
+    await sendMail({ to: email, ...signInEmail(code) });
     return C.send(res, 200, generic);
   } catch (e) {
     console.error('otp request failed:', e.message);

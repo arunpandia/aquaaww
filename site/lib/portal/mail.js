@@ -7,9 +7,9 @@ const configured = () => !!apiKey();
 const from = () => process.env.MAIL_FROM || 'Dusktillus <contact@dusktillus.store>';
 const notifyTo = () => process.env.MAIL_NOTIFY || 'contact@dusktillus.store';
 
-async function sendMail({ to, subject, text, replyTo }) {
+async function sendMail({ to, subject, text, html: richHtml, replyTo }) {
   if (!configured()) throw new Error('mail-not-configured');
-  const html = '<div style="font:15px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#111">' + String(text).split('\n\n').map(p => '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>').join('') + '</div>';
+  const html = richHtml || '<div style="font:15px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#111">' + String(text).split('\n\n').map(p => '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>').join('') + '</div>';
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + apiKey(), 'Content-Type': 'application/json' },
