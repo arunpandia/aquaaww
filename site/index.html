@@ -127,11 +127,8 @@ body.m #rw{position:absolute;left:0;top:0}
       <div class="fx" style="left:49px;top:241px;width:145.53px;height:22.205px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:145.499px;font-size:15.568px">its so so cool,</p></div></div>
       <div class="fx" style="left:49px;top:273px;width:145.53px;height:22.205px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:145.499px;font-size:15.568px">*wipes tear*</p></div></div>
 
-      <div class="fx" style="left:225px;top:387px;width:125.611px;height:95.176px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:125.478px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p></div></div>
-      <div class="a" style="left:225px;top:398.96px;width:68px;height:26px"><img alt="" src="/flipbook/img/highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>
-      <div class="a gbar" style="left:225px;top:504px;width:123px;height:16px" role="img" aria-label="Progress toward the Google Play fee"><i class="gl"></i><i class="gf"></i><i class="gm"></i></div>
-      <a class="a cb" id="cb" href="#" target="_blank" rel="noopener" style="left:225px;top:534px"></a>
-      <a class="a pm nw ig" id="lm" href="/aquaaww/#goal" style="left:226px;top:530px;font-size:10.98px;color:#000">Learn more -&gt;</a>
+      <div class="fx" style="left:225px;top:485px;width:125.611px;height:95.176px"><div class="in" style="transform:rotate(-.08deg)"><p class="ad" style="width:125.478px">We're loading up the good stuff. Take an exclusive look at what’s dropping next!</p></div></div>
+      <div class="a" style="left:278.4px;top:521.6px;width:68.3px;height:26.1px"><img alt="" src="/flipbook/img/exclusive.svg" style="position:absolute;left:0;top:0;width:100%;height:100%"></div>
 
       <p class="a jb nw" style="left:32px;top:331px;font-size:14px;color:#000">Cardboard box:</p>
       <div class="bd"></div>
@@ -140,10 +137,6 @@ body.m #rw{position:absolute;left:0;top:0}
     <!-- left page: things that sit on top of the page edge -->
     <div id="lx">
       <div class="fx" style="left:25px;top:356px;width:171.03px;height:254.688px"><div class="in" style="width:170px;height:254px;transform:rotate(179.77deg)"><img class="cover" alt="" src="/flipbook/img/box.webp"></div></div>
-      <div class="fx" style="left:54px;top:447px;width:113.183px;height:54.211px"><div class="in" style="width:108.687px;height:33.892px;transform:rotate(-11.12deg)"><img class="cover" alt="" src="/flipbook/img/gplay.webp"></div></div>
-      <img class="a" alt="" src="/flipbook/img/notebook.webp" style="left:64px;top:468px;width:125px;height:125px;object-fit:cover">
-      <img class="a" alt="" src="/flipbook/img/camera.webp" style="left:87px;top:382px;width:92px;height:92px;object-fit:cover">
-      <img class="a" alt="" src="/flipbook/img/keys.webp" style="left:43px;top:397px;width:61px;height:61px;object-fit:cover">
 
       <div class="fx" style="left:198.67px;top:81px;width:225.335px;height:186.497px"><div class="in" style="width:199.393px;height:149.545px;transform:rotate(11.57deg)"><img class="cover" alt="" src="/flipbook/img/polaroid.webp"></div></div>
       <div class="fx" style="left:229px;top:118px;width:162.945px;height:129.387px"><div class="in" style="width:145.429px;height:102.424px;transform:rotate(11.51deg);overflow:hidden"><img alt="" src="/flipbook/img/couple.webp" style="position:absolute;left:-.02%;top:-94.9%;width:110.22%;height:208.66%"></div></div>
@@ -173,7 +166,7 @@ body.m #rw{position:absolute;left:0;top:0}
 
       <div class="fx" style="left:35.31px;top:81px;width:274.69px;height:190.386px"><div class="in" style="width:274.423px;transform:rotate(-179.92deg) scaleY(-1)"><div class="ad" style="text-align:right;white-space:pre-wrap"><p style="white-space:nowrap">I built <span style="color:#e83328"> </span><a href="/aquaaww/" style="color:#e83328;text-decoration:underline wavy;text-decoration-thickness:10.5%;text-decoration-skip-ink:none">AquaAww</a> because I can’t always be<br>there to say “have some water.”</p><p style="margin-bottom:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p><p>​</p><p style="color:#7199cc">_  for my wife</p></div></div></div>
 
-      <div class="fx" style="left:233px;top:31px"><div class="in flip"><p class="jb nw" style="font-size:14px;color:#000">water reminder app:</p></div></div>
+      <div class="fx" style="left:233px;top:31px"><div class="in flip"><p class="jb nw" style="font-size:14px;color:#000">Water reminder:</p></div></div>
 
       <!-- laptop (not flipped back, as in the design) -->
       <div class="a" style="left:-70.57px;top:580.27px;width:367.839px;height:4.065px"><img alt="" src="/flipbook/img/shadow.svg" style="position:absolute;left:-4.86%;top:-440%;width:109.72%;height:980%"></div>
@@ -255,7 +248,6 @@ body.m #rw{position:absolute;left:0;top:0}
   document.getElementById("hr").addEventListener("click",function(){go(page+1)});
 })();
 </script>
-<script>fetch("/api/fund").then(function(r){return r.json()}).then(function(d){var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{localStorage.setItem("aq_p",String(v))}catch(e){}}).catch(function(){});fetch("/api/pay").then(function(r){return r.json()}).then(function(c){if(!c.ready||!c.url)return;var b=document.getElementById("cb");b.href=c.url;b.textContent="Chip in "+c.symbol+c.amount;b.className+=" on";document.getElementById("lm").style.top="580px"}).catch(function(){})</script>
 <a class="sr" href="/aquaaww/">Explore AquaAww, the water reminder app</a><div id="xp" aria-hidden="true"><img src="/flipbook/img/explore.webp" width="60" height="24" alt=""></div>
 <script>
 (function(){

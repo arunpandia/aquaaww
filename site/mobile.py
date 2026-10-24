@@ -38,9 +38,8 @@ def build(D, hub_ld, GH):
     top.append('<div class="fx" style="left:39.08px;top:126.82px;width:121.847px;height:48.171px"><div class="in ad" style="width:121.779px;transform:rotate(-.08deg);white-space:pre-wrap"><p>—feel free to </p><p>hang out and try everything</p></div></div>')
     top.append(fx(39.08, 192.22, 116.072, 17.163, '<p class="ad" style="width:116.049px;font-size:12.417px">its so so cool,</p>', rot=-0.08))
     top.append(fx(39.08, 217.74, 116.072, 17.163, '<p class="ad" style="width:116.049px;font-size:12.417px">*wipes tear*</p>', rot=-0.08))
-    top.append(fx(179.46, 308.67, 100.192, 80.141, '<p class="ad" style="width:100.08px">Current goal is to raise 25$ for Google Play Console one-time registration fee</p>', rot=-0.08))
-    top.append('<div class="a" style="left:179.46px;top:318.21px;width:54.236px;height:20.737px"><img alt="" src="' + M + 'highlight.svg" style="position:absolute;left:-4.41%;top:0;width:104.41%;height:107.69%"></div>')
-    top.append('<div class="a gbar" style="left:179.46px;top:401.99px;width:98.104px;height:12.761px" role="img" aria-label="Progress toward the Google Play fee"><i class="gl"></i><i class="gf"></i><i class="gm"></i></div>')
+    top.append(fx(179.46, 386.9, 100.192, 75.9, '<p class="ad" style="width:100.08px">We\'re loading up the good stuff. Take an exclusive look at what\u2019s dropping next!</p>', rot=-0.08))
+    top.append('<div class="a" style="left:222.1px;top:416px;width:54.5px;height:20.8px"><img alt="" src="' + F + 'exclusive.svg" style="position:absolute;left:0;top:0;width:100%;height:100%"></div>')
         # strip of paper on the inner (right) edge, drawn flipped as in the design
     top.append('<div class="a" style="right:0;top:0;width:51.046px;height:501.684px;transform:scaleX(-1);border-top-right-radius:22.33px;overflow:hidden"><div class="tex" style="border-top-right-radius:22.33px"><img class="cover" alt="" src="' + M + 'bg-m.webp" decoding="async" style="opacity:.5"></div></div>')
     # torn paper along the bottom of the page
@@ -51,14 +50,8 @@ def build(D, hub_ld, GH):
 
     # ---------- things that sit over the top page ----------
     ex = []
-    ex.append('<a class="a cb" id="cb" href="#" target="_blank" rel="noopener" style="left:180.26px;top:419.6px"></a>')
-    ex.append('<a class="a pm nw ig" id="lm" href="/aquaaww/#goal" style="left:180.26px;top:423.52px;font-size:8.758px;color:#000;padding:6px 8px 6px 0">Learn more -&gt;</a>')
     ex.append('<p class="a jb nw" style="left:25.52px;top:264px;font-size:11.166px;color:#000">Cardboard box:</p>')
     ex.append(fx(20.107, 283.94, 136.243, 203.137, img(F + "box.webp", style="border-top-right-radius:22.33px"), 135.423, 202.588, rot=179.77))
-    ex.append(fx(43.067, 356.52, 90.273, 43.238, img(F + "gplay.webp", style="border-top-right-radius:22.33px"), 86.688, 27.032, rot=-11.12))
-    ex.append(f'<img class="a" alt="" src="{F}notebook.webp" loading="lazy" decoding="async" style="left:51.041px;top:373.27px;width:99.699px;height:99.699px;object-fit:cover;border-top-right-radius:22.33px">')
-    ex.append(f'<img class="a" alt="" src="{F}camera.webp" loading="lazy" decoding="async" style="left:69.392px;top:304.68px;width:73.378px;height:73.378px;object-fit:cover;border-top-right-radius:22.33px">')
-    ex.append(f'<img class="a" alt="" src="{F}keys.webp" loading="lazy" decoding="async" style="left:34.297px;top:316.64px;width:48.653px;height:48.653px;object-fit:cover;border-top-right-radius:22.33px">')
     # collage
     ex.append(fx(158.45, 64.6, 167.447, 146.235, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="" src="{F}polaroid.webp" decoding="async" style="position:absolute;left:0;top:0;height:100%;width:108.55%"></div>', 146.501, 119.275, rot=11.57))
     ex.append(fx(181.76, 94.27, 132.256, 100.935, f'<div class="clip"><img alt="" src="{M}couple-m.webp" decoding="async" style="position:absolute;left:-.02%;top:-107.2%;height:221.82%;width:110.22%"></div>', 118.925, 78.786, rot=11.51))
@@ -74,7 +67,7 @@ def build(D, hub_ld, GH):
     b.append('<div class="fx" style="left:28.148px;top:64.6px;width:219.102px;height:160.308px"><div class="in" style="width:218.877px;transform:rotate(-179.92deg) scaleY(-1)"><div class="ad" style="text-align:right;white-space:pre-wrap"><p style="white-space:nowrap">I built <span style="color:#e83328"> </span>'
              f'<a href="/aquaaww/" style="color:#e83328;text-decoration:underline wavy;text-decoration-thickness:10.5%;text-decoration-skip-ink:none">AquaAww</a> because I can’t always be<br>there to say “have some water.”</p>'
              '<p style="margin-bottom:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p><p>​</p><p style="color:#7199cc">_  for my wife</p></div></div></div>')
-    b.append('<div class="fx" style="left:185px;top:24.72px"><div class="in flip"><p class="jb nw" style="font-size:11.166px;color:#000">water reminder app:</p></div></div>')
+    b.append('<div class="fx" style="left:185px;top:24.72px"><div class="in flip"><p class="jb nw" style="font-size:11.166px;color:#000">Water reminder:</p></div></div>')
     # laptop
     b.append('<div class="a" style="left:-56.28px;top:462.82px;width:293.385px;height:3.242px"><img alt="" src="' + M + 'shadow.svg" loading="lazy" style="position:absolute;left:-4.86%;top:-440%;width:109.72%;height:980%"></div>')
     b.append('<div class="a" style="left:-41.37px;top:278.36px;width:264.532px;height:179.597px;background:#1a202c;border:.648px solid #4a5568;border-radius:9.077px 9.077px 1.297px 1.297px"></div>')
@@ -165,4 +158,4 @@ a{color:inherit;text-decoration:none}
 <script defer src="/_vercel/insights/script.js"></script>
 {guard}
 <script>try{{var _p=localStorage.getItem("aq_p");if(_p!==null)document.documentElement.style.setProperty("--p",_p)}}catch(e){{}}</script>
-</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script><script>fetch("/api/fund").then(function(r){{return r.json()}}).then(function(d){{var v=Math.max(0,Math.min(1,d.percent/100));document.documentElement.style.setProperty("--p",v);try{{localStorage.setItem("aq_p",String(v))}}catch(e){{}}}}).catch(function(){{}});fetch("/api/pay").then(function(r){{return r.json()}}).then(function(c){{if(!c.ready||!c.url)return;var b=document.getElementById("cb");b.href=c.url;b.textContent="Chip in "+c.symbol+c.amount;b.className+=" on";document.getElementById("lm").style.top="calc(var(--u)*448.3)"}}).catch(function(){{}})</script></body></html>'''
+</head><body>{body}<script>if(innerWidth>=700&&!/Mobi|iPhone|iPod/i.test(navigator.userAgent))location.replace("/");</script></body></html>'''
