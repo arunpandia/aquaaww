@@ -1,4 +1,4 @@
-// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, events "payment_page.paid" and "payment_link.paid")
+// POST /api/razorpay-webhook  (set this url in Razorpay: Account & Settings > Webhooks, events "payment_link.paid" and "payment_link.partially_paid"; "payment_page.paid" is also accepted)
 // Verifies Razorpay's signature over the raw body, keeps only payments made through our own Payment Page or Link, and moves the progress bar.
 // A Payment Page can be paid again and again; a single Payment Link can only be paid once.
 const crypto = require('crypto');
@@ -30,7 +30,8 @@ module.exports = async (req, res) => {
   if (got.length !== want.length || !crypto.timingSafeEqual(Buffer.from(got), Buffer.from(want))) return res.status(400).end();
 
   let body; try { body = JSON.parse(raw.toString('utf8')); } catch { return res.status(400).end(); }
-  if (body.event !== 'payment_page.paid' && body.event !== 'payment_link.paid') return res.status(200).json({ ignored: true });
+  // a link with a goal (partial payments allowed) sends ...partially_paid for every payment until the goal is met, and ...paid on the last one; each payment is counted once (see fund:paid:<id> below)
+  if (!['payment_page.paid', 'payment_link.paid', 'payment_link.partially_paid'].includes(body.event)) return res.status(200).json({ ignored: true });
   const p = body.payload || {};
   const src = (p.payment_page && p.payment_page.entity) || (p.payment_link && p.payment_link.entity);
   const pay = p.payment && p.payment.entity;
