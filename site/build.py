@@ -22,6 +22,7 @@ FAQ = [
  ("My Mac says it cannot verify the app. What now?", "The Mac build is not notarized yet. Open System Settings, go to Privacy and Security, and choose Open Anyway for AquaAww. You only do this once. The Mac build is for Apple Silicon."),
  ("Windows shows a SmartScreen warning.", "Choose More info, then Run anyway. The installer is not code-signed yet, which is why Windows is cautious."),
  ("Android blocks the install.", "Allow your browser or file manager to install unknown apps when Android asks, then open the downloaded file again."),
+ ("Found a bug? Report it.", "Email a screenshot (or a short screen recording) and a line about what happened to " + CONFIG["contact"] + ". Tell us which device you use and which AquaAww version, if you know it."),
 ]
 STEPS = [
  ("Upload a video", "Pick a short clip of someone you love. Any background works."),

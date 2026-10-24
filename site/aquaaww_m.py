@@ -42,6 +42,7 @@ def faq_items(FAQ, h3cls="ad"):
     out = []
     for i, (q, a) in enumerate(FAQ):
         o = ' q1" open' if i == 0 else '"'
+        a = re.sub(r'[\w.+-]+@[\w-]+(?:\.[\w-]+)+', lambda e: f'<a href="mailto:{e.group(0)}?subject=AquaAww%20bug%20report">{e.group(0)}</a>', a)   # email addresses in an answer become links
         out.append(f'<details class="fq{o}><summary class="fq-s"><h3 class="{h3cls}">{q}</h3></summary><p class="fq-a ad">{a}</p></details>')
         if i < len(FAQ) - 1: out.append('<div class="fq-sep" aria-hidden="true"></div>')
     return "".join(out)
@@ -54,6 +55,7 @@ def faq_desktop(FAQ, GH):
     return (f'<section id="faq" class="faq" aria-labelledby="faq-h"><h2 id="faq-h" class="fq-l ff-jb">Questions</h2><div class="fq-list">{faq_items(FAQ, "ff-ad")}</div>{nav(GH)}</section>')
 
 EXTRA_CSS = """
+.fq-a a{color:#e83328;text-decoration:underline;text-underline-offset:2px}
 .lk{cursor:pointer;background:none;border:0;padding:0;text-align:left}
 .lk::after{content:"";position:absolute;inset:-8px -36px -8px -26px}
 .lk:hover,.lk:focus-visible,.lk:active{color:#e83328;text-decoration:underline wavy #e83328;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px}
