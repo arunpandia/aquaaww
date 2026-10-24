@@ -15,7 +15,7 @@ async function sendMail({ to, subject, text, replyTo }) {
     body: JSON.stringify({ from: from(), to: [to], subject, text, html, ...(replyTo ? { reply_to: replyTo } : {}) }),
     signal: AbortSignal.timeout(10000),
   });
-  if (!r.ok) throw new Error('mail-' + r.status);
+  if (!r.ok) { let why = ''; try { why = String((await r.json()).message || '').slice(0, 200); } catch { /* no body */ } throw new Error('mail-' + r.status + (why ? ': ' + why : '')); }   // the reason goes to the server log only
 }
 
 // notifications that must never break the thing that triggered them
