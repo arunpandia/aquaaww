@@ -1,5 +1,5 @@
 // GET /api/products -> [{ id, name, type, priceInr, description, image, inStock, left }]. Public; never includes download links.
-const { catalog, stockOf } = require('./_shop');
+const { catalog, stockOf } = require('./core');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).end(); }

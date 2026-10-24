@@ -2,8 +2,8 @@
 // Called by the browser after Razorpay Checkout succeeds. Checks Razorpay's signature with the secret key, then marks the order paid.
 // If the browser never gets here (closed tab, lost signal), /api/razorpay-webhook does the same from Razorpay's side.
 const crypto = require('crypto');
-const { redis, sameOrigin } = require('./_lib');
-const S = require('./_shop');
+const { redis, sameOrigin } = require('../../api/_lib');
+const S = require('./core');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');

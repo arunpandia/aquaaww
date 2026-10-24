@@ -1,8 +1,8 @@
 // Shared helpers for the shop: catalog lookups, order storage, payment confirmation, signed links.
 // Everything is in rupees on the way in and in paise inside orders (Razorpay's unit).
 const crypto = require('crypto');
-const { redis } = require('./_lib');
-const catalog = require('./_catalog');
+const { redis } = require('../../api/_lib');
+const catalog = require('./catalog');
 
 const MAX_QTY = 10, MAX_LINES = 10, MAX_TOTAL_PAISE = 500000 * 100;
 const DOWNLOAD_DAYS = 60, DOWNLOAD_LIMIT = 10;

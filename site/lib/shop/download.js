@@ -1,7 +1,7 @@
 // GET /api/download?o=<orderId>&i=<line>&t=<token> -> redirects a buyer of a PAID digital item to the file. The link is signed, only works for paid orders,
 // stops after DOWNLOAD_LIMIT uses or DOWNLOAD_DAYS days, and the real file address is never shown on any page.
-const { redis } = require('./_lib');
-const S = require('./_shop');
+const { redis } = require('../../api/_lib');
+const S = require('./core');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');

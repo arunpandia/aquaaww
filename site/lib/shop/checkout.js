@@ -2,8 +2,8 @@
 // Prices, shipping and the total are worked out here from the catalog (never from the browser), a Razorpay order is created for exactly that
 // amount, and the order is saved as "created". The browser then opens Razorpay Checkout with { keyId, rzpOrderId, amount, currency }.
 // Physical items ship inside India only. Digital items need no address.
-const { EMAIL_RE, clean, sameOrigin } = require('./_lib');
-const S = require('./_shop');
+const { EMAIL_RE, clean, sameOrigin } = require('../../api/_lib');
+const S = require('./core');
 
 const bad = (res, msg, code = 400) => res.status(code).json({ ok: false, error: msg });
 
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
 
     const order = { id, status: 'created', createdAt: new Date().toISOString(), rzpOrderId: rz.id, currency: 'INR', lines, subtotal, shipping: ship, total, customer: { name, email, phone }, shipTo, physical, fulfil: physical ? 'pending' : 'na' };
     await S.saveOrder(order);
-    const { redis } = require('./_lib');
+    const { redis } = require('../../api/_lib');
     await redis([['SET', 'shop:rzp:' + rz.id, id, 'EX', 7776000], ['LPUSH', 'shop:orders', id]]);
     return res.status(200).json({ ok: true, orderId: id, key: S.orderKey(order), keyId, rzpOrderId: rz.id, amount: total, currency: 'INR', prefill: { name, email, contact: phone } });
   } catch (e) {

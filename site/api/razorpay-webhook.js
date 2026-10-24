@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     try {
       const oid = (await redis([['GET', 'shop:rzp:' + sp.order_id]]))[0].result;
       if (!oid) return res.status(200).json({ ignored: true });          // not one of our shop orders
-      const o = await require('./_shop').markPaid(oid, sp.id);
+      const o = await require('../lib/shop/core').markPaid(oid, sp.id);
       if (o && o.total !== sp.amount) console.error('shop order amount mismatch', oid, o.total, sp.amount);
       return res.status(200).json({ ok: true });
     } catch (e) { console.error('shop webhook failed:', e.message); return res.status(500).end(); }

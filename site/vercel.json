@@ -174,5 +174,31 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/products",
+      "destination": "/api/shop?a=products"
+    },
+    {
+      "source": "/api/checkout",
+      "destination": "/api/shop?a=checkout"
+    },
+    {
+      "source": "/api/checkout-verify",
+      "destination": "/api/shop?a=checkout-verify"
+    },
+    {
+      "source": "/api/order",
+      "destination": "/api/shop?a=order"
+    },
+    {
+      "source": "/api/download",
+      "destination": "/api/shop?a=download"
+    },
+    {
+      "source": "/api/admin-orders",
+      "destination": "/api/shop?a=admin-orders"
+    }
   ]
 }

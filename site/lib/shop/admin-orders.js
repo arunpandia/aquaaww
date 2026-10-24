@@ -2,8 +2,8 @@
 //   GET  /api/admin-orders?status=paid&limit=100          -> JSON list, newest first (status: created | paid | all)
 //   GET  /api/admin-orders?status=paid&format=csv         -> the same as a CSV for a spreadsheet
 //   POST /api/admin-orders { id, fulfil, carrier, tracking } -> fulfil: pending | packed | shipped | delivered | cancelled
-const { redis } = require('./_lib');
-const S = require('./_shop');
+const { redis } = require('../../api/_lib');
+const S = require('./core');
 
 const FULFIL = ['pending', 'packed', 'shipped', 'delivered', 'cancelled'];
 const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';   // CSV-safe, no spreadsheet formulas

@@ -1,5 +1,5 @@
 // GET /api/order?o=<orderId>&k=<key>  -> the buyer's view of an order (status, tracking, download links). The key comes from checkout and in emails.
-const S = require('./_shop');
+const S = require('./core');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
