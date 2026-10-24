@@ -217,6 +217,50 @@ privacy = simple("Privacy – Dusktillus", "What AquaAww collects, why, and how 
 <h2>Where it is stored</h2>
 <p>Sign-up details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub.</p>""", extra=crumbs([("Dusktillus","/"),("Privacy","/privacy/")]), product=False)
 
+refund = simple("Refund & Cancellation Policy – Dusktillus", "How cancellations, returns and refunds work for Dusktillus shop orders, physical and digital.", "/refund-policy/", f"""
+<h1>Refund &amp; Cancellation Policy</h1>
+<p class="meta">Last updated {U}</p>
+<p>This policy covers products bought from Dusktillus, both physical items and digital downloads. AquaAww itself is free, so nothing about it is refundable.</p>
+<h2>1. Cancelling an order</h2>
+<p>You can cancel a physical order any time before we dispatch it. Write to <a href="mailto:{C}">{C}</a> with your order number and we will cancel it and refund you in full. Once an order is dispatched it can no longer be cancelled, but you can still return it under section 3.</p>
+<h2>2. Digital products</h2>
+<p>A digital product is delivered as a download link as soon as payment is confirmed. Because it can be used straight away, we cannot take it back. We will refund you in full if the file is damaged, does not open, is not what was described, or the download link does not reach you within 7 days of payment. Tell us at <a href="mailto:{C}">{C}</a> with your order number.</p>
+<h2>3. Physical products: returns and replacements</h2>
+<p>If your item arrives damaged, defective or different from what you ordered, write to <a href="mailto:{C}">{C}</a> within 7 days of delivery with your order number and clear photos of the item and its packaging. We will send a replacement or refund you, whichever you prefer, and we will pay the return shipping if it is needed. Items that are used, or damaged after delivery, cannot be returned.</p>
+<h2>4. How refunds are paid</h2>
+<p>Refunds go back to the original payment method through Razorpay. After we approve a refund, it usually reaches you within 5 to 7 working days, depending on your bank or card issuer.</p>
+<h2>5. Contact</h2>
+<p>Questions about a refund? Write to <a href="mailto:{C}">{C}</a> and include your order number.</p>""", extra=crumbs([("Dusktillus","/"),("Refund & Cancellation","/refund-policy/")]), product=False)
+
+shipping = simple("Shipping Policy – Dusktillus", "Where Dusktillus ships physical orders, how long delivery takes, what it costs, and how digital products are delivered.", "/shipping-policy/", f"""
+<h1>Shipping Policy</h1>
+<p class="meta">Last updated {U}</p>
+<h2>1. Where we ship</h2>
+<p>Physical products ship only inside India, to any valid 6-digit PIN code we can deliver to. We do not ship physical products outside India at the moment. Digital products can be bought from anywhere.</p>
+<h2>2. Dispatch and delivery time</h2>
+<p>We dispatch paid orders within 2 to 4 working days. Delivery usually takes a further 4 to 10 working days depending on your location. These are estimates, not promises, and delays can happen around festivals and in remote areas.</p>
+<h2>3. Shipping charges</h2>
+<p>Shipping is a flat fee per order, shown at checkout before you pay. Orders above the free-shipping amount shown at checkout ship free. Digital products have no shipping charge.</p>
+<h2>4. Tracking</h2>
+<p>When your order is dispatched we record the courier and tracking number against your order. Write to <a href="mailto:{C}">{C}</a> with your order number if you would like them.</p>
+<h2>5. Digital products</h2>
+<p>Digital products are not shipped. Right after payment is confirmed you get a download link on the order confirmation. Each link works for a limited number of downloads and for 60 days, so please save the file once you have it.</p>
+<h2>6. Wrong address or failed delivery</h2>
+<p>Please check your address and mobile number before paying, because the courier will call it. If a delivery fails because of a wrong or incomplete address, we can try again once; extra shipping may be charged. Write to <a href="mailto:{C}">{C}</a> as soon as you notice a problem.</p>
+<h2>7. Damaged in transit</h2>
+<p>If your parcel looks damaged when it arrives, take a photo before opening it and follow the steps in our <a href="/refund-policy/">Refund &amp; Cancellation Policy</a>.</p>""", extra=crumbs([("Dusktillus","/"),("Shipping","/shipping-policy/")]), product=False)
+
+contact = simple("Contact Dusktillus", "How to reach Dusktillus for orders, refunds, bug reports and anything else.", "/contact/", f"""
+<h1>Contact us</h1>
+<p>The quickest way to reach us is email. We read everything that comes in and reply within 2 working days.</p>
+<p><a href="mailto:{C}">{C}</a></p>
+<h2>What to include</h2>
+<ul><li>For an order: your order number and the email address you used.</li>
+<li>For a bug in AquaAww: a screenshot, your device, and the app version if you know it.</li>
+<li>For a refund or cancellation: see our <a href="/refund-policy/">Refund &amp; Cancellation Policy</a>.</li></ul>
+<h2>More</h2>
+<p><a href="/shipping-policy/">Shipping Policy</a> · <a href="/terms/">Terms &amp; Conditions</a> · <a href="/privacy/">Privacy</a></p>""", extra=crumbs([("Dusktillus","/"),("Contact","/contact/")]), product=False)
+
 unsub = simple("Unsubscribe – Dusktillus", "Stop AquaAww emails.", "/unsubscribe/", """
 <h1>Unsubscribe</h1>
 <p>Enter the email address you used to download AquaAww and we will stop emailing you.</p>
@@ -271,9 +315,11 @@ def platform_page(k):
 os.makedirs("privacy", exist_ok=True); os.makedirs("terms", exist_ok=True); os.makedirs("unsubscribe", exist_ok=True)
 os.makedirs("aquaaww", exist_ok=True); open("aquaaww/index.html","w").write(index); open("privacy/index.html","w").write(privacy); open("terms/index.html","w").write(terms)
 open("unsubscribe/index.html","w").write(unsub)
+for _d,_p in (("refund-policy",refund),("shipping-policy",shipping),("contact",contact)):
+    os.makedirs(_d, exist_ok=True); open(_d+"/index.html","w").write(_p)
 nf = simple("Page not found – AquaAww", "This page does not exist.", "/404.html", '<h1>Not found</h1><p>That page wandered off. <a href="/">Back to Dusktillus.</a></p>', noindex=True)
 open("404.html","w").write(nf)
-urls = [("/",1.0),("/aquaaww/",1.0),("/aquaaww/water-reminder-app-for-android/",.8),("/aquaaww/water-reminder-app-for-windows/",.8),("/aquaaww/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3)]
+urls = [("/",1.0),("/aquaaww/",1.0),("/aquaaww/water-reminder-app-for-android/",.8),("/aquaaww/water-reminder-app-for-windows/",.8),("/aquaaww/water-reminder-app-for-mac/",.8),("/terms/",.3),("/privacy/",.3),("/refund-policy/",.3),("/shipping-policy/",.3),("/contact/",.3)]
 INDEXNOW_KEY="46e38df86886c2acf8c947a8ecbe50db"
 for k in PLAT:
     d="aquaaww/"+PLAT[k]["slug"]; os.makedirs(d, exist_ok=True); open(d+"/index.html","w").write(platform_page(k))
