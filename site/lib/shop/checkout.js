@@ -68,10 +68,11 @@ module.exports = async (req, res) => {
     const rz = await r.json().catch(() => ({}));
     if (!r.ok || !rz.id) { console.error('razorpay order failed:', r.status, rz && rz.error && rz.error.description); return bad(res, 'Could not start the payment. Please try again.', 502); }
 
-    const order = { id, status: 'created', createdAt: new Date().toISOString(), rzpOrderId: rz.id, currency: 'INR', lines, subtotal, shipping: ship, total, customer: { name, email, phone }, shipTo, physical, fulfil: physical ? 'pending' : 'na' };
+    const order = { id, status: 'created', createdAt: new Date().toISOString(), rzpOrderId: rz.id, currency: 'INR', lines, subtotal, shipping: ship, total, customer: { name, email, phone }, shipTo, physical, fulfil: physical ? 'pending' : 'na', events: [{ t: new Date().toISOString(), type: 'created' }] };
     await S.saveOrder(order);
     const { redis } = require('../../api/_lib');
-    await redis([['SET', 'shop:rzp:' + rz.id, id, 'EX', 7776000], ['LPUSH', 'shop:orders', id]]);
+    await redis([['SET', 'shop:rzp:' + rz.id, id, 'EX', 7776000], ['LPUSH', 'shop:orders', id], ['LPUSH', 'shop:uo:' + email, id], ['LTRIM', 'shop:uo:' + email, 0, 199]]);
+    try { await require('../portal/stats').bump({ checkouts: 1 }); await require('../portal/analytics').bumpEvent('checkout_created'); } catch (e) { console.error('stats failed:', e.message); }
     return res.status(200).json({ ok: true, orderId: id, key: S.orderKey(order), keyId, rzpOrderId: rz.id, amount: total, currency: 'INR', prefill: { name, email, contact: phone } });
   } catch (e) {
     console.error('checkout failed:', e.message);

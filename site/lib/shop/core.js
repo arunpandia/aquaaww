@@ -3,6 +3,8 @@
 const crypto = require('crypto');
 const { redis } = require('../../api/_lib');
 const catalog = require('./catalog');
+const stats = require('../portal/stats');
+const notify = require('../portal/notify');
 
 const MAX_QTY = 10, MAX_LINES = 10, MAX_TOTAL_PAISE = 500000 * 100;
 const DOWNLOAD_DAYS = 60, DOWNLOAD_LIMIT = 10;
@@ -45,6 +47,7 @@ async function markPaid(id, payId) {
   const win = await first(['SET', 'shop:paidorder:' + id, payId, 'NX']);
   if (win !== 'OK') return (await getOrder(id)) || o;
   o.status = 'paid'; o.paidAt = new Date().toISOString(); o.paymentId = payId;
+  o.events = [...(o.events || []), { t: o.paidAt, type: 'paid' }];
   await saveOrder(o);
   for (const l of o.lines) {
     const p = find(l.id);
@@ -52,11 +55,22 @@ async function markPaid(id, payId) {
       await redis([['HSETNX', 'shop:stock', l.id, p.stock], ['HINCRBY', 'shop:stock', l.id, -l.qty]]);
     }
   }
+  try { await stats.recordPaid(o); await require('../portal/analytics').bumpEvent('order_paid'); } catch (e) { console.error('stats failed:', e.message); }
+  await notify.orderPaid(o, downloadsOf(o));
   return o;
+}
+
+// where a buyer can follow the parcel: an address you set, a known courier, or a search that works for any courier
+const COURIERS = { delhivery: n => 'https://www.delhivery.com/track/package/' + encodeURIComponent(n), shiprocket: n => 'https://shiprocket.co/tracking/' + encodeURIComponent(n) };
+function trackingUrlOf(o) {
+  if (o.trackingUrl) return o.trackingUrl;
+  if (!o.tracking) return '';
+  const k = String(o.carrier || '').toLowerCase().replace(/[^a-z]/g, '');
+  return COURIERS[k] ? COURIERS[k](o.tracking) : 'https://www.google.com/search?q=' + encodeURIComponent((o.carrier || 'courier') + ' tracking ' + o.tracking);
 }
 
 const downloadUrl = (o, i) => `/api/download?o=${o.id}&i=${i}&t=${sign('d:' + o.id + ':' + i)}`;
 const orderKey = o => sign('o:' + o.id);
 const downloadsOf = o => o.status === 'paid' ? o.lines.map((l, i) => l.type === 'digital' ? { name: l.name, url: downloadUrl(o, i) } : null).filter(Boolean) : [];
 
-module.exports = { catalog, find, sign, same, newId, paise, getOrder, saveOrder, stockOf, limited, markPaid, downloadUrl, orderKey, downloadsOf, MAX_QTY, MAX_LINES, MAX_TOTAL_PAISE, DOWNLOAD_DAYS, DOWNLOAD_LIMIT };
+module.exports = { trackingUrlOf, catalog, find, sign, same, newId, paise, getOrder, saveOrder, stockOf, limited, markPaid, downloadUrl, orderKey, downloadsOf, MAX_QTY, MAX_LINES, MAX_TOTAL_PAISE, DOWNLOAD_DAYS, DOWNLOAD_LIMIT };

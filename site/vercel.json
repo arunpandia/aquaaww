@@ -177,6 +177,26 @@
   ],
   "rewrites": [
     {
+      "source": "/api/auth/:a",
+      "destination": "/api/portal?r=auth&a=:a"
+    },
+    {
+      "source": "/api/account/:a",
+      "destination": "/api/portal?r=account&a=:a"
+    },
+    {
+      "source": "/api/support/:a",
+      "destination": "/api/portal?r=support&a=:a"
+    },
+    {
+      "source": "/api/admin/:a",
+      "destination": "/api/portal?r=admin&a=:a"
+    },
+    {
+      "source": "/api/t",
+      "destination": "/api/collect"
+    },
+    {
       "source": "/api/products",
       "destination": "/api/shop?a=products"
     },

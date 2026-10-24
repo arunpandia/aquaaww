@@ -213,9 +213,11 @@ privacy = simple("Privacy – Dusktillus", "What AquaAww collects, why, and how 
 <li>We use your details to send the download, product updates and occasional emails, as set out in the <a href="/terms/">Terms &amp; Conditions</a>.</li>
 <li>We do not sell your details. You can unsubscribe from emails or ask us to delete everything at <a href="mailto:{C}">{C}</a>.</li></ul>
 <h2>Website statistics</h2>
-<p>We use cookie-free page-view statistics (Vercel Web Analytics) to see how many people visit and which pages they read. No personal profile is built.</p>
+<p>We measure how the website is used so we can improve it. Vercel Web Analytics gives cookie-free page-view counts. In addition, a small script of our own records page views, which buttons and links are clicked and where on the page (for heatmaps), how far down a page people scroll, how long they stay, which site they came from, your country, and the type of device and browser. It keeps one random visitor id in your browser's local storage (not a cookie) so we can tell new visitors from returning ones. It does not record your IP address, anything you type, or your name, and we do not sell this data. If your browser sends Do Not Track or Global Privacy Control, the script does nothing. Clearing your browser's site data resets the id.</p>
+<h2>Accounts, orders and support</h2>
+<p>If you sign in, we ask for your email address and send you a one-time code; there are no passwords. When you buy something we keep your name, email, phone number, delivery address (for physical orders), what you bought and the payment status. Payments are handled by Razorpay and we never see your card details. We use this to deliver your order, show you its tracking, answer support requests and keep our accounting records. Support messages are stored with your ticket. Write to <a href="mailto:{C}">{C}</a> to have your account deleted; we may keep order records where the law requires it.</p>
 <h2>Where it is stored</h2>
-<p>Sign-up details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub.</p>""", extra=crumbs([("Dusktillus","/"),("Privacy","/privacy/")]), product=False)
+<p>Sign-up, account and order details are kept in a managed database (Upstash Redis through Vercel). The website runs on Vercel. Downloads are served from GitHub. Sign-in codes and order emails are sent through Resend. Payments are processed by Razorpay.</p>""", extra=crumbs([("Dusktillus","/"),("Privacy","/privacy/")]), product=False)
 
 refund = simple("Refund & Cancellation Policy – Dusktillus", "How cancellations, returns and refunds work for Dusktillus shop orders, physical and digital.", "/refund-policy/", f"""
 <h1>Refund &amp; Cancellation Policy</h1>
@@ -415,3 +417,12 @@ else:
 import mobile
 os.makedirs("m", exist_ok=True); open("m/index.html","w").write(mobile.build(D, hub_ld, GH))
 print("built", len(index), "app bytes,", len(hub), "hub bytes")
+
+# ---------------- first-party analytics tag (t.js) on every page; it is invisible and does nothing for visitors who opt out ----------------
+_TAG = '<script defer src="/t.js"></script>'
+for _root, _dirs, _files in os.walk("."):
+    if _root.startswith(("./api", "./lib", "./fonts", "./assets", "./node_modules", "./.")) and _root != ".": continue
+    for _f in _files:
+        if _f.endswith(".html"):
+            _p = os.path.join(_root, _f); _s = open(_p).read()
+            if "/t.js" not in _s and "</head>" in _s: open(_p, "w").write(_s.replace("</head>", _TAG + "</head>", 1))
