@@ -74,7 +74,7 @@ def build(D, hub_ld, GH):
     b.append('<div class="fx" style="left:28.148px;top:64.6px;width:219.102px;height:160.308px"><div class="in" style="width:218.877px;transform:rotate(-179.92deg) scaleY(-1)"><div class="ad" style="text-align:right;white-space:pre-wrap"><p style="white-space:nowrap">I built <span style="color:#e83328"> </span>'
              f'<a href="/aquaaww/" style="color:#e83328;text-decoration:underline wavy;text-decoration-thickness:10.5%;text-decoration-skip-ink:none">AquaAww</a> because I can’t always be<br>there to say “have some water.”</p>'
              '<p style="margin-bottom:0"><br>So I made something small that sits quietly on your screen and says it for me, with a smile.<br>Every sip is me looking out for you, even when I’m not in the room.</p><p>​</p><p style="color:#7199cc">_  for my wife</p></div></div></div>')
-    b.append('<div class="fx" style="left:252.45px;top:24.72px"><div class="in flip"><p class="jb nw" style="font-size:11.166px;color:#000">recently:</p></div></div>')
+    b.append('<div class="fx" style="left:185px;top:24.72px"><div class="in flip"><p class="jb nw" style="font-size:11.166px;color:#000">water reminder app:</p></div></div>')
     # laptop
     b.append('<div class="a" style="left:-56.28px;top:462.82px;width:293.385px;height:3.242px"><img alt="" src="' + M + 'shadow.svg" loading="lazy" style="position:absolute;left:-4.86%;top:-440%;width:109.72%;height:980%"></div>')
     b.append('<div class="a" style="left:-41.37px;top:278.36px;width:264.532px;height:179.597px;background:#1a202c;border:.648px solid #4a5568;border-radius:9.077px 9.077px 1.297px 1.297px"></div>')
