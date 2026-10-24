@@ -119,3 +119,41 @@ Installed apps read `https://dusktillus.store/app-config.json` (file: `site/app-
 To force everyone to update: publish the new release, set `min` to its version (for example "1.1.4"), commit and push. It takes effect within a minute of the deploy. If the phone/computer is offline, the last known answer is used. Apps released before 1.1.4 do not read this file.
 
 Updates install inside the app: "Update now" downloads the new installer from the latest GitHub release, checks it against `SHA256SUMS.txt`, replaces the app and restarts it (Windows runs the installer). Every release must therefore include `AquaAww-arm64.dmg`, `AquaAww-Setup.exe` and `SHA256SUMS.txt`.
+
+## Shop, accounts, support and analytics (backend only, no UI yet)
+
+Code: `site/api/shop.js`, `site/api/portal.js`, `site/api/collect.js` (three of the 12 functions the free Vercel plan allows; 11 are used) with the handlers in `site/lib/shop/` and `site/lib/portal/`.
+Clean urls are rewrites in `site/vercel.json`. All data is in the same Upstash Redis.
+
+### Settings (Vercel > Settings > Environment Variables, then redeploy)
+| Name | Needed for |
+|---|---|
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | taking shop payments (`/api/checkout`) |
+| `RESEND_API_KEY` | emailing sign-in codes, order and support emails. In Resend, add and verify the domain `dusktillus.store` (it shows DNS records to add in Vercel > Domains) |
+| `MAIL_FROM` | optional, default `Dusktillus <contact@dusktillus.store>` (must be on the verified domain) |
+| `MAIL_NOTIFY` | optional, where new orders and tickets are announced, default `contact@dusktillus.store` |
+| `ADMIN_EMAILS` | comma separated addresses that may sign in as admin. Remove one and that admin's session stops at once |
+| `AUTH_SECRET` | optional long random string for the sign-in codes and sessions (falls back to `SHOP_TOKEN_SECRET`, then the webhook secret) |
+| `SHOP_ADMIN_TOKEN`, `SHOP_TOKEN_SECRET` | the older token admin endpoint `/api/admin-orders`, and signing download links |
+
+Razorpay webhook (Account & Settings > Webhooks) must have: `order.paid`, `payment_link.paid`, `payment_link.partially_paid`.
+Products are listed in `site/lib/shop/catalog.js` (physical ships in India only; digital gets a signed download link).
+
+### Sign-in (email code, every time, no passwords)
+`POST /api/auth/request {email, portal?:"admin"}` then `POST /api/auth/verify {email, code, name?, portal?}` sets an HttpOnly cookie. `GET /api/auth/me`, `POST /api/auth/logout`.
+Codes last 10 minutes, work once, die after 5 wrong tries. Customers register by signing in the first time. Admins are only the `ADMIN_EMAILS` (12 hour session). Browser POSTs must come from our own pages (same origin) or send `X-Requested-With`.
+
+### Customers
+`GET/POST /api/account/profile`, `GET /api/account/orders`, `GET /api/account/order?id=`, `GET/POST /api/support/tickets`, `GET/POST /api/support/ticket`.
+
+### Admin
+`GET /api/admin/stats?days=30` (orders, revenue, refunds, net, average order, products, customers, shipping queue, support queue, low stock, abandoned checkouts),
+`GET /api/admin/orders?status=&fulfil=&q=`, `GET/POST /api/admin/order` (packed / shipped with carrier + tracking, notes), `POST /api/admin/refund` (records a refund you made in Razorpay),
+`GET /api/admin/customers`, `GET /api/admin/customer?email=`, `GET /api/admin/tickets`, `GET /api/admin/ticket?id=`, `POST /api/admin/ticket-reply`, `POST /api/admin/ticket-status`,
+`GET /api/admin/analytics?days=30`, `GET /api/admin/heatmap?path=/aquaaww/&device=mobile|tablet|desktop`.
+Days are India (IST) days. Money is rupees in responses.
+
+### Website analytics
+`site/t.js` is added to every page by `build.py`. It is invisible, skips visitors with Do Not Track / Global Privacy Control, keeps a random id in localStorage (no cookie), stores no IP and no typed text.
+It records page views, visitors (new vs returning), sessions, bounce, referrers and UTM, country, device/browser/OS, clicks (button/link names and a click grid for the heatmap), scroll depth, time on page and page-to-page flow.
+Pages can add steps with `window.dtTrack("add_to_cart")` (also `view_product`, `begin_checkout`); the server records `checkout_created` and `order_paid` itself. The Upstash free plan has a monthly command limit; the analytics sends about 5 commands per page view, so watch usage as traffic grows.
