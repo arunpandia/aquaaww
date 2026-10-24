@@ -86,6 +86,7 @@ def build(D, hub_ld, GH):
     b.append('<div class="fx" style="left:155.06px;top:329.95px;width:60.803px;height:56.197px"><div class="in flip" style="width:60.803px;height:56.197px;overflow:hidden"><img alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:-.02%;width:100%;height:209.89%"></div></div>')
     b.append('<div class="fx" style="left:216.08px;top:204.9px;width:79.759px;height:79.759px"><div class="in flip" style="width:79.759px;height:79.759px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="' + M + 'smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>')
     b.append('<div class="fx" style="left:24.27px;top:24.72px"><div class="in flip"><a class="pm nw link ig" href="/aquaaww/" style="font-size:11.47px;color:#e83328">Learn more -&gt;</a></div></div>')
+    b.append('<a class="pgl" href="/aquaaww/" aria-label="AquaAww, the water reminder app"></a>')     # the whole page is one big link
     b = [b[0], '<div class="pi">' + "".join(b[1:]) + '</div>', '<div class="bd br"></div>']
 
     css = """
@@ -121,6 +122,7 @@ a{color:inherit;text-decoration:none}
 #tx{position:absolute;inset:0;pointer-events:none}
 #tx *{pointer-events:auto}
 .link:active{opacity:.7}
+.pgl{position:absolute;inset:0;z-index:9;-webkit-tap-highlight-color:rgba(232,51,40,.08)}
 .ig{color:inherit;text-decoration:underline wavy transparent;text-decoration-thickness:10.5%;text-decoration-skip-ink:none;text-underline-offset:2px;transition:text-decoration-color .15s}
 .ig:hover,.ig:active,.ig:focus-visible{text-decoration-color:#e83328}
 .cb{display:none;height:23.44px;padding:0 14.3px 3.2px 23.9px;font:400 11.16px/20.21px "Permanent Marker",cursive;color:#000;white-space:nowrap;text-decoration:none;background:url(/aquaaww/img/b90a5.svg) 9.31px 0/calc(100% - 9.31px) 20.21px no-repeat,url(/aquaaww/img/d6503.svg) 0 17.57px/100% 5.87px no-repeat,url(/aquaaww/img/e5a21.svg) 0 0/9.86px 23.44px no-repeat}.cb.on{display:block}.cb:active{transform:translate(3px,3px)}
