@@ -22,9 +22,13 @@ def img(src, cls="cover", style="", alt="", lazy=True, w=None, h=None):
     ld = ' loading="lazy" decoding="async"' if lazy else ""
     return f'<img class="{cls}" alt="{alt}" src="{src}"{dim}{ld} style="{style}">'
 
-def home_sr(h1=False):
+def home_sr(h1=False, envelope=False):
     """Text for the visually hidden block of the home page (desktop and phone use the same words).
     It repeats what the page shows, as real headings and links, so crawlers and screen readers can read it."""
+    memory = ('<h2>The Memory Fold Envelope</h2>'
+        '<p>Personalized couple’s photo and customized map or constellation. Unfold your favorite moments together. The Memory Fold Envelope is an artisan-crafted paper keepsake folder '
+        'designed for couples to store photos and date night memories. Wrapped in a customized vintage map lining or constellation, it transforms your cherished milestones into a physical journey you can re-live over and over. '
+        '<a href="mailto:contact@dusktillus.store?subject=The%20Memory%20Fold%20Envelope">Learn more about The Memory Fold Envelope</a></p>') if envelope else ''
     guides = "".join(f'<li><a href="/guides/{a["slug"]}/">{html.escape(a["h1"])}</a></li>' for a in ARTICLES)
     return ('<div class="sr">' + ('<h1>Dusktillus, our digital garage</h1>' if h1 else '') +
         '<p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
@@ -39,7 +43,7 @@ def home_sr(h1=False):
         '<ul><li><a href="/aquaaww/water-reminder-app-for-android/">AquaAww water reminder app for Android</a></li>'
         '<li><a href="/aquaaww/water-reminder-app-for-windows/">AquaAww water reminder app for Windows</a></li>'
         '<li><a href="/aquaaww/water-reminder-app-for-mac/">AquaAww water reminder app for Mac</a></li>'
-        '<li><a href="/aquaaww/">AquaAww: how it works, features and answers to common questions</a></li></ul>'
+        '<li><a href="/aquaaww/">AquaAww: how it works, features and answers to common questions</a></li></ul>' + memory +
         '<h2>What is dropping next</h2>'
         '<p>We’re loading up the good stuff. Take an exclusive look at what’s dropping next! The cardboard box is still empty. Coming soon!</p>'
         '<h2>Water and hydration guides</h2><ul>' + guides + '</ul>'

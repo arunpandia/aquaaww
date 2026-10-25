@@ -45,9 +45,10 @@ a{color:inherit;text-decoration:none}
 #lp .tex,#lp .bd{border-radius:28px 0 0 28px}
 #lx{position:absolute;left:0;top:0;width:415px;height:631px;z-index:3;pointer-events:none}
 #lx *{pointer-events:auto}
-#rw{position:absolute;left:0;top:0;width:415px;height:631px;transform-origin:0 50%;transform-style:preserve-3d;transform:perspective(2600px) rotateY(0deg);transition:transform .95s cubic-bezier(.45,.05,.25,1)}   /* the page turns on the spine, which stays on the centre line */
+#rw,#rw3{position:absolute;left:0;top:0;width:415px;height:631px;transform-origin:0 50%;transform-style:preserve-3d;transform:perspective(2600px) rotateY(0deg);transition:transform .95s cubic-bezier(.45,.05,.25,1)}   /* the page turns on the spine, which stays on the centre line */
 #rw.lift{transform:perspective(2600px) rotateY(-6deg);transition-duration:.35s}
-#rw.turned{transform:perspective(2600px) rotateY(-180deg)}
+#rw.turned,#rw3.turned{transform:perspective(2600px) rotateY(-180deg)}
+#rw3{z-index:2}#rw{z-index:3}body.t #rw{z-index:1}   /* the first leaf covers the second until it has turned, then sits under it */
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face.back{transform:rotateY(180deg)}
 #r2{position:absolute;left:0;top:0;width:415px;height:631px}
@@ -55,9 +56,9 @@ a{color:inherit;text-decoration:none}
 .rpx{position:absolute;inset:0;overflow:hidden;border-radius:28px 0 0 28px;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;background:#fcfbf6}
 .rpx .tex{position:absolute;inset:0;background:#fcfbf6;border-radius:28px 0 0 28px}
 .rpx .tex img{opacity:.5}
-#l2{left:0;width:415px;border-radius:28px 0 0 28px}
-#l2 .tex,#l2 .bd{border-radius:28px 0 0 28px}
-body[data-pg="1"] #rw2{cursor:auto}
+#l2,#lm{left:0;width:415px;border-radius:28px 0 0 28px}
+#l2 .tex,#l2 .bd,#lm .tex,#lm .bd{border-radius:28px 0 0 28px}
+body:not([data-pg="0"]) #rw2{cursor:auto}
 #rm{position:absolute;inset:0;transform:scaleX(-1)}
 #rp{position:absolute;inset:0;overflow:hidden;border-radius:28px 0 0 28px;border-top:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;background:#fcfbf6}
 #rp .tex{position:absolute;inset:0;background:#fcfbf6;border-radius:28px 0 0 28px}
@@ -67,8 +68,9 @@ body[data-pg="1"] #rw2{cursor:auto}
 .hint{left:50%;top:60px;transform:translateX(-50%);font-size:14px;color:#000;text-align:center;white-space:pre}
 .hint b{font-weight:400;color:rgba(0,0,0,.3)}
 .hint i{font-style:normal}.hint b,.hint i{cursor:pointer}
-.hint[data-p="1"] b{color:#000}.hint[data-p="1"] i{color:rgba(0,0,0,.3)}
+.hint:not([data-p="0"]) b{color:#000}.hint[data-p="2"] i{color:rgba(0,0,0,.3)}
 .link:hover{opacity:.7}
+.bta .bt{position:absolute;inset:0;transition:transform .12s}.bta:hover .bt{transform:translate(-2px,2px)}.bta:active .bt{transform:translate(-4px,4px)}   /* the page is mirrored, so x is reversed */
 #rw2{cursor:none}#rw2 a{cursor:pointer}
 #xp{position:fixed;left:0;top:0;z-index:50;pointer-events:none;width:60px;opacity:0;transition:opacity .12s;will-change:transform}
 #xp img{display:block;width:60px;height:auto}
@@ -103,7 +105,7 @@ body.m #rw{position:absolute;left:0;top:0}
   <img class="a" alt="" src="/flipbook/img/torn13.webp" style="left:-109px;top:79px;width:720px;height:888px;object-fit:cover">
 
 </div></div>
-<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p><h2>Our digital garage</h2><p>Feel free to hang out and try everything. You can find us on Instagram as <a href="https://www.instagram.com/dusktillus/">dusktillus</a>.</p><h2>AquaAww, a water reminder that comes as someone you love</h2><p>I built AquaAww because I can’t always be there to say “have some water.” So I made something small that sits quietly on your screen and says it for me, with a smile. Every sip is me looking out for you, even when I’m not in the room. For my wife.</p><p>You upload a short video of someone you love. At the interval you choose, that video pops up on your screen, floating over whatever you are doing, with two buttons: I drank, or remind me later. AquaAww is free, has no ads and needs no account, and your videos stay on your phone or computer.</p><h3>Get AquaAww</h3><ul><li><a href="/aquaaww/water-reminder-app-for-android/">AquaAww water reminder app for Android</a></li><li><a href="/aquaaww/water-reminder-app-for-windows/">AquaAww water reminder app for Windows</a></li><li><a href="/aquaaww/water-reminder-app-for-mac/">AquaAww water reminder app for Mac</a></li><li><a href="/aquaaww/">AquaAww: how it works, features and answers to common questions</a></li></ul><h2>What is dropping next</h2><p>We’re loading up the good stuff. Take an exclusive look at what’s dropping next! The cardboard box is still empty. Coming soon!</p><h2>Water and hydration guides</h2><ul><li><a href="/guides/how-much-water-should-you-drink-a-day/">How much water should you drink a day?</a></li><li><a href="/guides/how-to-remember-to-drink-water/">9 ways to remember to drink water</a></li><li><a href="/guides/water-reminder-for-someone-you-love/">How to remind someone you love to drink water</a></li><li><a href="/guides/drink-water-reminder-while-working/">Drink water while you work: a desk routine that sticks</a></li><li><a href="/guides/water-reminder-app-checklist/">Water reminder app: 7 things to look for</a></li></ul><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div><div id="fit"><div id="stage">
+<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p><h2>Our digital garage</h2><p>Feel free to hang out and try everything. You can find us on Instagram as <a href="https://www.instagram.com/dusktillus/">dusktillus</a>.</p><h2>AquaAww, a water reminder that comes as someone you love</h2><p>I built AquaAww because I can’t always be there to say “have some water.” So I made something small that sits quietly on your screen and says it for me, with a smile. Every sip is me looking out for you, even when I’m not in the room. For my wife.</p><p>You upload a short video of someone you love. At the interval you choose, that video pops up on your screen, floating over whatever you are doing, with two buttons: I drank, or remind me later. AquaAww is free, has no ads and needs no account, and your videos stay on your phone or computer.</p><h3>Get AquaAww</h3><ul><li><a href="/aquaaww/water-reminder-app-for-android/">AquaAww water reminder app for Android</a></li><li><a href="/aquaaww/water-reminder-app-for-windows/">AquaAww water reminder app for Windows</a></li><li><a href="/aquaaww/water-reminder-app-for-mac/">AquaAww water reminder app for Mac</a></li><li><a href="/aquaaww/">AquaAww: how it works, features and answers to common questions</a></li></ul><h2>The Memory Fold Envelope</h2><p>Personalized couple’s photo and customized map or constellation. Unfold your favorite moments together. The Memory Fold Envelope is an artisan-crafted paper keepsake folder designed for couples to store photos and date night memories. Wrapped in a customized vintage map lining or constellation, it transforms your cherished milestones into a physical journey you can re-live over and over. <a href="mailto:contact@dusktillus.store?subject=The%20Memory%20Fold%20Envelope">Learn more about The Memory Fold Envelope</a></p><h2>What is dropping next</h2><p>We’re loading up the good stuff. Take an exclusive look at what’s dropping next! The cardboard box is still empty. Coming soon!</p><h2>Water and hydration guides</h2><ul><li><a href="/guides/how-much-water-should-you-drink-a-day/">How much water should you drink a day?</a></li><li><a href="/guides/how-to-remember-to-drink-water/">9 ways to remember to drink water</a></li><li><a href="/guides/water-reminder-for-someone-you-love/">How to remind someone you love to drink water</a></li><li><a href="/guides/drink-water-reminder-while-working/">Drink water while you work: a desk routine that sticks</a></li><li><a href="/guides/water-reminder-app-checklist/">Water reminder app: 7 things to look for</a></li></ul><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div><div id="fit"><div id="stage">
 
   <p class="a pm hint" id="hint" data-p="0"><b id="hl">&lt;-</b>   scroll to turn pages    <i id="hr">-&gt;</i></p>
 
@@ -156,6 +158,33 @@ body.m #rw{position:absolute;left:0;top:0}
       <div class="fx" style="left:-180px;top:-43px;width:717px;height:716px"><div class="in" style="width:717px;height:716px;transform:scaleY(-1)"><img class="cover" alt="" src="/flipbook/img/paper02.webp" style="opacity:.5" loading="lazy" decoding="async"></div></div>
       <div class="a" style="left:414px;top:316.5px;width:631px;height:0;transform:translate(-50%,-50%) rotate(-90deg) scaleY(-1)"><img alt="" src="/flipbook/img/line23.svg" style="position:absolute;left:0;top:-1px;width:631px;height:1px"></div>
    </div></div></div>
+   <!-- second leaf: right page of the second spread (built mirrored, like the first); its back is the third spread's left page -->
+   <div id="rw3" style="left:0;top:0" inert>
+    <div class="face front"><div class="rmx"><div class="rpx">
+      <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp" loading="lazy" decoding="async"></div>
+      <div class="fx" style="left:-180px;top:-43px;width:716px;height:716px"><div class="in" style="width:716px;height:716px;transform:scaleY(-1)"><img class="cover" alt="" src="/flipbook/img/paper02.webp" style="opacity:.5" loading="lazy" decoding="async"></div></div>
+      <div class="a" style="left:414px;top:316.5px;width:631px;height:0;transform:translate(-50%,-50%) rotate(-90deg) scaleY(-1)"><img alt="" src="/flipbook/img/line23.svg" style="position:absolute;left:0;top:-1px;width:631px;height:1px"></div>
+
+      <div class="fx" style="left:35.337px;top:81px;width:274.663px;height:171.386px"><div class="in" style="width:274.423px;transform:rotate(-179.92deg) scaleY(-1)"><p class="ad" style="text-align:right">Unfold your <span style="color:#e83328;text-decoration:underline wavy;text-decoration-thickness:10.5%;text-decoration-skip-ink:none">favorite moments</span> together. The Memory Fold Envelope is an artisan-crafted paper keepsake folder designed for couples to store photos and date night memories. Wrapped in a customized vintage map lining or constellation, it transforms your cherished milestones into a physical journey you can re-live over and over.</p></div></div>
+
+      <div class="fx" style="right:21px;top:31px"><div class="in flip"><p class="jb nw" style="font-size:14px;color:#000">The Memory Fold Envelope:</p></div></div>
+
+      <a class="a bta" href="mailto:contact@dusktillus.store?subject=The%20Memory%20Fold%20Envelope" aria-label="Learn more about The Memory Fold Envelope" style="left:35.5px;top:285.4px;width:106.742px;height:29.409px"><div class="bt">
+        <img alt="" src="/flipbook/img/btn-base.svg" style="position:absolute;left:-1px;top:22.6px;width:114.99px;height:7.36px;transform:scaleX(-1)">
+        <img alt="" src="/flipbook/img/btn-face.svg" style="position:absolute;left:-1px;top:0;width:106.742px;height:25.359px;transform:scaleX(-1)">
+        <img alt="" src="/flipbook/img/btn-side.svg" style="position:absolute;left:104.53px;top:.42px;width:9.149px;height:29.409px;transform:scaleX(-1)">
+        <div class="fx" style="left:3.8px;top:2.03px;width:97.679px"><div class="in flip"><p class="pm" style="font-size:14px;color:#000;text-align:center;width:97.679px">Learn more</p></div></div>
+      </div></a>
+    </div></div></div>
+    <!-- third spread, left page (what the second leaf shows on its back) -->
+    <div class="face back"><div class="pg" id="l2">
+      <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp" loading="lazy" decoding="async"></div>
+      <div class="fx" style="left:160px;top:111px;width:254.206px;height:233.72px"><div class="in" style="width:207px;height:172px;transform:rotate(20.55deg)"><img class="cover" alt="" src="/flipbook/img/note.webp" loading="lazy" decoding="async"></div></div>
+      <div class="fx" style="left:246.21px;top:192.62px;width:125.837px;height:70.353px"><div class="in" style="transform:rotate(20.88deg)"><p class="pm nw" style="font-size:18.956px;color:#7199cc;line-height:normal">Coming soon!</p></div></div>
+      <img class="a" alt="" src="/flipbook/img/kraft.webp" style="left:-92px;top:-77px;width:500px;height:874px;object-fit:cover" loading="lazy" decoding="async">
+      <div class="bd"></div>
+    </div></div>
+   </div>
    <div id="rw" style="left:0;top:0">
     <div class="face front"><div id="rm"><div id="rp">
       <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp"></div>
@@ -182,12 +211,13 @@ body.m #rw{position:absolute;left:0;top:0}
       <div class="fx" style="left:268px;top:243px;width:100px;height:100px"><div class="in flip" style="width:100px;height:100px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="/flipbook/img/smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>
 
     </div></div></div>
-    <!-- second spread, left page (what the turned page shows on its back) -->
-    <div class="face back"><div class="pg" id="l2">
+    <!-- second spread, left page (what the first leaf shows on its back): The Memory Fold Envelope -->
+    <div class="face back"><div class="pg" id="lm">
       <div class="tex"><img class="cover" alt="" src="/flipbook/img/bg.webp" loading="lazy" decoding="async"></div>
-      <div class="fx" style="left:160px;top:111px;width:254.206px;height:233.72px"><div class="in" style="width:207px;height:172px;transform:rotate(20.55deg)"><img class="cover" alt="" src="/flipbook/img/note.webp" loading="lazy" decoding="async"></div></div>
-      <div class="fx" style="left:246.21px;top:192.62px;width:125.837px;height:70.353px"><div class="in" style="transform:rotate(20.88deg)"><p class="pm nw" style="font-size:18.956px;color:#7199cc;line-height:normal">Coming soon!</p></div></div>
-      <img class="a" alt="" src="/flipbook/img/kraft.webp" style="left:-92px;top:-77px;width:500px;height:874px;object-fit:cover" loading="lazy" decoding="async">
+      <img class="a" alt="A folded vintage map keepsake opened out, with a stack of couple photos inside" src="/flipbook/img/memory-fold.webp" style="left:0;top:187px;width:276.574px;height:329.89px" loading="lazy" decoding="async">
+      <div class="fx" style="left:-111px;top:316px;width:613px;height:351px"><div class="in" style="width:351px;height:613px;transform:rotate(-90deg)"><img class="cover" alt="" src="/flipbook/img/kraft.webp" loading="lazy" decoding="async"></div></div>
+      <div class="a pm" style="left:28px;top:523px;width:359px;font-size:14px;color:#fff;white-space:pre-wrap"><p>The Memory Fold Envelope | </p><p>&#8203;</p><p>Personalized Couple’s Photo  &amp;  customized map or constellation </p></div>
+      <div class="fx" style="left:176px;top:45px;width:217.113px;height:183.513px"><div class="in" style="width:187.313px;height:139.796px;transform:rotate(15deg)"><img class="cover" alt="A gold paper envelope" src="/flipbook/img/envelope.webp" loading="lazy" decoding="async"></div></div>
       <div class="bd"></div>
     </div></div>
    </div>
@@ -218,17 +248,21 @@ body.m #rw{position:absolute;left:0;top:0}
     }
   }
   size();addEventListener("resize",size);
-  /* "scroll to turn pages": two spreads. The right page turns over on the spine and shows the second spread. */
-  var rw=document.getElementById("rw"),hint=document.getElementById("hint"),lw=document.getElementById("lw"),spn=document.getElementById("sp"),page=0,lock=0,t;
+  /* "scroll to turn pages": three spreads. A right page turns over on the spine and shows the next spread. */
+  var rw=document.getElementById("rw"),hint=document.getElementById("hint"),rw3=document.getElementById("rw3"),lw=document.getElementById("lw"),spn=document.getElementById("sp"),page=0,lock=0,t;
   b.dataset.pg="0";
   function nudge(){rw.classList.add("lift");clearTimeout(t);t=setTimeout(function(){rw.classList.remove("lift")},450)}
   function go(to){
     var now=Date.now();
     if(now<lock)return;
-    if(to<0||to>1||to===page){if(to<0)nudge();return}
+    if(to<0||to>2||to===page){if(to<0)nudge();return}
+    var from=page;
     lock=now+1250;page=to;b.dataset.pg=String(to);hint.dataset.p=String(to);
-    if(to===1){rw.classList.add("turned");setTimeout(function(){if(page===1){lw.style.visibility="hidden";spn.style.visibility="hidden"}},980)}
-    else{lw.style.visibility="";spn.style.visibility="";rw.classList.remove("turned")}
+    /* three spreads, two leaves: the first leaf is turned from the second spread on, the second leaf on the third */
+    rw.classList.toggle("turned",to>=1);rw3.classList.toggle("turned",to>=2);
+    rw3.inert=to!==1;   /* its link can only be reached while its page is showing */
+    if(to===0){b.classList.remove("t");lw.style.visibility="";spn.style.visibility=""}
+    else if(from===0)setTimeout(function(){if(page>=1){b.classList.add("t");lw.style.visibility="hidden";spn.style.visibility="hidden"}},980);
   }
   var lastX=0,lastY=0;
   addEventListener("wheel",function(e){
@@ -255,12 +289,12 @@ body.m #rw{position:absolute;left:0;top:0}
   if(!r||!x)return;
   r.addEventListener("mousemove",function(e){
     var link=e.target.closest&&e.target.closest("a");
-    if(document.body.dataset.pg==="1"){x.classList.remove("on");return}
+    if(document.body.dataset.pg!=="0"){x.classList.remove("on");return}
     x.style.transform="translate("+(e.clientX-30)+"px,"+(e.clientY-12)+"px)";
     x.classList.toggle("on",!link);
   });
   r.addEventListener("mouseleave",function(){x.classList.remove("on")});
-  r.addEventListener("click",function(e){if(document.body.dataset.pg==="1")return;if(e.target.closest&&e.target.closest("a"))return;location.href="/aquaaww/"});
+  r.addEventListener("click",function(e){if(document.body.dataset.pg!=="0")return;if(e.target.closest&&e.target.closest("a"))return;location.href="/aquaaww/"});
 })();
 </script>
 </body></html>

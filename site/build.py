@@ -411,7 +411,7 @@ else:
           '<script defer src="/_vercel/insights/script.js"></script>')
     fb = fb.replace('</head>', og+'</head>',1)
     import mobile
-    nav = mobile.home_sr()
+    nav = mobile.home_sr(envelope=True)
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
     open("index.html","w").write(fb)
 import mobile
