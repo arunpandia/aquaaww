@@ -280,6 +280,8 @@ body.m #rw{position:absolute;left:0;top:0}
   },{passive:true});
   document.getElementById("hl").addEventListener("click",function(){go(page-1)});
   document.getElementById("hr").addEventListener("click",function(){go(page+1)});
+  /* warm the later spreads: once the first one is up, fetch and decode their pictures so a page turn never shows a blank page */
+  addEventListener("load",function(){setTimeout(function(){document.querySelectorAll("#rw3 img,#lm img").forEach(function(i){i.loading="eager";if(i.decode)i.decode().catch(function(){})})},600)});
 })();
 </script>
 <a class="sr" href="/aquaaww/">Explore AquaAww, the water reminder app</a><div id="xp" aria-hidden="true"><img src="/flipbook/img/explore.webp" width="60" height="24" alt=""></div>
