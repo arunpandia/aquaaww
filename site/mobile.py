@@ -26,7 +26,7 @@ def home_sr(h1=False, envelope=False):
     """Text for the visually hidden block of the home page (desktop and phone use the same words).
     It repeats what the page shows, as real headings and links, so crawlers and screen readers can read it."""
     memory = ('<h2>The Memory Fold Envelope</h2>'
-        '<p>Personalized couple’s photo and customized map or constellation. Unfold your favorite moments together. The Memory Fold Envelope is an artisan-crafted paper keepsake folder '
+        '<p>Every love story deserves a place to live outside of a phone screen. Unfold your favorite moments together. The Memory Fold Envelope is an artisan-crafted paper keepsake folder '
         'designed for couples to store photos and date night memories. Wrapped in a customized vintage map lining or constellation, it transforms your cherished milestones into a physical journey you can re-live over and over.</p>') if envelope else ''
     guides = "".join(f'<li><a href="/guides/{a["slug"]}/">{html.escape(a["h1"])}</a></li>' for a in ARTICLES)
     return ('<div class="sr">' + ('<h1>Dusktillus, our digital garage</h1>' if h1 else '') +
