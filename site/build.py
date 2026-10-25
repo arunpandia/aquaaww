@@ -410,8 +410,8 @@ else:
           '<script type="application/ld+json">'+json.dumps(hub_ld,separators=(",",":"))+'</script>'
           '<script defer src="/_vercel/insights/script.js"></script>')
     fb = fb.replace('</head>', og+'</head>',1)
-    nav = ('<div class="sr"><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
-           '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+    import mobile
+    nav = mobile.home_sr()
     fb = fb.replace('<div id="fit">', nav+'<div id="fit">',1)
     open("index.html","w").write(fb)
 import mobile

@@ -1,7 +1,8 @@
 """Static mobile home page, built 1:1 from the Figma frame "iPhone 16 & 17 Pro - 4" (402 x 874).
 Every size is written in Figma pixels and converted to calc(var(--u) * n), where --u is 1/402 of the page width,
 so the whole layout scales with the screen. No JavaScript is needed to lay it out."""
-import re, json
+import re, json, html
+from guides import ARTICLES
 
 F = "/flipbook/img/"      # images shared with the desktop book
 M = "/m/img/"             # images drawn for the phone frame
@@ -21,11 +22,32 @@ def img(src, cls="cover", style="", alt="", lazy=True, w=None, h=None):
     ld = ' loading="lazy" decoding="async"' if lazy else ""
     return f'<img class="{cls}" alt="{alt}" src="{src}"{dim}{ld} style="{style}">'
 
+def home_sr(h1=False):
+    """Text for the visually hidden block of the home page (desktop and phone use the same words).
+    It repeats what the page shows, as real headings and links, so crawlers and screen readers can read it."""
+    guides = "".join(f'<li><a href="/guides/{a["slug"]}/">{html.escape(a["h1"])}</a></li>' for a in ARTICLES)
+    return ('<div class="sr">' + ('<h1>Dusktillus, our digital garage</h1>' if h1 else '') +
+        '<p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder that comes as someone you love, free for Android, Windows and Mac.</p>'
+        '<h2>Our digital garage</h2>'
+        '<p>Feel free to hang out and try everything. You can find us on Instagram as <a href="https://www.instagram.com/dusktillus/">dusktillus</a>.</p>'
+        '<h2>AquaAww, a water reminder that comes as someone you love</h2>'
+        '<p>I built AquaAww because I can’t always be there to say “have some water.” So I made something small that sits quietly on your screen and says it for me, with a smile. '
+        'Every sip is me looking out for you, even when I’m not in the room. For my wife.</p>'
+        '<p>You upload a short video of someone you love. At the interval you choose, that video pops up on your screen, floating over whatever you are doing, '
+        'with two buttons: I drank, or remind me later. AquaAww is free, has no ads and needs no account, and your videos stay on your phone or computer.</p>'
+        '<h3>Get AquaAww</h3>'
+        '<ul><li><a href="/aquaaww/water-reminder-app-for-android/">AquaAww water reminder app for Android</a></li>'
+        '<li><a href="/aquaaww/water-reminder-app-for-windows/">AquaAww water reminder app for Windows</a></li>'
+        '<li><a href="/aquaaww/water-reminder-app-for-mac/">AquaAww water reminder app for Mac</a></li>'
+        '<li><a href="/aquaaww/">AquaAww: how it works, features and answers to common questions</a></li></ul>'
+        '<h2>What is dropping next</h2>'
+        '<p>We’re loading up the good stuff. Take an exclusive look at what’s dropping next! The cardboard box is still empty. Coming soon!</p>'
+        '<h2>Water and hydration guides</h2><ul>' + guides + '</ul>'
+        '<nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> <a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> '
+        '<a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> <a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+
 def build(D, hub_ld, GH):
-    sr = ('<div class="sr"><h1>Dusktillus, our digital garage</h1><p>Dusktillus makes little apps that look after you. Our first app, AquaAww, is a water reminder '
-          'that comes as someone you love, free for Android, Windows and Mac.</p><nav aria-label="Site"><a href="/aquaaww/">AquaAww water reminder app</a> '
-          '<a href="/guides/">Water and hydration guides</a> <a href="/terms/">Terms and Conditions</a> <a href="/privacy/">Privacy</a> <a href="/refund-policy/">Refund and cancellation policy</a> <a href="/shipping-policy/">Shipping policy</a> <a href="/contact/">Contact</a> '
-          '<a href="/unsubscribe/">Unsubscribe</a></nav></div>')
+    sr = home_sr(h1=True)
 
     # ---------- top page (331 x 503.28) ----------
     top = []
@@ -51,13 +73,13 @@ def build(D, hub_ld, GH):
     # ---------- things that sit over the top page ----------
     ex = []
     ex.append('<p class="a jb nw" style="left:25.52px;top:264px;font-size:11.166px;color:#000">Cardboard box:</p>')
-    ex.append(fx(20.107, 283.94, 136.243, 203.137, img(F + "box.webp", style="border-top-right-radius:22.33px"), 135.423, 202.588, rot=179.77))
+    ex.append(fx(20.107, 283.94, 136.243, 203.137, img(F + "box.webp", style="border-top-right-radius:22.33px", alt="An empty cardboard box, waiting to be filled"), 135.423, 202.588, rot=179.77))
     # collage
     ex.append(fx(158.45, 64.6, 167.447, 146.235, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="" src="{F}polaroid.webp" decoding="async" style="position:absolute;left:0;top:0;height:100%;width:108.55%"></div>', 146.501, 119.275, rot=11.57))
-    ex.append(fx(181.76, 94.27, 132.256, 100.935, f'<div class="clip"><img alt="" src="{M}couple-m.webp" decoding="async" style="position:absolute;left:-.02%;top:-107.2%;height:221.82%;width:110.22%"></div>', 118.925, 78.786, rot=11.51))
-    ex.append(fx(155.23, 139.2, 124.17, 87.29, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="" src="{M}food-m.webp" decoding="async" style="position:absolute;left:-38.09%;top:-15.02%;height:161.38%;width:143.13%"></div>', 118.866, 79.067, rot=-4.06))
+    ex.append(fx(181.76, 94.27, 132.256, 100.935, f'<div class="clip"><img alt="Two people painting a detailed line drawing with watercolours" src="{M}couple-mc.webp" decoding="async" style="position:absolute;left:-.02%;top:-1.5714%;height:103.0679%;width:100.8937%"></div>', 118.925, 78.786, rot=11.51))
+    ex.append(fx(155.23, 139.2, 124.17, 87.29, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="Two people leaning together over a pottery wheel" src="{M}food-m.webp" decoding="async" style="position:absolute;left:-38.09%;top:-15.02%;height:161.38%;width:143.13%"></div>', 118.866, 79.067, rot=-4.06))
     ex.append(fx(133.99, 118.26, 163.839, 125.762, img(F + "polaroid.webp", lazy=False, style="border-top-right-radius:22.33px"), 159.034, 119.275, rot=-2.37))
-    ex.append(fx(203.85, 156.17, 120.671, 114.852, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="" src="{F}sunflowers.webp" decoding="async" style="position:absolute;left:0;top:0;height:100%;width:115.64%"></div>', 102.481, 94.806, rot=-12.58))
+    ex.append(fx(203.85, 156.17, 120.671, 114.852, f'<div class="clip" style="border-top-right-radius:22.33px"><img alt="A bouquet of sunflowers wrapped in kraft paper" src="{F}sunflowers.webp" decoding="async" style="position:absolute;left:0;top:0;height:100%;width:115.64%"></div>', 102.481, 94.806, rot=-12.58))
 
     # ---------- bottom page (built mirrored, like the design) ----------
     b = []
@@ -72,10 +94,10 @@ def build(D, hub_ld, GH):
     b.append('<div class="a" style="left:-56.28px;top:462.82px;width:293.385px;height:3.242px"><img alt="" src="' + M + 'shadow.svg" loading="lazy" style="position:absolute;left:-4.86%;top:-440%;width:109.72%;height:980%"></div>')
     b.append('<div class="a" style="left:-41.37px;top:278.36px;width:264.532px;height:179.597px;background:#1a202c;border:.648px solid #4a5568;border-radius:9.077px 9.077px 1.297px 1.297px"></div>')
     b.append('<div class="a" style="left:-39.75px;top:279.98px;width:261.291px;height:171.168px;background:#000;border-radius:7.132px 7.132px 0 0"></div>')
-    b.append('<div class="fx" style="left:-34.24px;top:285.26px;width:249.944px;height:162.549px"><div class="in flip" style="width:249.944px;height:162.549px;background:#fff;overflow:hidden"><img alt="" src="' + F + 'screen.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:0;width:100%;height:100%"></div></div>')
+    b.append('<div class="fx" style="left:-34.24px;top:285.26px;width:249.944px;height:162.549px"><div class="in flip" style="width:249.944px;height:162.549px;background:#fff;overflow:hidden"><img alt="AquaAww on a Mac desktop, with a Drink water reminder note and a small person holding a bottle in the corner" src="' + F + 'screen.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:0;width:100%;height:100%"></div></div>')
     b.append('<p class="a nw" style="left:90.28px;top:451.47px;transform:translateX(-50%);font-family:Inter,system-ui,sans-serif;font-weight:600;font-size:4.214px;line-height:.9;color:#a0aec0;text-align:center">Macbook Air</p>')
     b.append('<img class="a" alt="" src="' + M + 'bottom.svg" loading="lazy" style="left:-73.14px;top:456.66px;width:326.775px;height:5.836px">')
-    b.append('<img class="a" alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="left:153.49px;top:329.95px;width:60.789px;height:117.922px;object-fit:cover">')
+    b.append('<img class="a" alt="AquaAww on a phone: a Drink water note, and a person smiling with a water bottle" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="left:153.49px;top:329.95px;width:60.789px;height:117.922px;object-fit:cover">')
     b.append('<div class="fx" style="left:155.06px;top:329.95px;width:60.803px;height:56.197px"><div class="in flip" style="width:60.803px;height:56.197px;overflow:hidden"><img alt="" src="' + F + 'phone.webp" loading="lazy" decoding="async" style="position:absolute;left:0;top:-.02%;width:100%;height:209.89%"></div></div>')
     b.append('<div class="fx" style="left:216.08px;top:204.9px;width:79.759px;height:79.759px"><div class="in flip" style="width:79.759px;height:79.759px;overflow:hidden"><div class="a" style="inset:24.71% .79% 25.29% 0"><img alt="" src="' + M + 'smile.svg" style="position:absolute;inset:0;width:100%;height:100%"></div></div></div>')
     b.append('<div class="fx" style="left:24.27px;top:24.72px"><div class="in flip"><a class="pm nw link ig" href="/aquaaww/" style="font-size:11.47px;color:#e83328">Learn more -&gt;</a></div></div>')
@@ -128,7 +150,7 @@ a{color:inherit;text-decoration:none}
     body = (sr + '<div id="bgl">'
             '<div class="a" style="left:132px;top:194px;width:970px;height:851px;transform:scaleX(-1)"><img class="cover" alt="" src="' + F + 'torn14.webp" decoding="async"></div>'
             '<img class="a" alt="" src="' + F + 'torn13.webp" decoding="async" style="left:-443px;top:63px;width:720px;height:888px;object-fit:cover">'
-            '<img class="a" alt="Dusktillus" src="' + M + 'sun.svg" width="84" height="84" fetchpriority="high" style="left:50%;top:14px;width:84px;height:84px;transform:translateX(-50%)">'
+            '<img class="a" alt="Dusktillus logo" src="' + M + 'sun.svg" width="84" height="84" fetchpriority="high" style="left:50%;top:14px;width:84px;height:84px;transform:translateX(-50%)">'
             '</div><div id="st">'
             '<div id="pg"><div id="tp">' + "".join(top) + '</div><div id="tx">' + "".join(ex) + '</div>'
             '<div id="bt"><div id="bp">' + "".join(b) + '</div></div></div></div>')
